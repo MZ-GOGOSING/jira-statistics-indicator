@@ -1,5 +1,6 @@
 jira:
   client:
-    jira-url:
-    username:
-    password:
+    credential:
+      jira-url:
+      username:
+      password:

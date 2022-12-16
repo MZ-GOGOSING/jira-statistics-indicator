@@ -11,7 +11,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
 /**
@@ -44,13 +43,6 @@ public class SubjectJpaEntity extends BaseJpaEntity {
    */
   @Column(name = "jql", nullable = false)
   private String jql;
-
-  /**
-   * 생성자 ID.
-   */
-  @CreatedBy
-  @Column(name = "created_by", nullable = false, updatable = false)
-  private String createdBy;
 
   /**
    * 생성일시.

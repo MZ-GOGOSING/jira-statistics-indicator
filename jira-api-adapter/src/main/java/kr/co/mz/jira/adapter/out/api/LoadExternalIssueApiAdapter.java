@@ -2,7 +2,7 @@ package kr.co.mz.jira.adapter.out.api;
 
 import kr.co.mz.jira.api.service.IssueRestClientService;
 import kr.co.mz.jira.api.service.SearchRestClientService;
-import kr.co.mz.jira.application.port.out.LoadSearchResultPort;
+import kr.co.mz.jira.application.port.out.LoadExternalIssuePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -10,7 +10,7 @@ import org.springframework.validation.annotation.Validated;
 @Service
 @Validated
 @RequiredArgsConstructor
-public class LoadSearchResultApiAdapter implements LoadSearchResultPort {
+public class LoadExternalIssueApiAdapter implements LoadExternalIssuePort {
 
   private final SearchRestClientService searchRestClientService;
 

@@ -1,0 +1,20 @@
+rootProject.name = 'jira-statistics-indicator'
+
+include 'webapp-config'
+
+include 'web-adapter'
+include 'api-in'
+
+include 'application'
+include 'domain'
+
+include 'api-out'
+include 'statistics-persistence-adapter'
+include 'jira-api-adapter'
+
+include 'statistics-jpa'
+include 'jira-api'
+
+include 'support'
+include 'webapp-config'
+include 'web-adapter'

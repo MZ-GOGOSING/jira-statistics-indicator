@@ -1,0 +1,29 @@
+plugins {
+    id "org.flywaydb.flyway" version "8.5.12"
+}
+
+apply from: '../jpa.gradle'
+
+bootJar.enabled = false
+jar.enabled = true
+jar.dependsOn test
+
+dependencies {
+    implementation project(':support')
+
+    implementation 'mysql:mysql-connector-java:8.0.31'
+}
+
+flyway {
+    url = "jdbc:mysql://localhost:3306/statistics?useSSL=false"
+    user = "root"
+    password = "root"
+    locations = ["filesystem:${file('src/migration/statistics').absolutePath}"]
+    encoding = 'UTF-8'
+    outOfOrder = true // 여러브랜치에서 서로 다른 날짜로 만들어도 작동하도록
+    validateOnMigrate = true
+}
+
+test {
+    useJUnitPlatform()
+}

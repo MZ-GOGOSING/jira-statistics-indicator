@@ -1,0 +1,69 @@
+package kr.co.mz.jira.container.jta;
+
+import static kr.co.mz.jira.jpa.config.StatisticsJpaDataSourceConfig.STATISTICS_PERSISTENCE_TRANSACTION_MANAGER;
+import static kr.co.mz.jira.support.jta.JtaDataSourceConfig.JTA_ATOMIKOS_TRANSACTION_MANAGER;
+import static kr.co.mz.jira.support.jta.JtaDataSourceConfig.JTA_PERSISTENCE_TRANSACTION_MANAGER;
+import static kr.co.mz.jira.support.jta.JtaDataSourceConfig.JTA_USER_TRANSACTION;
+
+import com.atomikos.icatch.jta.UserTransactionImp;
+import com.atomikos.icatch.jta.UserTransactionManager;
+import javax.transaction.TransactionManager;
+import javax.transaction.UserTransaction;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.vendor.Database;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.jta.JtaTransactionManager;
+
+@Configuration
+@EnableTransactionManagement
+public class JtaDataManagerConfig {
+
+	@Bean
+	public JpaVendorAdapter jpaVendorAdapter() {
+		final var hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
+
+		hibernateJpaVendorAdapter.setShowSql(true);
+		hibernateJpaVendorAdapter.setGenerateDdl(false);
+		hibernateJpaVendorAdapter.setDatabase(Database.MYSQL);
+
+		return hibernateJpaVendorAdapter;
+	}
+
+	@Bean(name = JTA_USER_TRANSACTION)
+	public UserTransaction userTransaction() throws Throwable {
+		final var userTransactionImp = new UserTransactionImp();
+
+		userTransactionImp.setTransactionTimeout(10000);
+
+		return userTransactionImp;
+	}
+
+	@Bean(name = JTA_ATOMIKOS_TRANSACTION_MANAGER, initMethod = "init", destroyMethod = "close")
+	public TransactionManager atomikosTransactionManager() {
+		final var userTransactionManager = new UserTransactionManager();
+
+		userTransactionManager.setForceShutdown(false);
+
+		AtomikosJtaPlatform.transactionManager = userTransactionManager;
+
+		return userTransactionManager;
+	}
+
+	@Bean(name = {
+		JTA_PERSISTENCE_TRANSACTION_MANAGER,
+		STATISTICS_PERSISTENCE_TRANSACTION_MANAGER
+	})
+	@DependsOn({JTA_USER_TRANSACTION, JTA_ATOMIKOS_TRANSACTION_MANAGER})
+	public PlatformTransactionManager transactionManager() throws Throwable {
+		final var userTransaction = userTransaction();
+
+		AtomikosJtaPlatform.transaction = userTransaction;
+
+		return new JtaTransactionManager(userTransaction, atomikosTransactionManager());
+	}
+}

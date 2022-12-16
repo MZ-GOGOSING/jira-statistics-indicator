@@ -1,0 +1,15 @@
+bootJar.enabled = false
+jar.enabled = true
+jar.dependsOn test
+
+dependencies {
+    implementation project(':domain')
+    implementation project(':api-out')
+    implementation project(':support')
+
+    implementation project(':jira-api')
+}
+
+test {
+    useJUnitPlatform()
+}

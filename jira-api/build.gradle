@@ -1,0 +1,13 @@
+bootJar.enabled = false
+jar.enabled = true
+jar.dependsOn test
+
+dependencies {
+    implementation project(':support')
+
+    implementation fileTree(dir: 'src/main/resources/libs', includes: ['*.jar'])
+}
+
+test {
+    useJUnitPlatform()
+}

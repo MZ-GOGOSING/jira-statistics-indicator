@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  kr.co.mz.jira.api.config.JiraCredentialConfig

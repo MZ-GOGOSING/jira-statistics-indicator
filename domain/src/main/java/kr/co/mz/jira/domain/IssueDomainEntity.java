@@ -25,9 +25,9 @@ public class IssueDomainEntity {
 
   private final LocalDateTime creationDate;
 
-  private final String assigneeDisplayName;
+  private final String assigneeUsername;
 
-  private final String reporterDisplayName;
+  private final String reporterUsername;
 
   private final String summary;
 
@@ -48,8 +48,8 @@ public class IssueDomainEntity {
       final LocalDateTime dueDate,
       final LocalDateTime updateDate,
       final LocalDateTime creationDate,
-      final String assigneeDisplayName,
-      final String reporterDisplayName,
+      final String assigneeUsername,
+      final String reporterUsername,
       final String summary,
       final String issueTypeName,
       final String statusName,
@@ -63,8 +63,8 @@ public class IssueDomainEntity {
     this.dueDate = dueDate;
     this.updateDate = updateDate;
     this.creationDate = creationDate;
-    this.assigneeDisplayName = assigneeDisplayName;
-    this.reporterDisplayName = reporterDisplayName;
+    this.assigneeUsername = assigneeUsername;
+    this.reporterUsername = reporterUsername;
     this.summary = summary;
     this.issueTypeName = issueTypeName;
     this.statusName = statusName;
@@ -79,8 +79,8 @@ public class IssueDomainEntity {
       final LocalDateTime dueDate,
       final LocalDateTime updateDate,
       final LocalDateTime creationDate,
-      final String assigneeDisplayName,
-      final String reporterDisplayName,
+      final String assigneeUsername,
+      final String reporterUsername,
       final String summary,
       final String issueTypeName,
       final String statusName,
@@ -94,8 +94,8 @@ public class IssueDomainEntity {
         .dueDate(dueDate)
         .updateDate(updateDate)
         .creationDate(creationDate)
-        .assigneeDisplayName(assigneeDisplayName)
-        .reporterDisplayName(reporterDisplayName)
+        .assigneeUsername(assigneeUsername)
+        .reporterUsername(reporterUsername)
         .summary(summary)
         .issueTypeName(issueTypeName)
         .statusName(statusName)
@@ -112,8 +112,8 @@ public class IssueDomainEntity {
       final LocalDateTime dueDate,
       final LocalDateTime updateDate,
       final LocalDateTime creationDate,
-      final String assigneeDisplayName,
-      final String reporterDisplayName,
+      final String assigneeUsername,
+      final String reporterUsername,
       final String summary,
       final String issueTypeName,
       final String statusName,
@@ -128,8 +128,8 @@ public class IssueDomainEntity {
         .dueDate(dueDate)
         .updateDate(updateDate)
         .creationDate(creationDate)
-        .assigneeDisplayName(assigneeDisplayName)
-        .reporterDisplayName(reporterDisplayName)
+        .assigneeUsername(assigneeUsername)
+        .reporterUsername(reporterUsername)
         .summary(summary)
         .issueTypeName(issueTypeName)
         .statusName(statusName)

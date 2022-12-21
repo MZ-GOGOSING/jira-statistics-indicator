@@ -1,6 +1,7 @@
 package kr.co.mz.jira.domain;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import kr.co.mz.jira.support.assertion.AssertHelper;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -16,49 +17,57 @@ public class IssueChangelogGroupDomainEntity {
 
   private final Long issueId;
 
-  private final String authorDisplayName;
+  private final String authorUsername;
 
   private final LocalDateTime created;
+
+  private final List<IssueChangelogItemDomainEntity> items;
 
   private IssueChangelogGroupDomainEntity(
       final Long id,
       final Long issueId,
-      final String authorDisplayName,
-      final LocalDateTime created
+      final String authorUsername,
+      final LocalDateTime created,
+      final List<IssueChangelogItemDomainEntity> items
   ) {
     AssertHelper.isPositive(issueId, "부모 Issue Id 는 0 이상의 수 이어야 합니다.");
 
     this.id = id;
     this.issueId = issueId;
-    this.authorDisplayName = authorDisplayName;
+    this.authorUsername = authorUsername;
     this.created = created;
+    this.items = items;
   }
 
   public static IssueChangelogGroupDomainEntity withoutId(
       final Long issueId,
-      final String authorDisplayName,
-      final LocalDateTime created
+      final String authorUsername,
+      final LocalDateTime created,
+      final List<IssueChangelogItemDomainEntity> items
   ) {
     return IssueChangelogGroupDomainEntity.builder()
         .issueId(issueId)
-        .authorDisplayName(authorDisplayName)
+        .authorUsername(authorUsername)
         .created(created)
+        .items(items)
         .build();
   }
 
   public static IssueChangelogGroupDomainEntity withId(
       final Long id,
       final Long issueId,
-      final String authorDisplayName,
-      final LocalDateTime created
+      final String authorUsername,
+      final LocalDateTime created,
+      final List<IssueChangelogItemDomainEntity> items
   ) {
     AssertHelper.isPositive(id, "Id 는 0 이상의 수 이어야 합니다.");
 
     return IssueChangelogGroupDomainEntity.builder()
         .id(id)
         .issueId(issueId)
-        .authorDisplayName(authorDisplayName)
+        .authorUsername(authorUsername)
         .created(created)
+        .items(items)
         .build();
   }
 }

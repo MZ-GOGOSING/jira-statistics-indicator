@@ -16,9 +16,9 @@ public class IssueWorklogDomainEntity {
 
   private final Long issueId;
 
-  private final String authorDisplayName;
+  private final String authorUsername;
 
-  private final String updateAuthorDisplayName;
+  private final String updateAuthorUsername;
 
   private final String comment;
 
@@ -33,8 +33,8 @@ public class IssueWorklogDomainEntity {
   private IssueWorklogDomainEntity(
       final Long id,
       final Long issueId,
-      final String authorDisplayName,
-      final String updateAuthorDisplayName,
+      final String authorUsername,
+      final String updateAuthorUsername,
       final String comment,
       final LocalDateTime creationDate,
       final LocalDateTime updateDate,
@@ -45,8 +45,8 @@ public class IssueWorklogDomainEntity {
 
     this.id = id;
     this.issueId = issueId;
-    this.authorDisplayName = authorDisplayName;
-    this.updateAuthorDisplayName = updateAuthorDisplayName;
+    this.authorUsername = authorUsername;
+    this.updateAuthorUsername = updateAuthorUsername;
     this.comment = comment;
     this.creationDate = creationDate;
     this.updateDate = updateDate;
@@ -56,8 +56,8 @@ public class IssueWorklogDomainEntity {
 
   public static IssueWorklogDomainEntity withoutId(
       final Long issueId,
-      final String authorDisplayName,
-      final String updateAuthorDisplayName,
+      final String authorUsername,
+      final String updateAuthorUsername,
       final String comment,
       final LocalDateTime creationDate,
       final LocalDateTime updateDate,
@@ -66,8 +66,8 @@ public class IssueWorklogDomainEntity {
   ) {
     return IssueWorklogDomainEntity.builder()
         .issueId(issueId)
-        .authorDisplayName(authorDisplayName)
-        .updateAuthorDisplayName(updateAuthorDisplayName)
+        .authorUsername(authorUsername)
+        .updateAuthorUsername(updateAuthorUsername)
         .comment(comment)
         .creationDate(creationDate)
         .updateDate(updateDate)
@@ -79,8 +79,8 @@ public class IssueWorklogDomainEntity {
   public static IssueWorklogDomainEntity withId(
       final Long id,
       final Long issueId,
-      final String authorDisplayName,
-      final String updateAuthorDisplayName,
+      final String authorUsername,
+      final String updateAuthorUsername,
       final String comment,
       final LocalDateTime creationDate,
       final LocalDateTime updateDate,
@@ -92,8 +92,8 @@ public class IssueWorklogDomainEntity {
     return IssueWorklogDomainEntity.builder()
         .id(id)
         .issueId(issueId)
-        .authorDisplayName(authorDisplayName)
-        .updateAuthorDisplayName(updateAuthorDisplayName)
+        .authorUsername(authorUsername)
+        .updateAuthorUsername(updateAuthorUsername)
         .comment(comment)
         .creationDate(creationDate)
         .updateDate(updateDate)

@@ -10,7 +10,7 @@ import org.apache.commons.lang3.ObjectUtils;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
-public class TimeTrackingDomainEntity {
+public class IssueTimeTrackingDomainEntity {
 
   private final Long id;
 
@@ -22,7 +22,7 @@ public class TimeTrackingDomainEntity {
 
   private final Integer timeSpentMinutes;
 
-  private TimeTrackingDomainEntity(
+  private IssueTimeTrackingDomainEntity(
       final Long id,
       final Long issueId,
       final Integer originalEstimateMinutes,
@@ -42,13 +42,13 @@ public class TimeTrackingDomainEntity {
     this.timeSpentMinutes = timeSpentMinutes;
   }
 
-  public static TimeTrackingDomainEntity withoutId(
+  public static IssueTimeTrackingDomainEntity withoutId(
       final Long issueId,
       final Integer originalEstimateMinutes,
       final Integer remainingEstimateMinutes,
       final Integer timeSpentMinutes
   ) {
-    return TimeTrackingDomainEntity.builder()
+    return IssueTimeTrackingDomainEntity.builder()
         .issueId(issueId)
         .originalEstimateMinutes(originalEstimateMinutes)
         .remainingEstimateMinutes(remainingEstimateMinutes)
@@ -56,7 +56,7 @@ public class TimeTrackingDomainEntity {
         .build();
   }
 
-  public static TimeTrackingDomainEntity withId(
+  public static IssueTimeTrackingDomainEntity withId(
       final Long id,
       final Long issueId,
       final Integer originalEstimateMinutes,
@@ -65,7 +65,7 @@ public class TimeTrackingDomainEntity {
   ) {
     AssertHelper.isPositive(id, "Id 는 0 이상의 수 이어야 합니다.");
 
-    return TimeTrackingDomainEntity.builder()
+    return IssueTimeTrackingDomainEntity.builder()
         .id(id)
         .issueId(issueId)
         .originalEstimateMinutes(originalEstimateMinutes)

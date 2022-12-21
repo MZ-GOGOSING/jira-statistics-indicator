@@ -1,9 +1,13 @@
 package kr.co.mz.jira.api.service;
 
+import static com.atlassian.jira.rest.client.api.IssueRestClient.Expandos.CHANGELOG;
+
 import com.atlassian.jira.rest.client.api.IssueRestClient;
+import com.atlassian.jira.rest.client.api.IssueRestClient.Expandos;
 import com.atlassian.jira.rest.client.api.domain.Issue;
 import com.atlassian.util.concurrent.Promise;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -16,6 +20,11 @@ import org.springframework.validation.annotation.Validated;
 @RequiredArgsConstructor
 public class IssueRestClientService {
 
+  /**
+   * @see IssueRestClient#getIssue(String, Iterable)
+   */
+  private static final Set<Expandos> ISSUE_ADDITIONAL_EXPANDS_SET = Set.of(CHANGELOG);
+
   private final IssueRestClient issueRestClient;
 
   @SuppressWarnings("UnstableApiUsage")
@@ -23,7 +32,7 @@ public class IssueRestClientService {
     return CollectionUtils.emptyIfNull(issueKeyList)
         .stream()
         .filter(StringUtils::isNotBlank)
-        .map(issueRestClient::getIssue)
+        .map(issueKey -> issueRestClient.getIssue(issueKey, ISSUE_ADDITIONAL_EXPANDS_SET))
         .map(Promise::claim)
         .collect(Collectors.toList());
   }

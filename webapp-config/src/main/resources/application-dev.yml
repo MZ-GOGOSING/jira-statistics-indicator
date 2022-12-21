@@ -1,3 +1,13 @@
+spring:
+  jta:
+    atomikos:
+      datasource:
+        statistics:
+          xa-properties:
+            user: root
+            password: 2022ito#$
+            url: "jdbc:mysql://woowahan-ito-jira-statistics.crj6fwy9fshj.ap-northeast-2.rds.amazonaws.com:3306/statistics"
+
 springdoc:
   swagger-ui:
     enabled: true

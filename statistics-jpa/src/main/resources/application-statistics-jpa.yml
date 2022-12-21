@@ -4,6 +4,48 @@ spring:
   flyway:
     enabled: false
 
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+statistics:
+  persistence:
+    datasource:
+      poolName: statistics-persistence-cp
+      type: com.zaxxer.hikari.HikariDataSource
+      driverClassName: com.mysql.cj.jdbc.Driver
+      jdbcUrl: "jdbc:mysql://localhost:3306/statistics"
+      username: root
+      password: root
+      auto-commit: false
+      sqlScriptEncoding: UTF-8
+      connectionTimeout: 3000
+      idleTimeout: 0
+      maxLifetime: 58000
+      maximumPoolSize: 5
+    jpa:
+      hibernate:
+        ddl-auto: validate
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MySQL8Dialect
+          format_sql: true
+          show-sql: true
+          order_inserts: true
+          order_updates: true
+          jdbc:
+            batch_size: 500
+            fetch_size: 500
+            batch_versioned_data: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
 statistics:
   persistence:
     datasource:
@@ -33,18 +75,6 @@ statistics:
             batch_size: 500
             fetch_size: 500
             batch_versioned_data: true
-
----
-spring:
-  config:
-    activate:
-      on-profile: local
-
----
-spring:
-  config:
-    activate:
-      on-profile: dev
 
 ---
 spring:

@@ -1,8 +1,8 @@
 package kr.co.mz.jira.api.service;
 
+import com.atlassian.jira.rest.client.api.SearchRestClient;
 import com.atlassian.jira.rest.client.api.domain.SearchResult;
 import javax.validation.constraints.NotBlank;
-import kr.co.mz.jira.api.client.SearchRestClientProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -12,11 +12,10 @@ import org.springframework.validation.annotation.Validated;
 @RequiredArgsConstructor
 public class SearchRestClientService {
 
-  private final SearchRestClientProvider searchRestClientProvider;
+  private final SearchRestClient searchRestClient;
 
   @SuppressWarnings("UnstableApiUsage")
   public SearchResult loadByJql(final @NotBlank String jql) {
-    final var searchRestClient = searchRestClientProvider.get();
     final var promiseSearchResult = searchRestClient.searchJql(jql);
 
     return promiseSearchResult.claim();

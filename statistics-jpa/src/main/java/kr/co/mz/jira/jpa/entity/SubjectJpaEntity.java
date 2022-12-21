@@ -11,6 +11,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
 /**
@@ -43,6 +45,20 @@ public class SubjectJpaEntity extends BaseJpaEntity {
    */
   @Column(name = "jql", nullable = false)
   private String jql;
+
+  /**
+   * JQL 검색결과 Issue Key (Comma Delimiter).
+   */
+  @Builder.Default
+  @Column(name = "jql_result", columnDefinition ="TEXT")
+  private String jqlResult = StringUtils.EMPTY;
+
+  /**
+   * 생성자.
+   */
+  @CreatedBy
+  @Column(name = "created_by", nullable = false, updatable = false)
+  private String createdBy;
 
   /**
    * 생성일시.

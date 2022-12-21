@@ -6,6 +6,8 @@ CREATE TABLE IF NOT EXISTS subject (
     id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '식별자',
     uuid VARCHAR(36) NOT NULL COMMENT '주제 UUID',
     jql VARCHAR(1000) NOT NULL COMMENT 'JQL (Jira Query Language)',
+    jql_result TEXT COMMENT 'JQL 검색결과(콤마 구분)',
+    created_by VARCHAR(100) NOT NULL COMMENT '생성자',
     created_date DATETIME NOT NULL DEFAULT current_timestamp COMMENT '생성일'
 ) COMMENT '통계 주제 테이블';
 

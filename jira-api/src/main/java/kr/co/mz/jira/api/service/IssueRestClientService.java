@@ -1,16 +1,13 @@
 package kr.co.mz.jira.api.service;
 
-import com.atlassian.jira.rest.client.api.domain.BasicIssue;
+import com.atlassian.jira.rest.client.api.IssueRestClient;
 import com.atlassian.jira.rest.client.api.domain.Issue;
-import com.atlassian.jira.rest.client.api.domain.SearchResult;
 import com.atlassian.util.concurrent.Promise;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-import javax.validation.constraints.NotNull;
-import kr.co.mz.jira.api.client.IssueRestClientProvider;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -19,18 +16,13 @@ import org.springframework.validation.annotation.Validated;
 @RequiredArgsConstructor
 public class IssueRestClientService {
 
-  private final IssueRestClientProvider issueRestClientProvider;
+  private final IssueRestClient issueRestClient;
 
   @SuppressWarnings("UnstableApiUsage")
-  public List<Issue> loadAllBySearchResult(final @NotNull SearchResult searchResult) {
-    final var issueRestClient = issueRestClientProvider.get();
-    final var issueKeyList = StreamSupport
-        .stream(searchResult.getIssues().spliterator(), false)
-        .map(BasicIssue::getKey)
-        .collect(Collectors.toList());
-
+  public List<Issue> loadAllByIssueKeyList(final List<String> issueKeyList) {
     return CollectionUtils.emptyIfNull(issueKeyList)
         .stream()
+        .filter(StringUtils::isNotBlank)
         .map(issueRestClient::getIssue)
         .map(Promise::claim)
         .collect(Collectors.toList());

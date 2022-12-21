@@ -1,6 +1,6 @@
 package kr.co.mz.jira.domain;
 
-import java.time.LocalDateTime;
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -13,27 +13,11 @@ public class IssueDomainEntity {
 
   private final Long id;
 
-  private final Long subjectId;
+  private final String key;
 
-  private final Long externalId;
+  private final Set<String> labels;
 
-  private final String externalKey;
-
-  private final String summary;
-
-  private final String description;
-
-  private final String status;
-
-  private final String issueType;
-
-  private final String reporter;
-
-  private final String assignee;
-
-  private final LocalDateTime creationDate;
-
-  private final LocalDateTime updateDate;
+  private final TimeTrackingDomainEntity timeTrackingDomainEntity;
 
 
 }

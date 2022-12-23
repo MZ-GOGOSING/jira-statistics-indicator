@@ -37,22 +37,6 @@ public class IssueChangelogGroupDomainEntity {
         .build();
   }
 
-  public static IssueChangelogGroupDomainEntity withoutId(
-      final Long issueId,
-      final String authorUsername,
-      final LocalDateTime created,
-      final List<IssueChangelogItemDomainEntity> items
-  ) {
-    AssertHelper.isPositive(issueId, "부모 Issue Id 는 0 이상의 수 이어야 합니다.");
-
-    return IssueChangelogGroupDomainEntity.builder()
-        .issueId(issueId)
-        .authorUsername(authorUsername)
-        .created(created)
-        .items(items)
-        .build();
-  }
-
   public static IssueChangelogGroupDomainEntity withId(
       final Long id,
       final Long issueId,

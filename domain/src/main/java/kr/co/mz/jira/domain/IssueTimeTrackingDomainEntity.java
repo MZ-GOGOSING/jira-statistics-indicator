@@ -33,22 +33,6 @@ public class IssueTimeTrackingDomainEntity {
         .build();
   }
 
-  public static IssueTimeTrackingDomainEntity withoutId(
-      final Long issueId,
-      final Integer originalEstimateMinutes,
-      final Integer remainingEstimateMinutes,
-      final Integer timeSpentMinutes
-  ) {
-    AssertHelper.isPositive(issueId, "부모 Issue Id 는 0 이상의 수 이어야 합니다.");
-
-    return IssueTimeTrackingDomainEntity.builder()
-        .issueId(issueId)
-        .originalEstimateMinutes(originalEstimateMinutes)
-        .remainingEstimateMinutes(remainingEstimateMinutes)
-        .timeSpentMinutes(timeSpentMinutes)
-        .build();
-  }
-
   public static IssueTimeTrackingDomainEntity withId(
       final Long issueId,
       final Integer originalEstimateMinutes,

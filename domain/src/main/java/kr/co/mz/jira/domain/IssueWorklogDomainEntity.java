@@ -52,30 +52,6 @@ public class IssueWorklogDomainEntity {
         .build();
   }
 
-  public static IssueWorklogDomainEntity withoutId(
-      final Long issueId,
-      final String authorUsername,
-      final String updateAuthorUsername,
-      final String comment,
-      final LocalDateTime creationDate,
-      final LocalDateTime updateDate,
-      final LocalDateTime startDate,
-      final Integer minutesSpent
-  ) {
-    AssertHelper.isPositive(issueId, "부모 Issue Id 는 0 이상의 수 이어야 합니다.");
-
-    return IssueWorklogDomainEntity.builder()
-        .issueId(issueId)
-        .authorUsername(authorUsername)
-        .updateAuthorUsername(updateAuthorUsername)
-        .comment(comment)
-        .creationDate(creationDate)
-        .updateDate(updateDate)
-        .startDate(startDate)
-        .minutesSpent(minutesSpent)
-        .build();
-  }
-
   public static IssueWorklogDomainEntity withId(
       final Long id,
       final Long issueId,

@@ -120,42 +120,6 @@ public class IssueDomainEntity {
         .build();
   }
 
-  public static IssueDomainEntity withoutId(
-      final String key,
-      final String issueURI,
-      final String watchersURI,
-      final Set<String> labels,
-      final LocalDateTime dueDate,
-      final LocalDateTime updateDate,
-      final LocalDateTime creationDate,
-      final String assigneeUsername,
-      final String reporterUsername,
-      final String summary,
-      final String issueTypeName,
-      final String statusName,
-      final IssueTimeTrackingDomainEntity timeTracking,
-      final List<IssueWorklogDomainEntity> worklogs,
-      final List<IssueChangelogGroupDomainEntity> changelog
-  ) {
-    return IssueDomainEntity.builder()
-        .key(key)
-        .issueURI(issueURI)
-        .watchersURI(watchersURI)
-        .labels(labels)
-        .dueDate(dueDate)
-        .updateDate(updateDate)
-        .creationDate(creationDate)
-        .assigneeUsername(assigneeUsername)
-        .reporterUsername(reporterUsername)
-        .summary(summary)
-        .issueTypeName(issueTypeName)
-        .statusName(statusName)
-        .timeTracking(timeTracking)
-        .worklogs(worklogs)
-        .changelog(changelog)
-        .build();
-  }
-
   public static IssueDomainEntity withId(
       final Long id,
       final String key,

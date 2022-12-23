@@ -50,7 +50,6 @@ public class CreateIssuePersistenceAdapter implements CreateAllIssuePort {
         subjectId,
         issueDomainEntity
     );
-
     return issueJpaRepository.save(issueJpaEntity);
   }
 }

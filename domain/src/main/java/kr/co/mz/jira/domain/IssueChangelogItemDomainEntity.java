@@ -35,22 +35,6 @@ public class IssueChangelogItemDomainEntity {
         .build();
   }
 
-  public static IssueChangelogItemDomainEntity withoutId(
-      final Long changelogGroupId,
-      final String field,
-      final String fromString,
-      final String toString
-  ) {
-    AssertHelper.isPositive(changelogGroupId, "부모 ChangelogGroup Id 는 0 이상의 수 이어야 합니다.");
-
-    return IssueChangelogItemDomainEntity.builder()
-        .changelogGroupId(changelogGroupId)
-        .field(field)
-        .fromString(fromString)
-        .toString(toString)
-        .build();
-  }
-
   public static IssueChangelogItemDomainEntity withId(
       final Long id,
       final Long changelogGroupId,

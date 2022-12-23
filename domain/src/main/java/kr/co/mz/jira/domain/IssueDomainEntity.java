@@ -3,6 +3,7 @@ package kr.co.mz.jira.domain;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import kr.co.mz.jira.support.assertion.AssertHelper;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -16,6 +17,10 @@ public class IssueDomainEntity {
   private final Long id;
 
   private final String key;
+
+  private final String issueURI;
+
+  private final String watchersURI;
 
   private final Set<String> labels;
 
@@ -44,6 +49,8 @@ public class IssueDomainEntity {
   private IssueDomainEntity(
       final Long id,
       final String key,
+      final String issueURI,
+      final String watchersURI,
       final Set<String> labels,
       final LocalDateTime dueDate,
       final LocalDateTime updateDate,
@@ -57,8 +64,12 @@ public class IssueDomainEntity {
       final List<IssueWorklogDomainEntity> worklogs,
       final List<IssueChangelogGroupDomainEntity> changelog
   ) {
+    AssertHelper.hasText(key, "Issue Key 는 빈 문자열일 수 없습니다.");
+
     this.id = id;
     this.key = key;
+    this.issueURI = issueURI;
+    this.watchersURI = watchersURI;
     this.labels = labels;
     this.dueDate = dueDate;
     this.updateDate = updateDate;
@@ -73,8 +84,10 @@ public class IssueDomainEntity {
     this.changelog = changelog;
   }
 
-  public static IssueDomainEntity withoutId(
+  public static IssueDomainEntity fromOrigin(
       final String key,
+      final String issueURI,
+      final String watchersURI,
       final Set<String> labels,
       final LocalDateTime dueDate,
       final LocalDateTime updateDate,
@@ -90,6 +103,44 @@ public class IssueDomainEntity {
   ) {
     return IssueDomainEntity.builder()
         .key(key)
+        .issueURI(issueURI)
+        .watchersURI(watchersURI)
+        .labels(labels)
+        .dueDate(dueDate)
+        .updateDate(updateDate)
+        .creationDate(creationDate)
+        .assigneeUsername(assigneeUsername)
+        .reporterUsername(reporterUsername)
+        .summary(summary)
+        .issueTypeName(issueTypeName)
+        .statusName(statusName)
+        .timeTracking(timeTracking)
+        .worklogs(worklogs)
+        .changelog(changelog)
+        .build();
+  }
+
+  public static IssueDomainEntity withoutId(
+      final String key,
+      final String issueURI,
+      final String watchersURI,
+      final Set<String> labels,
+      final LocalDateTime dueDate,
+      final LocalDateTime updateDate,
+      final LocalDateTime creationDate,
+      final String assigneeUsername,
+      final String reporterUsername,
+      final String summary,
+      final String issueTypeName,
+      final String statusName,
+      final IssueTimeTrackingDomainEntity timeTracking,
+      final List<IssueWorklogDomainEntity> worklogs,
+      final List<IssueChangelogGroupDomainEntity> changelog
+  ) {
+    return IssueDomainEntity.builder()
+        .key(key)
+        .issueURI(issueURI)
+        .watchersURI(watchersURI)
         .labels(labels)
         .dueDate(dueDate)
         .updateDate(updateDate)
@@ -108,6 +159,8 @@ public class IssueDomainEntity {
   public static IssueDomainEntity withId(
       final Long id,
       final String key,
+      final String issueURI,
+      final String watchersURI,
       final Set<String> labels,
       final LocalDateTime dueDate,
       final LocalDateTime updateDate,
@@ -121,9 +174,13 @@ public class IssueDomainEntity {
       final List<IssueWorklogDomainEntity> worklogs,
       final List<IssueChangelogGroupDomainEntity> changelog
   ) {
+    AssertHelper.isPositive(id, "ID 는 0 이하 일 수 없습니다.");
+
     return IssueDomainEntity.builder()
         .id(id)
         .key(key)
+        .issueURI(issueURI)
+        .watchersURI(watchersURI)
         .labels(labels)
         .dueDate(dueDate)
         .updateDate(updateDate)

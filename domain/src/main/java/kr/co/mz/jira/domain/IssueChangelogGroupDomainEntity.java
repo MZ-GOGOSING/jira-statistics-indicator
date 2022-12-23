@@ -4,12 +4,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 import kr.co.mz.jira.support.assertion.AssertHelper;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class IssueChangelogGroupDomainEntity {
 
@@ -23,20 +25,16 @@ public class IssueChangelogGroupDomainEntity {
 
   private final List<IssueChangelogItemDomainEntity> items;
 
-  private IssueChangelogGroupDomainEntity(
-      final Long id,
-      final Long issueId,
+  public static IssueChangelogGroupDomainEntity fromOrigin(
       final String authorUsername,
       final LocalDateTime created,
       final List<IssueChangelogItemDomainEntity> items
   ) {
-    AssertHelper.isPositive(issueId, "부모 Issue Id 는 0 이상의 수 이어야 합니다.");
-
-    this.id = id;
-    this.issueId = issueId;
-    this.authorUsername = authorUsername;
-    this.created = created;
-    this.items = items;
+    return IssueChangelogGroupDomainEntity.builder()
+        .authorUsername(authorUsername)
+        .created(created)
+        .items(items)
+        .build();
   }
 
   public static IssueChangelogGroupDomainEntity withoutId(
@@ -45,6 +43,8 @@ public class IssueChangelogGroupDomainEntity {
       final LocalDateTime created,
       final List<IssueChangelogItemDomainEntity> items
   ) {
+    AssertHelper.isPositive(issueId, "부모 Issue Id 는 0 이상의 수 이어야 합니다.");
+
     return IssueChangelogGroupDomainEntity.builder()
         .issueId(issueId)
         .authorUsername(authorUsername)
@@ -61,6 +61,7 @@ public class IssueChangelogGroupDomainEntity {
       final List<IssueChangelogItemDomainEntity> items
   ) {
     AssertHelper.isPositive(id, "Id 는 0 이상의 수 이어야 합니다.");
+    AssertHelper.isPositive(issueId, "부모 Issue Id 는 0 이상의 수 이어야 합니다.");
 
     return IssueChangelogGroupDomainEntity.builder()
         .id(id)

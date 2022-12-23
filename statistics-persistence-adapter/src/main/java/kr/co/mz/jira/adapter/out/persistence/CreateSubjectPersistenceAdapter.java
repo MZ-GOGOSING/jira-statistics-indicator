@@ -1,7 +1,7 @@
 package kr.co.mz.jira.adapter.out.persistence;
 
-import kr.co.mz.jira.adapter.out.persistence.converter.SubjectDomainEntityConverter;
-import kr.co.mz.jira.adapter.out.persistence.converter.SubjectJpaEntityConverter;
+import kr.co.mz.jira.adapter.out.persistence.converter.domain.SubjectDomainEntityConverter;
+import kr.co.mz.jira.adapter.out.persistence.converter.jpa.SubjectJpaEntityConverter;
 import kr.co.mz.jira.application.port.out.CreateSubjectPort;
 import kr.co.mz.jira.domain.SubjectDomainEntity;
 import kr.co.mz.jira.jpa.config.StatisticsJpaTransactional;

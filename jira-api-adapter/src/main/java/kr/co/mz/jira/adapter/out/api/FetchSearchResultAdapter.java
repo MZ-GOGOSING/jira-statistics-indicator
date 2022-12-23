@@ -14,6 +14,9 @@ import org.springframework.validation.annotation.Validated;
 @RequiredArgsConstructor
 public class FetchSearchResultAdapter implements FetchSearchResultPort {
 
+  private static final SubjectDomainEntityConverter SUBJECT_DOMAIN_ENTITY_CONVERTER =
+      new SubjectDomainEntityConverter();
+
   private final JiraCredential jiraCredential;
 
   private final SearchRestClientService searchRestClientService;
@@ -22,6 +25,6 @@ public class FetchSearchResultAdapter implements FetchSearchResultPort {
   public SubjectDomainEntity fetchByJql(final String jql) {
     final var searchResult = searchRestClientService.loadByJql(jql);
 
-    return new SubjectDomainEntityConverter().convert(jql, jiraCredential, searchResult);
+    return SUBJECT_DOMAIN_ENTITY_CONVERTER.convert(jql, jiraCredential, searchResult);
   }
 }

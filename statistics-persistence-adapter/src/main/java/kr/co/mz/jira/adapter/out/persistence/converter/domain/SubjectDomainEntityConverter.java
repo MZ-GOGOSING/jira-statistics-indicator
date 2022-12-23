@@ -1,25 +1,18 @@
-package kr.co.mz.jira.adapter.out.persistence.converter;
+package kr.co.mz.jira.adapter.out.persistence.converter.domain;
 
-import java.util.Arrays;
 import kr.co.mz.jira.domain.SubjectDomainEntity;
 import kr.co.mz.jira.jpa.entity.SubjectJpaEntity;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.converter.Converter;
 
 public class SubjectDomainEntityConverter implements Converter<SubjectJpaEntity, SubjectDomainEntity> {
 
-  private static final String ISSUE_KEY_SPLIT_REGEX = "\\s*,\\s*";
-
   @Override
   public SubjectDomainEntity convert(final SubjectJpaEntity subjectJpaEntity) {
-    final var issueKeyList = Arrays.asList(
-        StringUtils.defaultString(subjectJpaEntity.getJqlResult()).split(ISSUE_KEY_SPLIT_REGEX)
-    );
     return SubjectDomainEntity.withId(
         subjectJpaEntity.getId(),
         subjectJpaEntity.getUuid(),
         subjectJpaEntity.getJql(),
-        issueKeyList,
+        subjectJpaEntity.getJqlResult(),
         subjectJpaEntity.getCreatedBy(),
         subjectJpaEntity.getCreatedDate()
     );

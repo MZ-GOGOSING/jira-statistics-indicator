@@ -3,12 +3,14 @@ package kr.co.mz.jira.domain;
 import java.time.LocalDateTime;
 import kr.co.mz.jira.support.assertion.AssertHelper;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class IssueWorklogDomainEntity {
 
@@ -30,9 +32,7 @@ public class IssueWorklogDomainEntity {
 
   private final Integer minutesSpent;
 
-  private IssueWorklogDomainEntity(
-      final Long id,
-      final Long issueId,
+  public static IssueWorklogDomainEntity fromOrigin(
       final String authorUsername,
       final String updateAuthorUsername,
       final String comment,
@@ -41,17 +41,15 @@ public class IssueWorklogDomainEntity {
       final LocalDateTime startDate,
       final Integer minutesSpent
   ) {
-    AssertHelper.isPositive(issueId, "부모 Issue Id 는 0 이상의 수 이어야 합니다.");
-
-    this.id = id;
-    this.issueId = issueId;
-    this.authorUsername = authorUsername;
-    this.updateAuthorUsername = updateAuthorUsername;
-    this.comment = comment;
-    this.creationDate = creationDate;
-    this.updateDate = updateDate;
-    this.startDate = startDate;
-    this.minutesSpent = minutesSpent;
+    return IssueWorklogDomainEntity.builder()
+        .authorUsername(authorUsername)
+        .updateAuthorUsername(updateAuthorUsername)
+        .comment(comment)
+        .creationDate(creationDate)
+        .updateDate(updateDate)
+        .startDate(startDate)
+        .minutesSpent(minutesSpent)
+        .build();
   }
 
   public static IssueWorklogDomainEntity withoutId(
@@ -64,6 +62,8 @@ public class IssueWorklogDomainEntity {
       final LocalDateTime startDate,
       final Integer minutesSpent
   ) {
+    AssertHelper.isPositive(issueId, "부모 Issue Id 는 0 이상의 수 이어야 합니다.");
+
     return IssueWorklogDomainEntity.builder()
         .issueId(issueId)
         .authorUsername(authorUsername)
@@ -88,6 +88,7 @@ public class IssueWorklogDomainEntity {
       final Integer minutesSpent
   ) {
     AssertHelper.isPositive(id, "Id 는 0 이상의 수 이어야 합니다.");
+    AssertHelper.isPositive(issueId, "부모 Issue Id 는 0 이상의 수 이어야 합니다.");
 
     return IssueWorklogDomainEntity.builder()
         .id(id)

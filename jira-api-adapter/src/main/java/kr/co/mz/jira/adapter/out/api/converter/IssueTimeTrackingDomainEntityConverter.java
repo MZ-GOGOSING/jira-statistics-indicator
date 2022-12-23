@@ -7,8 +7,11 @@ import org.springframework.core.convert.converter.Converter;
 public class IssueTimeTrackingDomainEntityConverter implements Converter<TimeTracking, IssueTimeTrackingDomainEntity> {
 
   @Override
-  @SuppressWarnings("NullableProblems")
   public IssueTimeTrackingDomainEntity convert(final TimeTracking timeTracking) {
-    return null;
+    return IssueTimeTrackingDomainEntity.fromOrigin(
+        timeTracking.getOriginalEstimateMinutes(),
+        timeTracking.getRemainingEstimateMinutes(),
+        timeTracking.getTimeSpentMinutes()
+    );
   }
 }

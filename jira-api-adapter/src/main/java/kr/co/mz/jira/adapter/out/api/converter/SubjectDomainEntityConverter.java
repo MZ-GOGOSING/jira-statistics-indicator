@@ -22,6 +22,7 @@ public class SubjectDomainEntityConverter implements
     final var issueKeyList = StreamSupport
         .stream(searchResult.getIssues().spliterator(), false)
         .map(BasicIssue::getKey)
+        .sorted()
         .collect(Collectors.toList());
 
     return SubjectDomainEntity.withoutId(

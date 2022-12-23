@@ -2,12 +2,14 @@ package kr.co.mz.jira.domain;
 
 import kr.co.mz.jira.support.assertion.AssertHelper;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class IssueChangelogItemDomainEntity {
 
@@ -21,20 +23,16 @@ public class IssueChangelogItemDomainEntity {
 
   private final String toString;
 
-  private IssueChangelogItemDomainEntity(
-      final Long id,
-      final Long changelogGroupId,
+  public static IssueChangelogItemDomainEntity fromOrigin(
       final String field,
       final String fromString,
       final String toString
   ) {
-    AssertHelper.isPositive(changelogGroupId, "부모 ChangelogGroup Id 는 0 이상의 수 이어야 합니다.");
-
-    this.id = id;
-    this.changelogGroupId = changelogGroupId;
-    this.field = field;
-    this.fromString = fromString;
-    this.toString = toString;
+    return IssueChangelogItemDomainEntity.builder()
+        .field(field)
+        .fromString(fromString)
+        .toString(toString)
+        .build();
   }
 
   public static IssueChangelogItemDomainEntity withoutId(
@@ -43,6 +41,8 @@ public class IssueChangelogItemDomainEntity {
       final String fromString,
       final String toString
   ) {
+    AssertHelper.isPositive(changelogGroupId, "부모 ChangelogGroup Id 는 0 이상의 수 이어야 합니다.");
+
     return IssueChangelogItemDomainEntity.builder()
         .changelogGroupId(changelogGroupId)
         .field(field)
@@ -59,6 +59,7 @@ public class IssueChangelogItemDomainEntity {
       final String toString
   ) {
     AssertHelper.isPositive(id, "Id 는 0 이상의 수 이어야 합니다.");
+    AssertHelper.isPositive(changelogGroupId, "부모 ChangelogGroup Id 는 0 이상의 수 이어야 합니다.");
 
     return IssueChangelogItemDomainEntity.builder()
         .id(id)

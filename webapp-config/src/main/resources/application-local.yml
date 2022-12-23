@@ -10,7 +10,7 @@ spring:
         statistics:
           xa-properties:
             user: root
-            password: 2022ito#$
+            password: root
             url: "jdbc:mariadb://localhost:4306/statistics"
 
 springdoc:

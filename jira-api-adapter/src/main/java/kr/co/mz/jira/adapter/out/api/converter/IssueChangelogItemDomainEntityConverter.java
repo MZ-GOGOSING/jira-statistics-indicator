@@ -7,8 +7,11 @@ import org.springframework.core.convert.converter.Converter;
 public class IssueChangelogItemDomainEntityConverter implements Converter<ChangelogItem, IssueChangelogItemDomainEntity> {
 
   @Override
-  @SuppressWarnings("NullableProblems")
   public IssueChangelogItemDomainEntity convert(final ChangelogItem changelogItem) {
-    return null;
+    return IssueChangelogItemDomainEntity.fromOrigin(
+        changelogItem.getField(),
+        changelogItem.getFromString(),
+        changelogItem.getToString()
+    );
   }
 }

@@ -1,17 +1,20 @@
 package kr.co.mz.jira.jpa.entity;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import kr.co.mz.jira.jpa.converter.IssueKeyConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -50,8 +53,9 @@ public class SubjectJpaEntity extends BaseJpaEntity {
    * JQL 검색결과 Issue Key (Comma Delimiter).
    */
   @Builder.Default
+  @Convert(converter = IssueKeyConverter.class)
   @Column(name = "jql_result", columnDefinition ="TEXT")
-  private String jqlResult = StringUtils.EMPTY;
+  private List<String> jqlResult = Collections.emptyList();
 
   /**
    * 생성자.

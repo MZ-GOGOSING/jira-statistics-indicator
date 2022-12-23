@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  mariadb:
+    image: mariadb:10.6
+    container_name: mariadb10.6
+    environment:
+      - MARIADB_ROOT_PASSWORD=root
+      - MARIADB_ROOT_HOST=%
+      - MARIADB_DATABASE=statistics
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    ports:
+      - 4306:3306
+    restart: always
+    volumes:
+    - ./docker/mariadb/sql:/data/sql

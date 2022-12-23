@@ -15,8 +15,8 @@ statistics:
     datasource:
       poolName: statistics-persistence-cp
       type: com.zaxxer.hikari.HikariDataSource
-      driverClassName: com.mysql.cj.jdbc.Driver
-      jdbcUrl: "jdbc:mysql://localhost:3306/statistics"
+      driverClassName: org.mariadb.jdbc.Driver
+      jdbcUrl: "jdbc:mariadb://localhost:4306/statistics"
       username: root
       password: root
       auto-commit: false
@@ -30,7 +30,7 @@ statistics:
         ddl-auto: validate
       properties:
         hibernate:
-          dialect: org.hibernate.dialect.MySQL8Dialect
+          dialect: org.hibernate.dialect.MariaDBDialect
           format_sql: true
           show-sql: true
           order_inserts: true
@@ -52,7 +52,7 @@ statistics:
       poolName: statistics-persistence-cp
       type: com.zaxxer.hikari.HikariDataSource
       driverClassName: com.mysql.cj.jdbc.Driver
-      jdbcUrl: "jdbc:mysql://woowahan-ito-jira-statistics.crj6fwy9fshj.ap-northeast-2.rds.amazonaws.com:3306/statistics"
+      jdbcUrl: "jdbc:mariadb://jira-statistics-dev.crj6fwy9fshj.ap-northeast-2.rds.amazonaws.com:3306/statistics"
       username: root
       password: 2022ito#$
       auto-commit: false
@@ -66,7 +66,7 @@ statistics:
         ddl-auto: validate
       properties:
         hibernate:
-          dialect: org.hibernate.dialect.MySQL8Dialect
+          dialect: org.hibernate.dialect.MariaDBDialect
           format_sql: true
           show-sql: true
           order_inserts: true

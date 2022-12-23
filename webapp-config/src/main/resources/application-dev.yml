@@ -6,7 +6,7 @@ spring:
           xa-properties:
             user: root
             password: 2022ito#$
-            url: "jdbc:mysql://woowahan-ito-jira-statistics.crj6fwy9fshj.ap-northeast-2.rds.amazonaws.com:3306/statistics"
+            url: "jdbc:mariadb://jira-statistics-dev.crj6fwy9fshj.ap-northeast-2.rds.amazonaws.com:3306/statistics"
 
 springdoc:
   swagger-ui:

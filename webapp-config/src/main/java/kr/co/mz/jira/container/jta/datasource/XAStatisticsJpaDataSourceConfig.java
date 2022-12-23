@@ -51,7 +51,7 @@ public class XAStatisticsJpaDataSourceConfig extends JtaDataSourceConfig {
 	private static final String STATISTICS_PERSISTENCE_XA_PROPERTIES = "statisticsPersistenceXaProperties";
 	private static final String STATISTICS_PERSISTENCE_XA_DATA_SOURCE = "statisticsPersistenceXaDataSource";
 	private static final String STATISTICS_PERSISTENCE_UNIQUE_RESOURCE_NAME = "XA.STATISTICS.PERSISTENCE";
-	private static final String STATISTICS_XA_DATA_SOURCE_CLASS_NAME = "com.mysql.cj.jdbc.MysqlXADataSource";
+	private static final String STATISTICS_XA_DATA_SOURCE_CLASS_NAME = "org.mariadb.jdbc.MariaDbDataSource";
 
 	private final JpaVendorAdapter jpaVendorAdapter;
 

@@ -11,11 +11,11 @@ jar.dependsOn test
 dependencies {
     implementation project(':support')
 
-    implementation 'mysql:mysql-connector-java:8.0.31'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.5'
 }
 
 flyway {
-    url = "jdbc:mysql://localhost:3306/statistics?useSSL=false"
+    url = "jdbc:mariadb://localhost:4306/statistics?useSSL=false"
     user = "root"
     password = "root"
     locations = ["filesystem:${file('src/migration/statistics').absolutePath}"]

@@ -1,7 +1,3 @@
--- https://stackoverflow.com/questions/56831529/configuring-a-xa-datasource-to-mysql-8-db-with-spring-boot-and-bitronix-jta-mana
-GRANT XA_RECOVER_ADMIN ON *.* TO 'root'@'%';
-FLUSH PRIVILEGES;
-
 CREATE TABLE IF NOT EXISTS subject (
     id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '식별자',
     uuid VARCHAR(36) NOT NULL COMMENT '주제 UUID',

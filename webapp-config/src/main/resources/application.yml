@@ -28,6 +28,10 @@ spring:
 
   jta:
     enabled: true
+    atomikos:
+      properties:
+        default-jta-timeout: 600000
+        max-timeout: 600000
 
   jpa:
     open-in-view: false

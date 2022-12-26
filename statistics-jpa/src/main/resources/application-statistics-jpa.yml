@@ -21,9 +21,9 @@ statistics:
       password: root
       auto-commit: false
       sqlScriptEncoding: UTF-8
-      connectionTimeout: 3000
+      connectionTimeout: 600000
       idleTimeout: 0
-      maxLifetime: 58000
+      maxLifetime: 600000
       maximumPoolSize: 5
     jpa:
       hibernate:
@@ -57,9 +57,9 @@ statistics:
       password: 2022ito#$
       auto-commit: false
       sqlScriptEncoding: UTF-8
-      connectionTimeout: 3000
+      connectionTimeout: 600000
       idleTimeout: 0
-      maxLifetime: 58000
+      maxLifetime: 600000
       maximumPoolSize: 5
     jpa:
       hibernate:

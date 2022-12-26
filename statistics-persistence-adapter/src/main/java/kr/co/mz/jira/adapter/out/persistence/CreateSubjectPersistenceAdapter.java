@@ -14,20 +14,26 @@ import org.springframework.validation.annotation.Validated;
 @Service
 @Validated
 @RequiredArgsConstructor
+@StatisticsJpaTransactional
 public class CreateSubjectPersistenceAdapter implements CreateSubjectPort {
+
+  private static final SubjectDomainEntityConverter SUBJECT_DOMAIN_ENTITY_CONVERTER =
+      new SubjectDomainEntityConverter();
+
+  private static final SubjectJpaEntityConverter SUBJECT_JPA_ENTITY_CONVERTER =
+      new SubjectJpaEntityConverter();
 
   private final SubjectJpaRepository subjectJpaRepository;
 
   @Override
-  @StatisticsJpaTransactional
   public SubjectDomainEntity save(final SubjectDomainEntity outCommand) {
     final var storedSubjectJpaEntity = this.saveSubject(outCommand);
 
-    return new SubjectDomainEntityConverter().convert(storedSubjectJpaEntity);
+    return SUBJECT_DOMAIN_ENTITY_CONVERTER.convert(storedSubjectJpaEntity);
   }
 
   private SubjectJpaEntity saveSubject(final SubjectDomainEntity outCommand) {
-    final var generatedSubjectJpaEntity = new SubjectJpaEntityConverter().convert(outCommand);
+    final var generatedSubjectJpaEntity = SUBJECT_JPA_ENTITY_CONVERTER.convert(outCommand);
 
     return subjectJpaRepository.save(generatedSubjectJpaEntity);
   }

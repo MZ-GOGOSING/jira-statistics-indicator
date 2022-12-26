@@ -38,7 +38,7 @@ public class JtaDataManagerConfig {
 	public UserTransaction userTransaction() throws Throwable {
 		final var userTransactionImp = new UserTransactionImp();
 
-		userTransactionImp.setTransactionTimeout(10000);
+		userTransactionImp.setTransactionTimeout(600000);
 
 		return userTransactionImp;
 	}

@@ -28,7 +28,7 @@ mysql> CREATE DATABASE statistics DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_
 
 Local MariaDB 접속 정보
 
-* host / port: `localhost:3306`
+* host / port: `localhost:4306`
 * username: `root`
 * password: `root`
 
@@ -73,6 +73,16 @@ webapp-config/src/main/java/kr/co/mz/jira/ApplicationInitializr.java
 - 개발 : dev
 - 스테이징 : stage
 - 운영 : prod
+
+### Environment Variables
+해당 어플리케이션은 build 결과물인 jar 를 통한, 로컬 독립 실행을 목적으로 개발되었습니다.
+따라서, 어플리케이션 실행 시 아래와 같은 Environment Variables 를 지정해 주어야 어플리케이션 기동이 가능합니다.
+- 아래의 설정을 만족하는 Environment Variables 입력 필요
+  - jira-api/src/main/resources/application-jira-api.yml
+
+```
+jira.client.credential.username=YOUR_JIRA_ID;jira.client.credential.password=YOUR_JIRA_PASSWORD;jira.client.credential.jiraUrl=JIRA_URI;
+```
 
 ### API Documentation
 

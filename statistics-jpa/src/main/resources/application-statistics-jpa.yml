@@ -51,7 +51,7 @@ statistics:
     datasource:
       poolName: statistics-persistence-cp
       type: com.zaxxer.hikari.HikariDataSource
-      driverClassName: com.mysql.cj.jdbc.Driver
+      driverClassName: org.mariadb.jdbc.Driver
       jdbcUrl: "jdbc:mariadb://jira-statistics-dev.crj6fwy9fshj.ap-northeast-2.rds.amazonaws.com:3306/statistics"
       username: root
       password: 2022ito#$

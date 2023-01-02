@@ -3,11 +3,9 @@ package kr.co.mz.jira.jpa.config;
 import com.zaxxer.hikari.HikariDataSource;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import kr.co.mz.jira.support.jta.JtaDataSourceConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
@@ -30,7 +28,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@ConditionalOnMissingBean({JtaDataSourceConfig.class})
 @EnableAutoConfiguration(exclude = {
 	DataSourceAutoConfiguration.class,
 	DataSourceTransactionManagerAutoConfiguration.class,

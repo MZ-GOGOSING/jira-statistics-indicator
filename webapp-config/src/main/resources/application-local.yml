@@ -4,15 +4,6 @@ spring:
     restart:
       enabled: true
 
-  jta:
-    atomikos:
-      datasource:
-        statistics:
-          xa-properties:
-            user: root
-            password: root
-            url: "jdbc:mariadb://localhost:4306/statistics"
-
 springdoc:
   swagger-ui:
     enabled: true

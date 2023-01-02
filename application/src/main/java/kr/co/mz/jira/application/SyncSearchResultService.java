@@ -11,7 +11,6 @@ import kr.co.mz.jira.application.port.out.FetchSearchResultPort;
 import kr.co.mz.jira.application.port.out.request.command.CreateAllIssueOutCommand;
 import kr.co.mz.jira.domain.IssueDomainEntity;
 import kr.co.mz.jira.domain.SubjectDomainEntity;
-import kr.co.mz.jira.support.jta.JtaTransactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ import org.springframework.validation.annotation.Validated;
 
 @Service
 @Validated
-@JtaTransactional
 @RequiredArgsConstructor
 public class SyncSearchResultService implements SyncSearchResultUseCase {
 

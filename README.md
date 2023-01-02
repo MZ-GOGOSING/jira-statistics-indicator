@@ -3,6 +3,7 @@
 ## 개발환경 구성
 
 ### Build
+- OpenJDK 11 필요
 
 ```
 ./gradlew clean build

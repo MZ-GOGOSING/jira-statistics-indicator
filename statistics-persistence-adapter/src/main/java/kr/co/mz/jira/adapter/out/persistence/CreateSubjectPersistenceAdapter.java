@@ -33,8 +33,8 @@ public class CreateSubjectPersistenceAdapter implements CreateSubjectPort {
   }
 
   private SubjectJpaEntity saveSubject(final SubjectDomainEntity outCommand) {
-    final var generatedSubjectJpaEntity = SUBJECT_JPA_ENTITY_CONVERTER.convert(outCommand);
+    final var subjectJpaEntity = SUBJECT_JPA_ENTITY_CONVERTER.convert(outCommand);
 
-    return subjectJpaRepository.save(generatedSubjectJpaEntity);
+    return subjectJpaRepository.save(subjectJpaEntity);
   }
 }

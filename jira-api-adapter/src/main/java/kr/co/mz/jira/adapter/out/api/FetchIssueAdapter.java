@@ -16,16 +16,18 @@ import org.springframework.validation.annotation.Validated;
 @RequiredArgsConstructor
 public class FetchIssueAdapter implements FetchAllIssuePort {
 
+  private static final IssueDomainEntityConverter ISSUE_DOMAIN_ENTITY_CONVERTER =
+      new IssueDomainEntityConverter();
+
   private final IssueRestClientService issueRestClientService;
 
   @Override
   public List<IssueDomainEntity> fetchAllByIssueKeyList(final List<String> issueKeyList) {
     final var issueList = issueRestClientService.loadAllByIssueKeyList(issueKeyList);
-    final var issueDomainEntityConverter = new IssueDomainEntityConverter();
 
     return CollectionUtils.emptyIfNull(issueList)
         .stream()
-        .map(issueDomainEntityConverter::convert)
+        .map(ISSUE_DOMAIN_ENTITY_CONVERTER::convert)
         .collect(Collectors.toList());
   }
 }

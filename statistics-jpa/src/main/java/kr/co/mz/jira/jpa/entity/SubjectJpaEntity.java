@@ -54,7 +54,7 @@ public class SubjectJpaEntity extends BaseJpaEntity {
    */
   @Builder.Default
   @Convert(converter = IssueKeyConverter.class)
-  @Column(name = "jql_result", columnDefinition ="TEXT")
+  @Column(name = "jql_result", columnDefinition = "TEXT")
   private List<String> jqlResult = Collections.emptyList();
 
   /**

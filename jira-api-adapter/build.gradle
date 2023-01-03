@@ -1,3 +1,5 @@
+apply from: '../jira.gradle'
+
 bootJar.enabled = false
 jar.enabled = true
 jar.dependsOn test
@@ -8,9 +10,6 @@ dependencies {
     implementation project(':support')
 
     implementation project(':jira-api')
-
-    implementation 'com.atlassian.jira:jira-rest-java-client-core:4.0.0'
-    implementation 'com.atlassian.fugue:fugue:2.6.1'
 }
 
 test {

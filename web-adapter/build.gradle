@@ -5,13 +5,12 @@ jar.dependsOn test
 dependencies {
     implementation project(':api-in')
     implementation project(':support')
+
     testImplementation project(':domain')
 
     implementation ('org.springframework.boot:spring-boot-starter-web') {
         exclude module: "spring-boot-starter-tomcat"
     }
-    implementation 'org.springframework.boot:spring-boot-starter-undertow'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.data:spring-data-commons'
 }
 

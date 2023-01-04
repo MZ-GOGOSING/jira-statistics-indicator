@@ -48,6 +48,7 @@ subprojects {
     repositories {
         jcenter()
         mavenCentral()
+        maven { url 'https://github.com/MegazoneDigital/maven-repo/raw/master/snapshots' }
     }
 
     dependencies {
@@ -62,6 +63,7 @@ subprojects {
         implementation "org.springdoc:springdoc-openapi-ui:$springdocVersion"
         implementation "org.springdoc:springdoc-openapi-webmvc-core:$springdocVersion"
 
+        implementation "com.mz:poi-mapper:1.1.3-SNAPSHOT"
         implementation 'com.google.code.findbugs:jsr305:3.0.2'
 
         annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'

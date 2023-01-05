@@ -34,6 +34,9 @@ public class SyncSearchResultController {
 
     final var webResponse = SyncSearchResultWebResponse.of(inResponse);
 
+    // sync
+    syncSearchResultUseCase.syncIssueStatusLog(inResponse.getUuid());
+
     return ApiResponseGenerator.success(webResponse);
   }
 }

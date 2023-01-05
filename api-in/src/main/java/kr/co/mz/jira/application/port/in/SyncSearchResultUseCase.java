@@ -6,4 +6,5 @@ import kr.co.mz.jira.application.port.in.response.SyncSearchResultInResponse;
 public interface SyncSearchResultUseCase {
 
   SyncSearchResultInResponse sync(final @NotBlank String jql);
+  void syncIssueStatusLog(String uuid);
 }

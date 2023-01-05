@@ -7,5 +7,6 @@ import kr.co.mz.jira.domain.IssueDomainEntity;
 
 public interface CreateAllIssuePort {
 
-  List<IssueDomainEntity> saveAll(final @Valid CreateAllIssueOutCommand outCommand);
+    List<IssueDomainEntity> saveAll(final @Valid CreateAllIssueOutCommand outCommand);
+    void syncIssueStatusLog(String uuid);
 }

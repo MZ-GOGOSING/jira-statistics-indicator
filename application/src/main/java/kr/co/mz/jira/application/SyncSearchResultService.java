@@ -21,45 +21,51 @@ import org.springframework.validation.annotation.Validated;
 @RequiredArgsConstructor
 public class SyncSearchResultService implements SyncSearchResultUseCase {
 
-  private final FetchSearchResultPort fetchSearchResultPort;
+    private final FetchSearchResultPort fetchSearchResultPort;
 
-  private final FetchAllIssuePort fetchAllIssuePort;
+    private final FetchAllIssuePort fetchAllIssuePort;
 
-  private final CreateSubjectPort createSubjectPort;
+    private final CreateSubjectPort createSubjectPort;
 
-  private final CreateAllIssuePort createAllIssuePort;
+    private final CreateAllIssuePort createAllIssuePort;
 
-  @Override
-  public SyncSearchResultInResponse sync(final String jql) {
-    final var subjectDomainEntity = this.saveSubject(jql);
-    final var issueDomainEntities = this.saveAllIssues(
-        subjectDomainEntity.getId(), subjectDomainEntity.getIssueKeyList()
-    );
+    @Override
+    public SyncSearchResultInResponse sync(final String jql) {
+        final var subjectDomainEntity = this.saveSubject(jql);
+        final var issueDomainEntities = this.saveAllIssues(
+                subjectDomainEntity.getId(), subjectDomainEntity.getIssueKeyList()
+        );
 
-    return SyncSearchResultInResponse.of(subjectDomainEntity, issueDomainEntities);
-  }
-
-  private SubjectDomainEntity saveSubject(final String jql) {
-    final var fetchedSubjectDomainEntity = fetchSearchResultPort.fetchByJql(jql);
-
-    return createSubjectPort.save(fetchedSubjectDomainEntity);
-  }
-
-  private List<IssueDomainEntity> saveAllIssues(
-      final Long subjectId,
-      final List<String> issueKeyList
-  ) {
-    if (CollectionUtils.isEmpty(issueKeyList)) {
-      return Collections.emptyList();
+        return SyncSearchResultInResponse.of(subjectDomainEntity, issueDomainEntities);
     }
 
-    final var fetchedIssueDomainEntities = fetchAllIssuePort.fetchAllByIssueKeyList(issueKeyList);
+    @Override
+    public void syncIssueStatusLog(String uuid) {
+        createAllIssuePort.syncIssueStatusLog(uuid);
+    }
 
-    final var outCommand = CreateAllIssueOutCommand.builder()
-        .subjectId(subjectId)
-        .issueDomainEntities(fetchedIssueDomainEntities)
-        .build();
+    private SubjectDomainEntity saveSubject(final String jql) {
+        final var fetchedSubjectDomainEntity = fetchSearchResultPort.fetchByJql(jql);
 
-    return createAllIssuePort.saveAll(outCommand);
-  }
+        return createSubjectPort.save(fetchedSubjectDomainEntity);
+    }
+
+    private List<IssueDomainEntity> saveAllIssues(
+            final Long subjectId,
+            final List<String> issueKeyList
+    ) {
+        if (CollectionUtils.isEmpty(issueKeyList)) {
+            return Collections.emptyList();
+        }
+
+        final var fetchedIssueDomainEntities = fetchAllIssuePort.fetchAllByIssueKeyList(
+                issueKeyList);
+
+        final var outCommand = CreateAllIssueOutCommand.builder()
+                .subjectId(subjectId)
+                .issueDomainEntities(fetchedIssueDomainEntities)
+                .build();
+
+        return createAllIssuePort.saveAll(outCommand);
+    }
 }

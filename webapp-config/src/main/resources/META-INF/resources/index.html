@@ -10,7 +10,13 @@
 </div>
 <div id="message" style="padding: 15px; font-size: 19px">
     <div id="msg"></div><p></p>
-    UUID : <div id="uuid"></div><p></p>
+    <table style="border: 1px; width: 860px;">
+        <tr>
+            <td>UUID : </td><td><div id="uuid"></div></td>
+            <td>Query Date :</td><td><div id="queryDate"></div></td>
+        </tr>
+    </table>
+    <br>
     Update Ticket : Table [issue_status_log, issue_worker_log]<p></p>
     <div id="ticket"></div>
 </div>
@@ -30,10 +36,12 @@
                 if( res.code === "2000") {
                     $("#msg").html("");
                     $("#uuid").html(res.data.uuid);
+                    $("#queryDate").html(res.data.queryDate);
                     $("#ticket").html(res.data.syncedIssueKeyList.join());
                 } else {
                     $("#msg").html(res.message);
                     $("#uuid").html("");
+                    $("#queryDate").html("");
                     $("#ticket").html("");
                 }
             },

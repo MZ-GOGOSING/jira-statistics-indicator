@@ -1,0 +1,12 @@
+springdoc:
+  swagger-ui:
+    enabled: true
+  show-actuator: true
+
+logging:
+  config: classpath:logback-prod.xml
+  level:
+    web: info
+    org.springframework.orm.jpa: warn
+    org.springframework.transaction: warn
+    io.swagger.models.parameters.AbstractSerializableParameter: error

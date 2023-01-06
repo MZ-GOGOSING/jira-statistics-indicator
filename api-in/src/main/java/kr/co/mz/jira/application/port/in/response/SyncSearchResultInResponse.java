@@ -1,5 +1,6 @@
 package kr.co.mz.jira.application.port.in.response;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,30 +19,33 @@ import org.apache.commons.collections4.CollectionUtils;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class SyncSearchResultInResponse {
 
-  private final String uuid;
+    private final String uuid;
 
-  private final String jql;
+    private final String jql;
 
-  private final List<String> syncedIssueKeyList;
+    private final List<String> syncedIssueKeyList;
 
-  private final String createdBy;
+    private final String createdBy;
 
-  public static SyncSearchResultInResponse of(
-      final SubjectDomainEntity subjectDomainEntity,
-      final List<IssueDomainEntity> issueDomainEntities
-  ) {
-    return Optional.ofNullable(subjectDomainEntity)
-        .map(source -> SyncSearchResultInResponse.builder()
-            .uuid(subjectDomainEntity.getUuid())
-            .jql(subjectDomainEntity.getJql())
-            .syncedIssueKeyList(
-                CollectionUtils.emptyIfNull(issueDomainEntities)
-                    .stream()
-                    .map(IssueDomainEntity::getKey)
-                    .collect(Collectors.toList())
-            )
-            .createdBy(subjectDomainEntity.getCreatedBy())
-            .build())
-        .orElse(null);
-  }
+    private final LocalDateTime queryDate;
+
+    public static SyncSearchResultInResponse of(
+            final SubjectDomainEntity subjectDomainEntity,
+            final List<IssueDomainEntity> issueDomainEntities
+    ) {
+        return Optional.ofNullable(subjectDomainEntity)
+                .map(source -> SyncSearchResultInResponse.builder()
+                        .uuid(subjectDomainEntity.getUuid())
+                        .jql(subjectDomainEntity.getJql())
+                        .syncedIssueKeyList(
+                                CollectionUtils.emptyIfNull(issueDomainEntities)
+                                        .stream()
+                                        .map(IssueDomainEntity::getKey)
+                                        .collect(Collectors.toList())
+                        )
+                        .createdBy(subjectDomainEntity.getCreatedBy())
+                        .queryDate(subjectDomainEntity.getCreatedDate())
+                        .build())
+                .orElse(null);
+    }
 }

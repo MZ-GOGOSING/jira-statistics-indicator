@@ -87,3 +87,33 @@ spring:
   config:
     activate:
       on-profile: prod
+
+statistics:
+  persistence:
+    datasource:
+      poolName: statistics-persistence-cp
+      type: com.zaxxer.hikari.HikariDataSource
+      driverClassName: org.mariadb.jdbc.Driver
+      jdbcUrl: "jdbc:mariadb://jira-statistics-dev.crj6fwy9fshj.ap-northeast-2.rds.amazonaws.com:3306/statistics"
+      username: root
+      password: 2022ito#$
+      auto-commit: false
+      sqlScriptEncoding: UTF-8
+      connectionTimeout: 600000
+      idleTimeout: 0
+      maxLifetime: 600000
+      maximumPoolSize: 5
+    jpa:
+      hibernate:
+        ddl-auto: validate
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MariaDBDialect
+          format_sql: true
+          show-sql: true
+          order_inserts: true
+          order_updates: true
+          jdbc:
+            batch_size: 500
+            fetch_size: 500
+            batch_versioned_data: true

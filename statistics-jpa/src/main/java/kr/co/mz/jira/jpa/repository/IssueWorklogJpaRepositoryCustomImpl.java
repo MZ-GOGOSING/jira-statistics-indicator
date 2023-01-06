@@ -30,7 +30,7 @@ public class IssueWorklogJpaRepositoryCustomImpl extends StatisticsJpaRepository
                 .select(new QIssueWorkerLogDto(
                         issue.id,
                         issue.issueKey,
-                        issueWorkLog.startDate,
+                        issueWorkLog.creationDate,
                         issueWorkLog.updateAuthorUsername,
                         issueWorkLog.minutesSpent
                 ))

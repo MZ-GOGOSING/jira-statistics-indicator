@@ -88,18 +88,18 @@ public class IssueLogService {
     private void syncIssueStatusLog(
             Map<String, IssueStatusLogDomainEntity> statusLogDomainEntityMap) {
         //
-        List<String> issueKeys = new ArrayList<>(statusLogDomainEntityMap.keySet());
-        List<IssueStatusLogJpaEntity> savedIssueStatusLogJpaEntities
-                = issueStatusLogJpaRepository.findAllByIssueKeyIn(issueKeys);
+//        List<String> issueKeys = new ArrayList<>(statusLogDomainEntityMap.keySet());
+//        List<IssueStatusLogJpaEntity> savedIssueStatusLogJpaEntities
+//                = issueStatusLogJpaRepository.findAllByIssueKeyIn(issueKeys);
 
         List<IssueStatusLogJpaEntity> savingIssueStatusLogJpaEntities = new ArrayList<>();
 
-        savedIssueStatusLogJpaEntities.stream().forEach(
-                entity -> {
-                         entity.fromDomain(statusLogDomainEntityMap.remove(entity.getIssueKey()));
-                         savingIssueStatusLogJpaEntities.add(entity);
-                }
-        );
+//        savedIssueStatusLogJpaEntities.stream().forEach(
+//                entity -> {
+//                         entity.fromDomain(statusLogDomainEntityMap.remove(entity.getIssueKey()));
+//                         savingIssueStatusLogJpaEntities.add(entity);
+//                }
+//        );
 
         IssueStatusLogJpaEntity savingIssueStatusLogJpaEntity;
         for(IssueStatusLogDomainEntity domainEntity : statusLogDomainEntityMap.values()) {

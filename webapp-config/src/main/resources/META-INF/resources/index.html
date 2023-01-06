@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<div style="padding: 10px;">
+    <h1>Execute jira query and Create ticket statistic</h1>
+    <input type="text" size="120" id="jql" value="project = ITO AND worklogDate >= 2022-12-01 AND worklogDate <= 2022-12-31" style="padding: 2px; font-size:22px;">
+    <input id="sync" type="button" value="쿼리 실행" style="font-size: 22px;">
+</div>
+<div id="message" style="padding: 15px; font-size: 19px">
+    <div id="msg"></div><p></p>
+    UUID : <div id="uuid"></div><p></p>
+    Update Ticket : Table [issue_status_log, issue_worker_log]<p></p>
+    <div id="ticket"></div>
+</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $("#sync").click(function(){
+        var jql= $("#jql").val();
+        $("#msg").html("지표 취합중입니다. 잠시만 기다려주세요.");
+        $.ajax({
+            url: "/v1/statistics/sync",
+            dataType: "json",
+            contentType: "application/json",
+            type: "post",
+            data: JSON.stringify({jql : jql}),
+            success: function (res) {
+                if( res.code === "2000") {
+                    $("#msg").html("");
+                    $("#uuid").html(res.data.uuid);
+                    $("#ticket").html(res.data.syncedIssueKeyList.join());
+                } else {
+                    $("#msg").html(res.message);
+                    $("#uuid").html("");
+                    $("#ticket").html("");
+                }
+            },
+            error: function (request, status, error) {
+                $("#msg").html(error);
+            }
+        });
+    });
+</script>
+</html>

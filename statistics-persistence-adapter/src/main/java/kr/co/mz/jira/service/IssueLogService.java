@@ -1,5 +1,6 @@
 package kr.co.mz.jira.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,11 +9,15 @@ import java.util.Optional;
 import kr.co.mz.jira.jpa.domain.IssueStatus;
 import kr.co.mz.jira.jpa.domain.IssueStatusLogDomainEntity;
 import kr.co.mz.jira.jpa.domain.IssueStatusLogDto;
+import kr.co.mz.jira.jpa.domain.IssueWorkerLogDto;
 import kr.co.mz.jira.jpa.entity.IssueJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueStatusLogJpaEntity;
+import kr.co.mz.jira.jpa.entity.IssueWorkerLogJpaEntity;
 import kr.co.mz.jira.jpa.entity.SubjectJpaEntity;
 import kr.co.mz.jira.jpa.repository.IssueJpaRepository;
 import kr.co.mz.jira.jpa.repository.IssueStatusLogJpaRepository;
+import kr.co.mz.jira.jpa.repository.IssueWorkerLogJpaRepository;
+import kr.co.mz.jira.jpa.repository.IssueWorklogJpaRepository;
 import kr.co.mz.jira.jpa.repository.SubjectJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,13 +28,15 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class IssueStatusLogService {
+public class IssueLogService {
     //
     private final SubjectJpaRepository subjectJpaRepository;
     private final IssueJpaRepository issueJpaRepository;
     private final IssueStatusLogJpaRepository issueStatusLogJpaRepository;
+    private final IssueWorklogJpaRepository issueWorklogJpaRepository;
+    private final IssueWorkerLogJpaRepository issueWorkerLogJpaRepository;
 
-    public void syncIssueStatusLog(String uuid) {
+    public void syncIssueLog(String uuid) {
         //
         Optional<SubjectJpaEntity> optSubjectJpaEntity = subjectJpaRepository.findByUuid(uuid);
         if(optSubjectJpaEntity.isEmpty()) {
@@ -75,6 +82,7 @@ public class IssueStatusLogService {
         );
 
         syncIssueStatusLog(statusLogDomainEntityMap);
+        synIssueWorkerLog(subjectJpaEntity.getId(), subjectJpaEntity.getCreatedDate());
     }
 
     private void syncIssueStatusLog(
@@ -103,4 +111,23 @@ public class IssueStatusLogService {
         issueStatusLogJpaRepository.saveAll(savingIssueStatusLogJpaEntities);
     }
 
+    private void synIssueWorkerLog(Long subjectId, LocalDateTime queryDate) {
+        //
+        List<IssueWorkerLogDto> issueWorkerLogDtos
+                = issueWorklogJpaRepository.selectIssueWorkerLog(subjectId);
+        if(ObjectUtils.isEmpty(issueWorkerLogDtos)) {
+            log.info("No result issue worker log.");
+            return;
+        }
+        List<IssueWorkerLogJpaEntity> issueWorkerLogJpaEntities = new ArrayList<>();
+        IssueWorkerLogJpaEntity savingIssueWorkerLogJpaEntity;
+        for(IssueWorkerLogDto dto : issueWorkerLogDtos) {
+            savingIssueWorkerLogJpaEntity = new IssueWorkerLogJpaEntity();
+            BeanUtils.copyProperties(dto, savingIssueWorkerLogJpaEntity);
+            savingIssueWorkerLogJpaEntity.setQueryDate(queryDate);
+            issueWorkerLogJpaEntities.add(savingIssueWorkerLogJpaEntity);
+        }
+
+        issueWorkerLogJpaRepository.saveAll(issueWorkerLogJpaEntities);
+    }
 }

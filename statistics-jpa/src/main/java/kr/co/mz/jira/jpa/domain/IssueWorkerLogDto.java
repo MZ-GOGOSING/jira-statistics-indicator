@@ -9,6 +9,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class IssueWorkerLogDto {
     //
@@ -20,11 +21,11 @@ public class IssueWorkerLogDto {
 
     @QueryProjection
     public IssueWorkerLogDto(Long issueId, String issueKey,
-            LocalDateTime workLogDate, String worker, Long workMinute) {
+            LocalDateTime workLogDate, String worker, Integer workMinute) {
         this.issueId = issueId;
         this.issueKey = issueKey;
         this.workLogDate = workLogDate;
         this.worker = worker;
-        this.workMinute = workMinute;
+        this.workMinute =  workMinute.longValue();
     }
 }

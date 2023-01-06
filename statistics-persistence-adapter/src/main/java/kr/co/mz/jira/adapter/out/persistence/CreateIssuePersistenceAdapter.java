@@ -10,7 +10,7 @@ import kr.co.mz.jira.domain.IssueDomainEntity;
 import kr.co.mz.jira.jpa.config.StatisticsJpaTransactional;
 import kr.co.mz.jira.jpa.entity.IssueJpaEntity;
 import kr.co.mz.jira.jpa.repository.IssueJpaRepository;
-import kr.co.mz.jira.service.IssueStatusLogService;
+import kr.co.mz.jira.service.IssueLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +28,7 @@ public class CreateIssuePersistenceAdapter implements CreateAllIssuePort {
             new IssueDomainEntityConverter();
 
     private final IssueJpaRepository issueJpaRepository;
-    private final IssueStatusLogService issueStatusLogService;
+    private final IssueLogService issueLogService;
 
     @Override
     public List<IssueDomainEntity> saveAll(final CreateAllIssueOutCommand outCommand) {
@@ -45,8 +45,8 @@ public class CreateIssuePersistenceAdapter implements CreateAllIssuePort {
     }
 
     @Override
-    public void syncIssueStatusLog(String uuid) {
-        issueStatusLogService.syncIssueStatusLog(uuid);
+    public void syncIssueLog(String uuid) {
+        issueLogService.syncIssueLog(uuid);
     }
 
     private IssueJpaEntity saveIssueJpaEntity(

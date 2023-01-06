@@ -11,6 +11,7 @@ import kr.co.mz.jira.application.port.out.FetchSearchResultPort;
 import kr.co.mz.jira.application.port.out.request.command.CreateAllIssueOutCommand;
 import kr.co.mz.jira.domain.IssueDomainEntity;
 import kr.co.mz.jira.domain.SubjectDomainEntity;
+import kr.co.mz.jira.support.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
@@ -31,17 +32,24 @@ public class SyncSearchResultService implements SyncSearchResultUseCase {
 
     @Override
     public SyncSearchResultInResponse sync(final String jql) {
-        final var subjectDomainEntity = this.saveSubject(jql);
-        final var issueDomainEntities = this.saveAllIssues(
-                subjectDomainEntity.getId(), subjectDomainEntity.getIssueKeyList()
-        );
+        SyncSearchResultInResponse response;
+        try {
+            final var subjectDomainEntity = this.saveSubject(jql);
+            final var issueDomainEntities = this.saveAllIssues(
+                    subjectDomainEntity.getId(), subjectDomainEntity.getIssueKeyList()
+            );
 
-        return SyncSearchResultInResponse.of(subjectDomainEntity, issueDomainEntities);
+            response = SyncSearchResultInResponse.of(subjectDomainEntity, issueDomainEntities);
+        } catch (Exception e) {
+            throw new BusinessException(e.getMessage());
+        }
+
+        return response;
     }
 
     @Override
-    public void syncIssueStatusLog(String uuid) {
-        createAllIssuePort.syncIssueStatusLog(uuid);
+    public void syncIssueLog(String uuid) {
+        createAllIssuePort.syncIssueLog(uuid);
     }
 
     private SubjectDomainEntity saveSubject(final String jql) {

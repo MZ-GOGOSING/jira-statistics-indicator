@@ -1,6 +1,8 @@
 bootJar.enabled = true
 jar.enabled = false
 
+compileJava.dependsOn(processResources)
+
 dependencies {
     implementation project(':web-adapter')
 

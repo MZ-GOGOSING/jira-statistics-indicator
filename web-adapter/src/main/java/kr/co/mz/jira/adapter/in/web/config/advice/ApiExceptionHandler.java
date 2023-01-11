@@ -1,4 +1,4 @@
-package kr.co.mz.jira.container.web.advice;
+package kr.co.mz.jira.adapter.in.web.config.advice;
 
 import java.nio.file.AccessDeniedException;
 import java.util.List;

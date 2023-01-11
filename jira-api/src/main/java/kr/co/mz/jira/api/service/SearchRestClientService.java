@@ -14,7 +14,6 @@ public class SearchRestClientService {
 
   private final SearchRestClient searchRestClient;
 
-  @SuppressWarnings("UnstableApiUsage")
   public SearchResult loadByJql(final @NotBlank String jql) {
     final var promiseSearchResult = searchRestClient.searchJql(jql);
 

@@ -13,7 +13,7 @@ spring:
 spring:
   config:
     activate:
-      on-profile: beta
+      on-profile: stage
 
 ---
 spring:

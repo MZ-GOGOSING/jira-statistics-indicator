@@ -1,4 +1,4 @@
-package kr.co.mz.jira.container.web.bind;
+package kr.co.mz.jira.adapter.in.web.config.bind;
 
 import java.time.LocalDate;
 import kr.co.mz.jira.support.converter.DefaultDateTimeConverter;

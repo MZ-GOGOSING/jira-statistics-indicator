@@ -1,6 +1,6 @@
-spring.jpa.open-in-view: false
-
 spring:
+  jpa:
+    open-in-view: false
   flyway:
     enabled: false
 
@@ -80,7 +80,7 @@ statistics:
 spring:
   config:
     activate:
-      on-profile: beta
+      on-profile: stage
 
 ---
 spring:

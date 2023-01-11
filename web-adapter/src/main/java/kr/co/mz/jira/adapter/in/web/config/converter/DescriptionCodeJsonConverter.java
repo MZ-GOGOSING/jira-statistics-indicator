@@ -1,4 +1,4 @@
-package kr.co.mz.jira.container.web.converter;
+package kr.co.mz.jira.adapter.in.web.config.converter;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;

@@ -1,6 +1,3 @@
-server:
-  port: 80
-
 spring:
   application:
     name: jira-statistics-indicator
@@ -18,37 +15,3 @@ spring:
     add-properties: false
     restart:
       enabled: false
-
-  mvc:
-    contentnegotiation:
-      favor-parameter: true
-      media-types:
-        xls: application/vnd.ms-excel
-    log-request-details: true
-
-  jpa:
-    open-in-view: false
-
-springdoc:
-  api-docs:
-    groups:
-      enabled: true
-    resolve-schema-properties: true
-  group-configs:
-    - group: STATISTICS
-      display-name: 통계 관리
-      paths-to-match: /v1/statistics/**
-    - group: ACTUATOR
-      display-name: Spring Actuator
-      paths-to-match:
-        - /actuator
-        - /actuator/**
-  swagger-ui:
-    enabled: false
-    version: v1
-    groups-order: desc
-    try-it-out-enabled: true
-    display-request-duration: true
-    disable-swagger-default-url: true
-  show-actuator: false
-  default-produces-media-type: application/json

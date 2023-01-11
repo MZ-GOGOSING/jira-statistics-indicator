@@ -4,11 +4,6 @@ spring:
     restart:
       enabled: true
 
-springdoc:
-  swagger-ui:
-    enabled: true
-  show-actuator: true
-
 logging:
   config: classpath:logback-local.xml
   level:

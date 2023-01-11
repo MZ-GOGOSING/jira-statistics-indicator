@@ -5,7 +5,7 @@ import static com.atlassian.jira.rest.client.api.IssueRestClient.Expandos.CHANGE
 import com.atlassian.jira.rest.client.api.IssueRestClient;
 import com.atlassian.jira.rest.client.api.IssueRestClient.Expandos;
 import com.atlassian.jira.rest.client.api.domain.Issue;
-import com.atlassian.util.concurrent.Promise;
+import io.atlassian.util.concurrent.Promise;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,7 +27,6 @@ public class IssueRestClientService {
 
   private final IssueRestClient issueRestClient;
 
-  @SuppressWarnings("UnstableApiUsage")
   public List<Issue> loadAllByIssueKeyList(final List<String> issueKeyList) {
     return CollectionUtils.emptyIfNull(issueKeyList)
         .stream()

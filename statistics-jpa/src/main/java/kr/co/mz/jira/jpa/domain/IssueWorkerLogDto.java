@@ -18,14 +18,17 @@ public class IssueWorkerLogDto {
     private LocalDateTime workLogDate;
     private String worker;
     private Long workMinute;
+    private String workComment;
 
     @QueryProjection
     public IssueWorkerLogDto(Long issueId, String issueKey,
-            LocalDateTime workLogDate, String worker, Integer workMinute) {
+            LocalDateTime workLogDate, String worker, Integer workMinute,
+            String workComment) {
         this.issueId = issueId;
         this.issueKey = issueKey;
         this.workLogDate = workLogDate;
         this.worker = worker;
         this.workMinute =  workMinute.longValue();
+        this.workComment = workComment;
     }
 }

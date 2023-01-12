@@ -5,7 +5,7 @@
 </head>
 <div style="padding: 10px;">
     <h1>Execute jira query and Create ticket statistic</h1>
-    <input type="text" size="120" id="jql" value="project = ITO AND worklogDate >= 2022-12-01 AND worklogDate <= 2022-12-31" style="padding: 2px; font-size:22px;">
+    <input type="text" size="120" id="jql" value="" style="padding: 2px; font-size:22px;">
     <input id="sync" type="button" value="쿼리 실행" style="font-size: 22px;">
 </div>
 <div id="message" style="padding: 15px; font-size: 19px">
@@ -23,9 +23,41 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
+    function leftPad(value) {
+        if (value >= 10) {
+            return value;
+        }
+
+        return `0${value}`;
+    }
+
+    function formatDate(source, delimiter = '-') {
+        const year = source.getFullYear();
+        const month = leftPad(source.getMonth() + 1);
+        const day = leftPad(source.getDate());
+
+        return [year, month, day].join(delimiter);
+    }
+
+    function formatStartDate(source, delimiter = '-') {
+        const year = source.getFullYear();
+        const month = leftPad(source.getMonth() + 1);
+        const day = "01";
+
+        return [year, month, day].join(delimiter);
+    }
+
+    $(document).ready(function(){
+        var jql = "project = ITO AND worklogDate >= ";
+        jql = jql + formatStartDate(new Date());
+        jql = jql + " AND worklogDate <= ";
+        jql = jql + formatDate(new Date());
+        $("#jql").val(jql);
+    });
+
     $("#sync").click(function(){
         var jql= $("#jql").val();
-        $("#msg").html("지표 취합중입니다. 잠시만 기다려주세요.");
+        $("#msg").html("지표 취합중입니다. 잠시만 기다려주세요.....");
         $.ajax({
             url: "/v1/statistics/sync",
             dataType: "json",

@@ -81,5 +81,6 @@ CREATE TABLE IF NOT EXISTS issue_worker_log (
     issue_key VARCHAR(50) NOT NULL COMMENT 'Jira Issue Key',
     work_log_date DATETIME NOT NULL COMMENT '작업 착수 시간',
     worker VARCHAR(50) NOT NULL COMMENT '작업자',
-    work_minute BIGINT(5) NOT NULL COMMENT '작업소요시간'
+    work_minute BIGINT(5) NOT NULL COMMENT '작업소요시간',
+    work_comment VARCHAR(200) NOT NULL COMMENT '작업 코멘트'
 ) COMMENT 'Issue Worker Log';

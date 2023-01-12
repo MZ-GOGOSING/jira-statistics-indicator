@@ -19,4 +19,5 @@ public class IssueWorkerLogDomainEntity {
     private LocalDateTime workLogDate;
     private String worker;
     private Long workMinute;
+    private String workComment;
 }

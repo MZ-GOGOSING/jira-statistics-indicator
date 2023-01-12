@@ -45,4 +45,7 @@ public class IssueWorkerLogJpaEntity extends BaseJpaEntity {
 
     @Column(name = "work_minute", nullable = false)
     private Long workMinute;
+
+    @Column(name = "work_comment", nullable = false)
+    private String workComment;
 }

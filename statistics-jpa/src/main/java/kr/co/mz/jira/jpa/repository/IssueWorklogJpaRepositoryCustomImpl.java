@@ -32,7 +32,8 @@ public class IssueWorklogJpaRepositoryCustomImpl extends StatisticsJpaRepository
                         issue.issueKey,
                         issueWorkLog.creationDate,
                         issueWorkLog.updateAuthorUsername,
-                        issueWorkLog.minutesSpent
+                        issueWorkLog.minutesSpent,
+                        issueWorkLog.comment
                 ))
                 .from(issue)
                 .join(issueWorkLog)

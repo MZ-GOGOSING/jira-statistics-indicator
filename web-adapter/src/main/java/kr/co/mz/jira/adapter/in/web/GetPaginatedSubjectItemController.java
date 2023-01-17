@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import javax.validation.Valid;
 import kr.co.mz.jira.adapter.in.web.request.query.GetPaginatedSubjectItemWebQuery;
-import kr.co.mz.jira.adapter.in.web.response.GetPaginatedSubjectItemWebResponse;
+import kr.co.mz.jira.adapter.in.web.response.GetSubjectItemWebResponse;
 import kr.co.mz.jira.application.port.in.GetPaginatedSubjectItemQuery;
 import kr.co.mz.jira.support.dto.ApiResponse;
 import kr.co.mz.jira.support.dto.ApiResponseGenerator;
@@ -30,7 +30,7 @@ public class GetPaginatedSubjectItemController {
 
   @Operation(summary = "페이징 처리된 SUBJECT 목록 조회", description = "페이징 처리된 SUBJECT 목록을 조회할 수 있습니다.")
   @GetMapping
-  public ApiResponse<PageResponse<GetPaginatedSubjectItemWebResponse>> getPaginatedSubjectItem(
+  public ApiResponse<PageResponse<GetSubjectItemWebResponse>> getPaginatedSubjectItem(
       final @Valid GetPaginatedSubjectItemWebQuery webQuery,
       final @ParameterObject @PageableDefault(
           size = 15,
@@ -41,7 +41,7 @@ public class GetPaginatedSubjectItemController {
     final var inQuery = webQuery.toInQuery();
     final var inResponse = getPaginatedSubjectItemQuery.loadAll(inQuery, pageable);
 
-    final var webResponse = inResponse.map(GetPaginatedSubjectItemWebResponse::of);
+    final var webResponse = inResponse.map(GetSubjectItemWebResponse::of);
 
     return ApiResponseGenerator.success(PageResponse.convert(webResponse));
   }

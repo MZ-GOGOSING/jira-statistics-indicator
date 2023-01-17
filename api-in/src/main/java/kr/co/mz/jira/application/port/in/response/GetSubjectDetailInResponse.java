@@ -15,30 +15,24 @@ import org.apache.commons.collections4.CollectionUtils;
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
-public class SyncSearchResultInResponse {
+public class GetSubjectDetailInResponse {
 
-  private final String uuid;
+  private final GetSubjectItemInResponse subjectItemInResponse;
 
-  private final String jql;
+  private final List<GetIssueItemInResponse> issueItemInResponseList;
 
-  private final List<String> syncedIssueKeyList;
-
-  private final String createdBy;
-
-  public static SyncSearchResultInResponse of(
+  public static GetSubjectDetailInResponse of(
       final SubjectDomainEntity subjectDomainEntity,
       final List<IssueDomainEntity> issueDomainEntities
   ) {
-    return SyncSearchResultInResponse.builder()
-        .uuid(subjectDomainEntity.getUuid())
-        .jql(subjectDomainEntity.getJql())
-        .syncedIssueKeyList(
+    return GetSubjectDetailInResponse.builder()
+        .subjectItemInResponse(GetSubjectItemInResponse.of(subjectDomainEntity))
+        .issueItemInResponseList(
             CollectionUtils.emptyIfNull(issueDomainEntities)
                 .stream()
-                .map(IssueDomainEntity::getKey)
+                .map(GetIssueItemInResponse::of)
                 .collect(Collectors.toList())
         )
-        .createdBy(subjectDomainEntity.getCreatedBy())
         .build();
   }
 }

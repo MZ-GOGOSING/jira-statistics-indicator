@@ -3,8 +3,7 @@ package kr.co.mz.jira.adapter.in.web.response;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-import kr.co.mz.jira.application.port.in.response.GetPaginatedSubjectItemInResponse;
+import kr.co.mz.jira.application.port.in.response.GetSubjectItemInResponse;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +15,7 @@ import lombok.Getter;
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
-public class GetPaginatedSubjectItemWebResponse {
+public class GetSubjectItemWebResponse {
 
   @Schema(description = "UUID", example = "f86c0f4b-38eb-464d-a81e-a01a6e37742f", required = true)
   private final String uuid;
@@ -37,15 +36,13 @@ public class GetPaginatedSubjectItemWebResponse {
   @Schema(description = "등록일", example = "yyyy-MM-dd", required = true)
   private final LocalDateTime createdDate;
 
-  public static GetPaginatedSubjectItemWebResponse of(final GetPaginatedSubjectItemInResponse inResponse) {
-    return Optional.ofNullable(inResponse)
-        .map(source -> GetPaginatedSubjectItemWebResponse.builder()
-            .uuid(source.getUuid())
-            .jql(source.getJql())
-            .jqlResult(source.getJqlResult())
-            .createdBy(source.getCreatedBy())
-            .createdDate(source.getCreatedDate())
-            .build())
-        .orElse(null);
+  public static GetSubjectItemWebResponse of(final GetSubjectItemInResponse inResponse) {
+    return GetSubjectItemWebResponse.builder()
+        .uuid(inResponse.getUuid())
+        .jql(inResponse.getJql())
+        .jqlResult(inResponse.getJqlResult())
+        .createdBy(inResponse.getCreatedBy())
+        .createdDate(inResponse.getCreatedDate())
+        .build();
   }
 }

@@ -1,4 +1,4 @@
-package kr.co.mz.jira.adapter.in.web.request;
+package kr.co.mz.jira.adapter.in.web.request.command;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import javax.validation.constraints.NotBlank;

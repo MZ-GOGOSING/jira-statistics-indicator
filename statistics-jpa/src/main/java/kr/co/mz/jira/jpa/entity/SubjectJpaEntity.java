@@ -58,6 +58,12 @@ public class SubjectJpaEntity extends BaseJpaEntity {
   private List<String> jqlResult = Collections.emptyList();
 
   /**
+   * JQL 검색결과 Column 읽기 전용 Property.
+   */
+  @Column(name = "jql_result", insertable = false, updatable = false)
+  private String rawJqlResult;
+
+  /**
    * 생성자.
    */
   @CreatedBy

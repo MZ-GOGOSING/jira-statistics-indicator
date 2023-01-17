@@ -3,7 +3,7 @@ package kr.co.mz.jira.adapter.in.web;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import javax.validation.Valid;
-import kr.co.mz.jira.adapter.in.web.request.SyncSearchResultWebCommand;
+import kr.co.mz.jira.adapter.in.web.request.command.SyncSearchResultWebCommand;
 import kr.co.mz.jira.adapter.in.web.response.SyncSearchResultWebResponse;
 import kr.co.mz.jira.application.port.in.SyncSearchResultUseCase;
 import kr.co.mz.jira.support.dto.ApiResponse;

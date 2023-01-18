@@ -1,3 +1,5 @@
 dependencies {
-    implementation 'com.atlassian.jira:jira-rest-java-client-app:5.2.0'
+    implementation ("com.atlassian.jira:jira-rest-java-client-app:5.2.0") {
+        exclude group: 'org.slf4j'
+    }
 }

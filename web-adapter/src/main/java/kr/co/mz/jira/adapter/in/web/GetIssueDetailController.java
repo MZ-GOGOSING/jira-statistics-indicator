@@ -27,7 +27,7 @@ public class GetIssueDetailController {
   @Operation(summary = "특정 ISSUE 조회", description = "특정 ISSUE 를 조회할 수 있습니다.")
   @GetMapping("/issue/{id}")
   public ApiResponse<GetIssueDetailWebResponse> getIssueDetail(
-      @Parameter(description = "ISSUE UUID")
+      @Parameter(description = "ISSUE ID")
       final @PathVariable @Min(1L) Long id
   ) {
     final var inResponse = getIssueDetailQuery.loadById(id);

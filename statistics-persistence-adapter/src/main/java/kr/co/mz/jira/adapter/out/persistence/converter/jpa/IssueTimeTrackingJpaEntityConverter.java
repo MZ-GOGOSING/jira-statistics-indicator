@@ -1,6 +1,6 @@
 package kr.co.mz.jira.adapter.out.persistence.converter.jpa;
 
-import java.util.Optional;
+import java.util.Objects;
 import kr.co.mz.jira.domain.IssueTimeTrackingDomainEntity;
 import kr.co.mz.jira.jpa.entity.IssueJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueTimeTrackingJpaEntity;
@@ -14,13 +14,15 @@ public class IssueTimeTrackingJpaEntityConverter
       final IssueJpaEntity issueJpaEntity,
       final IssueTimeTrackingDomainEntity issueTimeTrackingDomainEntity
   ) {
-    return Optional.ofNullable(issueTimeTrackingDomainEntity)
-        .map(source -> IssueTimeTrackingJpaEntity.builder()
-            .originalEstimateMinutes(source.getOriginalEstimateMinutes())
-            .remainingEstimateMinutes(source.getRemainingEstimateMinutes())
-            .timeSpentMinutes(source.getTimeSpentMinutes())
-            .issue(issueJpaEntity)
-            .build())
-        .orElse(null);
+    if (Objects.isNull(issueTimeTrackingDomainEntity)) {
+      return null;
+    }
+
+    return IssueTimeTrackingJpaEntity.builder()
+        .originalEstimateMinutes(issueTimeTrackingDomainEntity.getOriginalEstimateMinutes())
+        .remainingEstimateMinutes(issueTimeTrackingDomainEntity.getRemainingEstimateMinutes())
+        .timeSpentMinutes(issueTimeTrackingDomainEntity.getTimeSpentMinutes())
+        .issue(issueJpaEntity)
+        .build();
   }
 }

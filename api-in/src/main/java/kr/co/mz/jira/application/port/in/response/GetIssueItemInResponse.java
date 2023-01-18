@@ -15,6 +15,8 @@ import lombok.Getter;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class GetIssueItemInResponse {
 
+  private final Long id;
+
   private final String issueKey;
 
   private final String issueURI;
@@ -41,6 +43,7 @@ public class GetIssueItemInResponse {
 
   public static GetIssueItemInResponse of(final IssueDomainEntity issueDomainEntity) {
     return GetIssueItemInResponse.builder()
+        .id(issueDomainEntity.getId())
         .issueKey(issueDomainEntity.getKey())
         .issueURI(issueDomainEntity.getIssueURI())
         .watchersURI(issueDomainEntity.getWatchersURI())

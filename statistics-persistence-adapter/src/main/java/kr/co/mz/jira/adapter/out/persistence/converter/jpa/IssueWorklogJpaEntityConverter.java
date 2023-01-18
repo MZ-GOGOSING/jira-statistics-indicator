@@ -1,6 +1,6 @@
 package kr.co.mz.jira.adapter.out.persistence.converter.jpa;
 
-import java.util.Optional;
+import java.util.Objects;
 import kr.co.mz.jira.domain.IssueWorklogDomainEntity;
 import kr.co.mz.jira.jpa.entity.IssueJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueWorklogJpaEntity;
@@ -14,17 +14,19 @@ public class IssueWorklogJpaEntityConverter
       final IssueJpaEntity issueJpaEntity,
       final IssueWorklogDomainEntity issueWorklogDomainEntity
   ) {
-    return Optional.ofNullable(issueWorklogDomainEntity)
-        .map(source -> IssueWorklogJpaEntity.builder()
-            .issue(issueJpaEntity)
-            .authorUsername(source.getAuthorUsername())
-            .updateAuthorUsername(source.getUpdateAuthorUsername())
-            .comment(source.getComment())
-            .creationDate(source.getCreationDate())
-            .updateDate(source.getUpdateDate())
-            .startDate(source.getStartDate())
-            .minutesSpent(source.getMinutesSpent())
-            .build())
-        .orElse(null);
+    if (Objects.isNull(issueWorklogDomainEntity)) {
+      return null;
+    }
+
+    return IssueWorklogJpaEntity.builder()
+        .issue(issueJpaEntity)
+        .authorUsername(issueWorklogDomainEntity.getAuthorUsername())
+        .updateAuthorUsername(issueWorklogDomainEntity.getUpdateAuthorUsername())
+        .comment(issueWorklogDomainEntity.getComment())
+        .creationDate(issueWorklogDomainEntity.getCreationDate())
+        .updateDate(issueWorklogDomainEntity.getUpdateDate())
+        .startDate(issueWorklogDomainEntity.getStartDate())
+        .minutesSpent(issueWorklogDomainEntity.getMinutesSpent())
+        .build();
   }
 }

@@ -1,6 +1,6 @@
 package kr.co.mz.jira.adapter.out.persistence.converter.jpa;
 
-import java.util.Optional;
+import java.util.Objects;
 import kr.co.mz.jira.domain.IssueChangelogItemDomainEntity;
 import kr.co.mz.jira.jpa.entity.IssueChangelogGroupJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueChangelogItemJpaEntity;
@@ -14,13 +14,15 @@ public class IssueChangelogItemJpaEntityConverter
       final IssueChangelogGroupJpaEntity issueChangelogGroupJpaEntity,
       final IssueChangelogItemDomainEntity issueChangelogItemDomainEntity
   ) {
-    return Optional.ofNullable(issueChangelogItemDomainEntity)
-        .map(source -> IssueChangelogItemJpaEntity.builder()
-            .issueChangelogGroup(issueChangelogGroupJpaEntity)
-            .field(source.getField())
-            .fromString(source.getFromString())
-            .toString(source.getToString())
-            .build())
-        .orElse(null);
+    if (Objects.isNull(issueChangelogItemDomainEntity)) {
+      return null;
+    }
+
+    return IssueChangelogItemJpaEntity.builder()
+        .issueChangelogGroup(issueChangelogGroupJpaEntity)
+        .field(issueChangelogItemDomainEntity.getField())
+        .fromString(issueChangelogItemDomainEntity.getFromString())
+        .toString(issueChangelogItemDomainEntity.getToString())
+        .build();
   }
 }

@@ -17,6 +17,9 @@ import lombok.Getter;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class GetIssueItemWebResponse {
 
+  @Schema(description = "id", example = "1", required = true)
+  private final Long id;
+
   @Schema(description = "Jira Issue Key", example = "ITO-80", required = true)
   private final String issueKey;
 
@@ -55,6 +58,7 @@ public class GetIssueItemWebResponse {
 
   public static GetIssueItemWebResponse of(final GetIssueItemInResponse inResponse) {
     return GetIssueItemWebResponse.builder()
+        .id(inResponse.getId())
         .issueKey(inResponse.getIssueKey())
         .issueURI(inResponse.getIssueURI())
         .watchersURI(inResponse.getWatchersURI())

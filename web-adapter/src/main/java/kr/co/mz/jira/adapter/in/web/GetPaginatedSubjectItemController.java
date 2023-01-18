@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "STATISTICS", description = "통계 관리 API")
+@Tag(name = "SEARCH", description = "통계 원천 데이터 조회 API")
 @Validated
 @RestController
 @RequestMapping("/v1/statistics")
@@ -29,7 +29,7 @@ public class GetPaginatedSubjectItemController {
   private final GetPaginatedSubjectItemQuery getPaginatedSubjectItemQuery;
 
   @Operation(summary = "페이징 처리된 SUBJECT 목록 조회", description = "페이징 처리된 SUBJECT 목록을 조회할 수 있습니다.")
-  @GetMapping
+  @GetMapping("/subject")
   public ApiResponse<PageResponse<GetSubjectItemWebResponse>> getPaginatedSubjectItem(
       final @Valid GetPaginatedSubjectItemWebQuery webQuery,
       final @ParameterObject @PageableDefault(

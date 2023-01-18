@@ -5,5 +5,5 @@ import kr.co.mz.jira.application.port.in.response.GetSubjectDetailInResponse;
 
 public interface GetSubjectDetailQuery {
 
-  GetSubjectDetailInResponse loadById(final @NotBlank String uuid);
+  GetSubjectDetailInResponse loadByUuid(final @NotBlank String uuid);
 }

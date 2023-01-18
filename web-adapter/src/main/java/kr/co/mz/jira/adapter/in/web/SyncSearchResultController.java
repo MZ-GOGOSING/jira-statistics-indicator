@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "STATISTICS", description = "통계 관리 API")
+@Tag(name = "SYNC", description = "통계 원천 데이터 수집 API")
 @Validated
 @RestController
 @RequestMapping("/v1/statistics")
@@ -25,7 +25,7 @@ public class SyncSearchResultController {
   private final SyncSearchResultUseCase syncSearchResultUseCase;
 
   @Operation(summary = "검색결과 동기화", description = "JQL 검색결과로 얻어진 Issue 목록을 DB 에 동기화 합니다.")
-  @PostMapping("/sync")
+  @PostMapping("/subject/sync")
   public ApiResponse<SyncSearchResultWebResponse> syncSearchResult(
       final @RequestBody @Valid SyncSearchResultWebCommand webCommand
   ) {

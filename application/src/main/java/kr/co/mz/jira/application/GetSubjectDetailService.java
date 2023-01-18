@@ -18,7 +18,7 @@ public class GetSubjectDetailService implements GetSubjectDetailQuery {
   private final LoadIssueItemsPort loadIssueItemsPort;
 
   @Override
-  public GetSubjectDetailInResponse loadById(final String uuid) {
+  public GetSubjectDetailInResponse loadByUuid(final String uuid) {
     final var subjectDomainEntity = loadSubjectItemPort.findByUuid(uuid);
     final var issueDomainEntities =
         loadIssueItemsPort.findAllBySubjectId(subjectDomainEntity.getId());

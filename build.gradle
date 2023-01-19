@@ -47,8 +47,8 @@ subprojects {
     compileJava.options.encoding = 'UTF-8'
 
     repositories {
+        jcenter()
         mavenCentral()
-        maven { url 'https://packages.atlassian.com/mvn/maven-atlassian-external/' }
         maven { url 'https://github.com/MegazoneDigital/maven-repo/raw/master/snapshots' }
     }
 

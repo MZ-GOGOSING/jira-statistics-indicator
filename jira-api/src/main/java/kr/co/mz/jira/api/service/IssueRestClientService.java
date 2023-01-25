@@ -15,6 +15,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import kr.co.mz.jira.api.request.command.CreateIssueBodyCommand;
 import kr.co.mz.jira.api.request.command.CreateIssueCommand;
 import kr.co.mz.jira.api.request.command.CreateIssueHeaderCommand;
@@ -37,7 +39,7 @@ public class IssueRestClientService {
 
   private final IssueRestClient issueRestClient;
 
-  public List<Issue> loadAllByIssueKeyList(final List<String> issueKeyList) {
+  public List<Issue> loadAllByIssueKeyList(final @NotEmpty List<String> issueKeyList) {
     return CollectionUtils.emptyIfNull(issueKeyList)
         .stream()
         .filter(StringUtils::isNotBlank)
@@ -46,16 +48,12 @@ public class IssueRestClientService {
         .collect(Collectors.toList());
   }
 
-  public String createIssue(final CreateIssueCommand createIssueCommand) {
+  public String createIssue(final @NotNull CreateIssueCommand createIssueCommand) {
     final var headerCommand = createIssueCommand.getHeader();
     final var bodyCommand = createIssueCommand.getBody();
 
     final var issueInput = this.proceedIssueInput(headerCommand, bodyCommand);
-
-    final var createdBasicIssue = issueRestClient.createIssue(issueInput).claim();
-    final var createdBasicIssueKey = createdBasicIssue.getKey();
-
-    final var storedIssue = issueRestClient.getIssue(createdBasicIssueKey).claim();
+    final var storedIssue = this.createIssue(issueInput);
 
     this.addIssueWatchers(storedIssue, bodyCommand.getWatcherUsernames());
     this.addIssueAttachments(storedIssue, bodyCommand.getAttachments());
@@ -73,6 +71,13 @@ public class IssueRestClientService {
         .setReporterName(bodyCommand.getReporterUsername())
         .setAssigneeName(bodyCommand.getAssigneeUsername())
         .build();
+  }
+
+  private Issue createIssue(final IssueInput issueInput) {
+    final var createdBasicIssue = issueRestClient.createIssue(issueInput).claim();
+    final var createdBasicIssueKey = createdBasicIssue.getKey();
+
+    return issueRestClient.getIssue(createdBasicIssueKey).claim();
   }
 
   private void addIssueWatchers(

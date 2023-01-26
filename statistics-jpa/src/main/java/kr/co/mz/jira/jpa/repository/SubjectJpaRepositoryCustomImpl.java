@@ -29,7 +29,7 @@ public class SubjectJpaRepositoryCustomImpl extends StatisticsJpaRepositorySuppo
   ) {
     final var jpqlQuery = getDefaultFetchJpqlQuery();
 
-    applyFetchWhereClause(jpqlQuery, jpaFetchQuery);
+    this.applyFetchWhereClause(jpqlQuery, jpaFetchQuery);
 
     final var totalCount = jpqlQuery.fetchCount();
     if (totalCount < 1L) {

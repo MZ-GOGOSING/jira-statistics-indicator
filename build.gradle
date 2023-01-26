@@ -28,7 +28,7 @@ ext.projectVersion = {
 }
 
 subprojects {
-    group 'kr.co.mz.jira'
+    group 'kr.co.mz'
     version '1.0.0'
 
     apply plugin: 'java'

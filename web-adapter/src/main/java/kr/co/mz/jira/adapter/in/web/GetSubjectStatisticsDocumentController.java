@@ -8,10 +8,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.time.LocalDate;
 import javax.validation.constraints.NotBlank;
+import kr.co.mz.jira.adapter.in.web.response.support.AttachmentResponseHeaderSupport;
 import kr.co.mz.jira.application.port.in.GetSubjectDocumentQuery;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/v1/statistics")
 @RequiredArgsConstructor
-public class GetSubjectStatisticsDocumentController {
+public class GetSubjectStatisticsDocumentController implements AttachmentResponseHeaderSupport {
 
-  private static final String RESPONSE_FILENAME_FORMAT = "subject(%s)-%s.xlsx";
+  private static final String RESPONSE_FILENAME_FORMAT = "subject(%s)-(v.%s).xlsx";
 
   private final GetSubjectDocumentQuery getSubjectDocumentQuery;
 
@@ -39,24 +38,11 @@ public class GetSubjectStatisticsDocumentController {
       final @PathVariable @NotBlank String uuid
   ) {
     final var inResponse = getSubjectDocumentQuery.loadByUuid(uuid);
+    final var filename = String.format(RESPONSE_FILENAME_FORMAT, uuid, convertDate(LocalDate.now()));
 
     return ResponseEntity
         .ok()
-        .headers(this.proceedResponseHeaders(uuid))
+        .headers(this.proceedResponseHeaders(filename))
         .body(inResponse);
-  }
-
-  private HttpHeaders proceedResponseHeaders(final String uuid) {
-    final var filename = String.format(RESPONSE_FILENAME_FORMAT, uuid, convertDate(LocalDate.now()));
-    final var contentDisposition = ContentDisposition
-        .attachment()
-        .filename(filename)
-        .build();
-
-    final var responseHeaders = new HttpHeaders();
-
-    responseHeaders.setContentDisposition(contentDisposition);
-
-    return responseHeaders;
   }
 }

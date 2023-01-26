@@ -9,12 +9,15 @@ include 'application'
 
 include 'api-out'
 include 'statistics-persistence-adapter'
-include 'jira-api-adapter'
+include 'jira-rest-adapter'
 include 'spreadsheet-document-adapter'
 
 include 'statistics-jpa'
-include 'jira-api'
+include 'jira-rest-client'
 include 'microsoft-document'
 
 include 'domain'
 include 'support'
+
+
+

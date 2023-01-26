@@ -6,11 +6,11 @@ spring:
     include:
       - web-adapter
       - core
-      - statistics-adapter
-      - jira-adapter
-      - spreadsheet-adapter
+      - statistics-persistence-adapter
+      - jira-rest-adapter
+      - spreadsheet-document-adapter
       - statistics-jpa
-      - jira-api
+      - jira-rest-client
       - microsoft-document
 
   devtools:

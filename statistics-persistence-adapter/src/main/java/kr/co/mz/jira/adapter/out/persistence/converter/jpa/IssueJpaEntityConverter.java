@@ -13,7 +13,7 @@ import kr.co.mz.jira.jpa.entity.IssueChangelogGroupJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueTimeTrackingJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueWorklogJpaEntity;
-import kr.co.mz.jira.support.converter.BiConverter;
+import kr.co.mz.support.converter.BiConverter;
 import org.apache.commons.collections4.CollectionUtils;
 
 public class IssueJpaEntityConverter implements BiConverter<Long, IssueDomainEntity, IssueJpaEntity> {

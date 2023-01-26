@@ -10,7 +10,7 @@ import kr.co.mz.jira.domain.IssueChangelogItemDomainEntity;
 import kr.co.mz.jira.jpa.entity.IssueChangelogGroupJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueChangelogItemJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueJpaEntity;
-import kr.co.mz.jira.support.converter.BiConverter;
+import kr.co.mz.support.converter.BiConverter;
 import org.apache.commons.collections4.CollectionUtils;
 
 public class IssueChangelogGroupJpaEntityConverter

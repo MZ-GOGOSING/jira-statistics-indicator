@@ -1,7 +1,7 @@
 package kr.co.mz.jira.adapter.in.web;
 
 import static kr.co.mz.jira.adapter.in.web.config.mvc.CustomMediaType.APPLICATION_XLSX_SPREADSHEET_VALUE;
-import static kr.co.mz.jira.support.converter.DefaultDateTimeConverter.convertDate;
+import static kr.co.mz.support.converter.DefaultDateTimeConverter.convertDate;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

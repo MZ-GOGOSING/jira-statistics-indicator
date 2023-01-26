@@ -3,7 +3,7 @@ package kr.co.mz.jira.domain;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
-import kr.co.mz.jira.support.assertion.AssertHelper;
+import kr.co.mz.support.assertion.AssertHelper;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

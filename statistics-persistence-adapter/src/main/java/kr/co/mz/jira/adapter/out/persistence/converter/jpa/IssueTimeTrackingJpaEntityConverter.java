@@ -4,7 +4,7 @@ import java.util.Objects;
 import kr.co.mz.jira.domain.IssueTimeTrackingDomainEntity;
 import kr.co.mz.jira.jpa.entity.IssueJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueTimeTrackingJpaEntity;
-import kr.co.mz.jira.support.converter.BiConverter;
+import kr.co.mz.support.converter.BiConverter;
 
 public class IssueTimeTrackingJpaEntityConverter
     implements BiConverter<IssueJpaEntity, IssueTimeTrackingDomainEntity, IssueTimeTrackingJpaEntity> {

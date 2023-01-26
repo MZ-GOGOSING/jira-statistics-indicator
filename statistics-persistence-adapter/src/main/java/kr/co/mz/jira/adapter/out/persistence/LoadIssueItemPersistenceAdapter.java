@@ -5,7 +5,7 @@ import kr.co.mz.jira.application.port.out.LoadIssueItemPort;
 import kr.co.mz.jira.domain.IssueDomainEntity;
 import kr.co.mz.jira.jpa.config.StatisticsJpaTransactional;
 import kr.co.mz.jira.jpa.repository.IssueJpaRepository;
-import kr.co.mz.jira.support.exception.EntityNotFoundException;
+import kr.co.mz.support.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

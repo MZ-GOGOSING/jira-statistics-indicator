@@ -7,8 +7,8 @@ import java.net.URI;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import kr.co.mz.jira.domain.IssueDomainEntity;
-import kr.co.mz.jira.support.converter.LocalDateTimeConverter;
-import kr.co.mz.jira.support.converter.StreamConverter;
+import kr.co.mz.support.converter.LocalDateTimeConverter;
+import kr.co.mz.support.converter.StreamConverter;
 import org.springframework.core.convert.converter.Converter;
 
 public class IssueDomainEntityConverter implements Converter<Issue, IssueDomainEntity> {

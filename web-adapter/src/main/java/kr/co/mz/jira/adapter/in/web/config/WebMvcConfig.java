@@ -15,7 +15,7 @@ import kr.co.mz.jira.adapter.in.web.config.bind.LocalTimeParamBinder;
 import kr.co.mz.jira.adapter.in.web.config.converter.DescriptionCodeJsonConverter;
 import kr.co.mz.jira.adapter.in.web.config.converter.LocalDateJsonConverter;
 import kr.co.mz.jira.adapter.in.web.config.converter.LocalDateTimeJsonConverter;
-import kr.co.mz.jira.support.code.DescriptionCode;
+import kr.co.mz.support.code.DescriptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,6 +1,6 @@
 package kr.co.mz.jira.domain;
 
-import kr.co.mz.jira.support.assertion.AssertHelper;
+import kr.co.mz.support.assertion.AssertHelper;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

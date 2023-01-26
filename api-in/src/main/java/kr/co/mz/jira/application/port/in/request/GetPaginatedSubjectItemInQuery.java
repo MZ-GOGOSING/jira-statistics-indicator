@@ -1,8 +1,8 @@
 package kr.co.mz.jira.application.port.in.request;
 
 import javax.validation.Valid;
-import kr.co.mz.jira.support.dto.LocalDateRangeQuery;
-import kr.co.mz.jira.support.validation.BetweenDate;
+import kr.co.mz.support.dto.LocalDateRangeQuery;
+import kr.co.mz.support.validation.BetweenDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

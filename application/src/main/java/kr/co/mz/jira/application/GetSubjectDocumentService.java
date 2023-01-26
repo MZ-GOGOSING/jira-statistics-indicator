@@ -5,7 +5,7 @@ import kr.co.mz.jira.application.port.out.CreateEmptyDocumentPort;
 import kr.co.mz.jira.application.port.out.CreateSubjectDocumentPort;
 import kr.co.mz.jira.application.port.out.LoadIssueItemsPort;
 import kr.co.mz.jira.application.port.out.LoadSubjectItemPort;
-import kr.co.mz.jira.support.exception.EntityNotFoundException;
+import kr.co.mz.support.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;

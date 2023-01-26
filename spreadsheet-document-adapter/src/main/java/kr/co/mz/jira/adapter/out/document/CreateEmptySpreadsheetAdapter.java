@@ -4,7 +4,7 @@ import java.io.IOException;
 import kr.co.mz.jira.application.port.out.CreateEmptyDocumentPort;
 import kr.co.mz.jira.document.spreadsheet.SpreadsheetByteArraySupport;
 import kr.co.mz.jira.document.spreadsheet.empty.CreateEmptySpreadsheetService;
-import kr.co.mz.jira.support.exception.BusinessException;
+import kr.co.mz.support.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;

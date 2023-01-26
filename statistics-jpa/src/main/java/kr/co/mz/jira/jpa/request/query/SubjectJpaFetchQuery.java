@@ -1,6 +1,6 @@
 package kr.co.mz.jira.jpa.request.query;
 
-import kr.co.mz.jira.support.dto.LocalDateRangeQuery;
+import kr.co.mz.support.dto.LocalDateRangeQuery;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

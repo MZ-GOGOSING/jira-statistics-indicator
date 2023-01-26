@@ -4,7 +4,7 @@ import java.util.Objects;
 import kr.co.mz.jira.domain.IssueWorklogDomainEntity;
 import kr.co.mz.jira.jpa.entity.IssueJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueWorklogJpaEntity;
-import kr.co.mz.jira.support.converter.BiConverter;
+import kr.co.mz.support.converter.BiConverter;
 
 public class IssueWorklogJpaEntityConverter
     implements BiConverter<IssueJpaEntity, IssueWorklogDomainEntity, IssueWorklogJpaEntity> {

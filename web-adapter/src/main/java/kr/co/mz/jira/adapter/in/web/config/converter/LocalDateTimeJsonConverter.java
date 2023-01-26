@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import kr.co.mz.jira.support.converter.DefaultDateTimeConverter;
+import kr.co.mz.support.converter.DefaultDateTimeConverter;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.jackson.JsonComponent;

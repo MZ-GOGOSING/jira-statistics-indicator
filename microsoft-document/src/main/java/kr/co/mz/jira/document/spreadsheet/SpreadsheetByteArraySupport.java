@@ -2,7 +2,7 @@ package kr.co.mz.jira.document.spreadsheet;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import kr.co.mz.jira.support.exception.BusinessException;
+import kr.co.mz.support.exception.BusinessException;
 import org.apache.poi.ss.usermodel.Workbook;
 
 public interface SpreadsheetByteArraySupport {

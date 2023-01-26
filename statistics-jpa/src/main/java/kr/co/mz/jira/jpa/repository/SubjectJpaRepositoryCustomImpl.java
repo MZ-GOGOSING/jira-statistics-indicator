@@ -1,7 +1,7 @@
 package kr.co.mz.jira.jpa.repository;
 
 import static java.util.Collections.emptyList;
-import static kr.co.mz.jira.support.query.QueryDslHelper.optionalWhen;
+import static kr.co.mz.support.query.QueryDslHelper.optionalWhen;
 
 import com.querydsl.jpa.JPQLQuery;
 import kr.co.mz.jira.jpa.config.StatisticsJpaRepositorySupport;

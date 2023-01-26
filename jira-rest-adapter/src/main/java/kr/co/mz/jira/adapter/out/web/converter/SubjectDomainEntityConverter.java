@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import kr.co.mz.jira.rest.credential.JiraCredential;
 import kr.co.mz.jira.domain.SubjectDomainEntity;
-import kr.co.mz.jira.support.converter.TriConverter;
+import kr.co.mz.support.converter.TriConverter;
 
 public class SubjectDomainEntityConverter implements
     TriConverter<String, JiraCredential, SearchResult, SubjectDomainEntity> {

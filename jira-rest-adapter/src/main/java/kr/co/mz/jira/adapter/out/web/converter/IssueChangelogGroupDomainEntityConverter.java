@@ -3,8 +3,8 @@ package kr.co.mz.jira.adapter.out.web.converter;
 import com.atlassian.jira.rest.client.api.domain.ChangelogGroup;
 import java.util.stream.Collectors;
 import kr.co.mz.jira.domain.IssueChangelogGroupDomainEntity;
-import kr.co.mz.jira.support.converter.LocalDateTimeConverter;
-import kr.co.mz.jira.support.converter.StreamConverter;
+import kr.co.mz.support.converter.LocalDateTimeConverter;
+import kr.co.mz.support.converter.StreamConverter;
 import org.springframework.core.convert.converter.Converter;
 
 public class IssueChangelogGroupDomainEntityConverter implements Converter<ChangelogGroup, IssueChangelogGroupDomainEntity> {

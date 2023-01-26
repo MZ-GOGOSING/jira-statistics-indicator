@@ -63,26 +63,34 @@ Local MariaDB 접속 정보
 ./gradlew webapp-config:integrationTest
 ```
 
-### Run the Application
-
-```
-webapp-config/src/main/java/kr/co/mz/jira/ApplicationInitializr.java
-```
-
 ### Available Profiles
 - 로컬 : local
 - 개발 : dev
 - 스테이징 : stage
 - 운영 : prod
 
-### Environment Variables
-해당 어플리케이션은 build 결과물인 jar 를 통한, 로컬 독립 실행을 목적으로 개발되었습니다.
-따라서, 어플리케이션 실행 시 아래와 같은 Environment Variables 를 지정해 주어야 어플리케이션 기동이 가능합니다.
-- 아래의 설정을 만족하는 Environment Variables 입력 필요
-  - jira-rest-client/src/main/resources/application-jira-rest-client.yml
+### Run the Application
 
 ```
+webapp-config/src/main/java/kr/co/mz/jira/ApplicationInitializr.java
+```
+
+### Environment Variables
+해당 어플리케이션은 폐쇄망에 존재하는 JIRA 의 존재를 고려하여 build 결과물인 jar 를 통한, 내부망에서의 로컬 독립 실행을 목적으로 개발되었습니다.
+- 어플리케이션 기동 시, 아래의 설정을 만족하는 Environment Variables (JIRA 인증정보) 입력 필요
+  - jira-rest-client/src/main/resources/application-jira-rest-client.yml
+
+```text
+# IDE (IntelliJ > Run > Edit Configurations > Environment Variables)
 jira.client.credential.username=YOUR_JIRA_ID;jira.client.credential.password=YOUR_JIRA_PASSWORD;jira.client.credential.jiraUrl=JIRA_URI;
+```
+
+```shell
+# command line (Linux or macOS)
+java -jar -Dspring.profiles.active=dev webapp-config-1.0.0.jar \
+--jira.client.credential.username='YOUR_JIRA_ID' \
+--jira.client.credential.password='YOUR_JIRA_PASSWORD' \
+--jira.client.credential.jiraUrl='JIRA_URI'
 ```
 
 ### API Documentation

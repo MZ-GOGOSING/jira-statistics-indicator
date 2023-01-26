@@ -11,7 +11,7 @@ import org.springframework.validation.annotation.Validated;
 @Service
 @Validated
 @RequiredArgsConstructor
-public class CreateSubjectDocumentAdapter implements CreateSubjectDocumentPort {
+public class CreateSubjectSpreadsheetAdapter implements CreateSubjectDocumentPort {
 
   private final CreateStatisticsSpreadsheetService createStatisticsSpreadsheetService;
 

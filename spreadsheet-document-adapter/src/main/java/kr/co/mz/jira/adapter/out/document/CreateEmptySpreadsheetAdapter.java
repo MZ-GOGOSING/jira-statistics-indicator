@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
 @Service
 @Validated
 @RequiredArgsConstructor
-public class CreateEmptyDocumentAdapter implements
+public class CreateEmptySpreadsheetAdapter implements
     CreateEmptyDocumentPort,
     SpreadsheetByteArraySupport {
 

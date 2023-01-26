@@ -5,8 +5,6 @@ spring:
   mvc:
     contentnegotiation:
       favor-parameter: true
-      media-types:
-        xls: application/vnd.ms-excel
     log-request-details: true
 
 springdoc:

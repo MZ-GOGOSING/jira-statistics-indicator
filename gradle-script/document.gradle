@@ -1,0 +1,3 @@
+dependencies {
+    implementation "com.mz:poi-mapper:1.1.3-SNAPSHOT"
+}

@@ -2,7 +2,7 @@ plugins {
     id "org.flywaydb.flyway" version "8.5.12"
 }
 
-apply from: '../jpa.gradle'
+apply from: '../gradle-script/jpa.gradle'
 
 bootJar.enabled = false
 jar.enabled = true

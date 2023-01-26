@@ -10,8 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 	ApplicationConfig.class,
 	StatisticsPersistenceAdapterConfig.class,
 	JiraApiAdapterConfig.class,
+	SpreadsheetDocumentAdapterConfig.class,
 	StatisticsJpaConfig.class,
-	JiraApiConfig.class
+	JiraApiConfig.class,
+	MicrosoftDocumentConfig.class
 })
 public class ApplicationInitializr {
 

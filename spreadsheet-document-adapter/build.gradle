@@ -1,4 +1,4 @@
-apply from: '../gradle-script/jira.gradle'
+apply from: '../gradle-script/document.gradle'
 
 bootJar.enabled = false
 jar.enabled = true
@@ -8,7 +8,8 @@ dependencies {
     implementation project(':domain')
     implementation project(':api-out')
     implementation project(':support')
-    implementation project(':jira-api')
+
+    implementation project(':microsoft-document')
 }
 
 test {

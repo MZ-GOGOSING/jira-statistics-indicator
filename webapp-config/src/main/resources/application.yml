@@ -8,8 +8,10 @@ spring:
       - core
       - statistics-adapter
       - jira-adapter
+      - spreadsheet-document-adapter
       - statistics-jpa
       - jira-api
+      - microsoft-document
 
   devtools:
     add-properties: false

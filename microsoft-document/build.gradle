@@ -1,4 +1,4 @@
-apply from: '../gradle-script/jira.gradle'
+apply from: '../gradle-script/document.gradle'
 
 bootJar.enabled = false
 jar.enabled = true

@@ -6,15 +6,15 @@ include 'web-adapter'
 include 'api-in'
 
 include 'application'
-include 'domain'
 
 include 'api-out'
 include 'statistics-persistence-adapter'
 include 'jira-api-adapter'
+include 'spreadsheet-document-adapter'
 
 include 'statistics-jpa'
 include 'jira-api'
+include 'microsoft-document'
 
+include 'domain'
 include 'support'
-include 'webapp-config'
-include 'web-adapter'

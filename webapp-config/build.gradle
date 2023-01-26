@@ -10,9 +10,11 @@ dependencies {
 
     implementation project(':statistics-persistence-adapter')
     implementation project(':jira-api-adapter')
+    implementation project(':spreadsheet-document-adapter')
 
     implementation project(':statistics-jpa')
     implementation project(':jira-api')
+    implementation project(':microsoft-document')
 
     implementation project(':support')
 }

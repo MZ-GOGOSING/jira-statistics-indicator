@@ -21,9 +21,9 @@ public class CreateEmptyDocumentAdapter implements
   @Override
   public byte[] create(final String defaultMessage) {
     try (final var workbook = createEmptySpreadsheetService.create(defaultMessage)) {
-      return this.convertToByteArrayByWorkbook(workbook);
+      return this.convertWorkbookToByteArray(workbook);
     } catch (IOException ioException) {
-      throw new BusinessException("spreadsheet 문서를 생성 중 오류 발생", ioException);
+      throw new BusinessException("spreadsheet 문서 생성 중 오류 발생", ioException);
     }
   }
 }

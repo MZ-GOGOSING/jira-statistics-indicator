@@ -8,7 +8,7 @@ spring:
       - core
       - statistics-adapter
       - jira-adapter
-      - spreadsheet-document-adapter
+      - spreadsheet-adapter
       - statistics-jpa
       - jira-api
       - microsoft-document

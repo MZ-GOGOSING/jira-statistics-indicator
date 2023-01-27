@@ -13,11 +13,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.validation.annotation.Validated;
 
-@Component("loadStatusFieldContainsIssueItemsPort")
+@Component("loadStatusFieldMatchedIssueItemsPort")
 @Validated
 @RequiredArgsConstructor
 @StatisticsJpaTransactional(propagation = Propagation.SUPPORTS, readOnly = true)
-public class LoadStatusFieldContainsIssueItemsPersistenceAdapter implements LoadIssueItemsPort {
+public class LoadStatusFieldMatchedIssueItemsPersistenceAdapter implements LoadIssueItemsPort {
+
+  private static final String CHANGE_LOG_ITEM_FIELD_VALUE = "status";
 
   private static final IssueDomainEntityConverter ISSUE_DOMAIN_ENTITY_CONVERTER =
       new IssueDomainEntityConverter();
@@ -26,7 +28,8 @@ public class LoadStatusFieldContainsIssueItemsPersistenceAdapter implements Load
 
   @Override
   public List<IssueDomainEntity> findAllBySubjectId(final Long subjectId) {
-    final var issueJpaEntities = issueJpaRepository.findAllBySubjectId(subjectId);
+    final var issueJpaEntities = issueJpaRepository
+        .findAllBySubjectIdAndField(subjectId, CHANGE_LOG_ITEM_FIELD_VALUE);
 
     return CollectionUtils.emptyIfNull(issueJpaEntities)
         .stream()

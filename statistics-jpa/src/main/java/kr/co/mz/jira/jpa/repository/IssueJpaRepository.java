@@ -10,7 +10,9 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IssueJpaRepository extends JpaRepository<IssueJpaEntity, Long> {
+public interface IssueJpaRepository extends
+    JpaRepository<IssueJpaEntity, Long>,
+    IssueJpaRepositoryCustom {
 
   @Override
   @NonNull

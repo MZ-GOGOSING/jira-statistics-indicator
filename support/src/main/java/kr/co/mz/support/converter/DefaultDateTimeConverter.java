@@ -1,5 +1,6 @@
 package kr.co.mz.support.converter;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -7,6 +8,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 
 @Slf4j
 public class DefaultDateTimeConverter {
@@ -125,5 +127,12 @@ public class DefaultDateTimeConverter {
 			return null;
 		}
 		return localDateTime.format(DefaultDateTimeFormat.DATE_FORMAT_MAIL);
+	}
+
+	public static String convertDurationWords(final Long minutes) {
+		final var duration = Duration.ofMinutes(minutes);
+		final var millis = duration.toMillis();
+
+		return DurationFormatUtils.formatDurationWords(millis, true, true);
 	}
 }

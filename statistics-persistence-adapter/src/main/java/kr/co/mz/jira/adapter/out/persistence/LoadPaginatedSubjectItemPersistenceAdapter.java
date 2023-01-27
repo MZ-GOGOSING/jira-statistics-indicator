@@ -10,11 +10,11 @@ import kr.co.mz.jira.jpa.request.query.SubjectJpaFetchQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.validation.annotation.Validated;
 
-@Service
+@Component
 @Validated
 @RequiredArgsConstructor
 @StatisticsJpaTransactional(propagation = Propagation.SUPPORTS, readOnly = true)

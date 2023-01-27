@@ -13,11 +13,11 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 public class JiraCredentialProperties {
 
   @NotBlank
-  private String username;
+  private final String username;
 
   @NotBlank
-  private String password;
+  private final String password;
 
   @NotBlank
-  private String jiraUrl;
+  private final String jiraUrl;
 }

@@ -15,13 +15,13 @@ public class GetSubjectDetailService implements GetSubjectDetailQuery {
 
   private final LoadSubjectItemPort loadSubjectItemPort;
 
-  private final LoadIssueItemsPort loadIssueItemsPort;
+  private final LoadIssueItemsPort loadDefaultIssueItemsPort;
 
   @Override
   public GetSubjectDetailInResponse loadByUuid(final String uuid) {
     final var subjectDomainEntity = loadSubjectItemPort.findByUuid(uuid);
     final var issueDomainEntities =
-        loadIssueItemsPort.findAllBySubjectId(subjectDomainEntity.getId());
+        loadDefaultIssueItemsPort.findAllBySubjectId(subjectDomainEntity.getId());
 
     return GetSubjectDetailInResponse.of(subjectDomainEntity, issueDomainEntities);
   }

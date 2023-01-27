@@ -19,7 +19,7 @@ public class GetSubjectDocumentService implements GetSubjectDocumentQuery {
 
   private final LoadSubjectItemPort loadSubjectItemPort;
 
-  private final LoadIssueItemsPort loadIssueItemsPort;
+  private final LoadIssueItemsPort loadStatusFieldContainsIssueItemsPort;
 
   private final CreateEmptyDocumentPort createEmptyDocumentPort;
 
@@ -29,8 +29,8 @@ public class GetSubjectDocumentService implements GetSubjectDocumentQuery {
   public byte[] loadByUuid(final String uuid) {
     try {
       final var subjectDomainEntity = loadSubjectItemPort.findByUuid(uuid);
-      final var issueDomainEntities =
-          loadIssueItemsPort.findAllBySubjectId(subjectDomainEntity.getId());
+      final var issueDomainEntities = loadStatusFieldContainsIssueItemsPort
+          .findAllBySubjectId(subjectDomainEntity.getId());
 
       return createSubjectDocumentPort.create(issueDomainEntities);
     } catch (EntityNotFoundException entityNotFoundException) {

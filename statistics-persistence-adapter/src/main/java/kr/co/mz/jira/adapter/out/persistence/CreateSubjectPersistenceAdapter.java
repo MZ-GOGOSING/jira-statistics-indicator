@@ -8,10 +8,10 @@ import kr.co.mz.jira.jpa.config.StatisticsJpaTransactional;
 import kr.co.mz.jira.jpa.entity.SubjectJpaEntity;
 import kr.co.mz.jira.jpa.repository.SubjectJpaRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
-@Service
+@Component
 @Validated
 @RequiredArgsConstructor
 @StatisticsJpaTransactional

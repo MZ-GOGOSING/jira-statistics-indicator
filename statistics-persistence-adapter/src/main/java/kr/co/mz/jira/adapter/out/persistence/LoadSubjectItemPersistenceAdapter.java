@@ -7,11 +7,11 @@ import kr.co.mz.jira.jpa.config.StatisticsJpaTransactional;
 import kr.co.mz.jira.jpa.repository.SubjectJpaRepository;
 import kr.co.mz.support.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.validation.annotation.Validated;
 
-@Service
+@Component
 @Validated
 @RequiredArgsConstructor
 @StatisticsJpaTransactional(propagation = Propagation.SUPPORTS, readOnly = true)

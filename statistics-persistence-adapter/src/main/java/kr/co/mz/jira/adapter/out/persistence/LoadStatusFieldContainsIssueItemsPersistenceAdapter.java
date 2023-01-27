@@ -1,21 +1,23 @@
 package kr.co.mz.jira.adapter.out.persistence;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import kr.co.mz.jira.adapter.out.persistence.converter.domain.IssueDomainEntityConverter;
-import kr.co.mz.jira.application.port.out.LoadIssueItemPort;
+import kr.co.mz.jira.application.port.out.LoadIssueItemsPort;
 import kr.co.mz.jira.domain.IssueDomainEntity;
 import kr.co.mz.jira.jpa.config.StatisticsJpaTransactional;
 import kr.co.mz.jira.jpa.repository.IssueJpaRepository;
-import kr.co.mz.support.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.validation.annotation.Validated;
 
-@Component
+@Component("loadStatusFieldContainsIssueItemsPort")
 @Validated
 @RequiredArgsConstructor
 @StatisticsJpaTransactional(propagation = Propagation.SUPPORTS, readOnly = true)
-public class LoadIssueItemPersistenceAdapter implements LoadIssueItemPort {
+public class LoadStatusFieldContainsIssueItemsPersistenceAdapter implements LoadIssueItemsPort {
 
   private static final IssueDomainEntityConverter ISSUE_DOMAIN_ENTITY_CONVERTER =
       new IssueDomainEntityConverter();
@@ -23,10 +25,12 @@ public class LoadIssueItemPersistenceAdapter implements LoadIssueItemPort {
   private final IssueJpaRepository issueJpaRepository;
 
   @Override
-  public IssueDomainEntity findById(final Long id) {
-    final var issueJpaEntity = issueJpaRepository.findById(id)
-        .orElseThrow(EntityNotFoundException::new);
+  public List<IssueDomainEntity> findAllBySubjectId(final Long subjectId) {
+    final var issueJpaEntities = issueJpaRepository.findAllBySubjectId(subjectId);
 
-    return ISSUE_DOMAIN_ENTITY_CONVERTER.convert(issueJpaEntity);
+    return CollectionUtils.emptyIfNull(issueJpaEntities)
+        .stream()
+        .map(ISSUE_DOMAIN_ENTITY_CONVERTER::convert)
+        .collect(Collectors.toList());
   }
 }

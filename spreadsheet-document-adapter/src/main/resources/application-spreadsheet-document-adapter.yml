@@ -1,3 +1,16 @@
+jira:
+  project:
+    workflow:
+     - 'TO DO'
+     - 'ANALYSIS'
+     - 'IN DESIGN'
+     - 'IN PROGRESS'
+     - 'IN REVIEW'
+     - 'IN TEST'
+     - 'CONFIRMED'
+     - 'DONE'
+
+---
 spring:
   config:
     activate:

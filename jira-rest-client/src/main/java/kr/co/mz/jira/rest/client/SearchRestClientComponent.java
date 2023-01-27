@@ -4,13 +4,13 @@ import com.atlassian.jira.rest.client.api.SearchRestClient;
 import com.atlassian.jira.rest.client.api.domain.SearchResult;
 import javax.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
-@Service
+@Component
 @Validated
 @RequiredArgsConstructor
-public class SearchRestClientService {
+public class SearchRestClientComponent {
 
   private final SearchRestClient searchRestClient;
 

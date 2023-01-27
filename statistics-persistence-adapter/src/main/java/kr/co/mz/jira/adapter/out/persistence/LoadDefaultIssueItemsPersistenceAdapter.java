@@ -9,15 +9,15 @@ import kr.co.mz.jira.jpa.config.StatisticsJpaTransactional;
 import kr.co.mz.jira.jpa.repository.IssueJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.validation.annotation.Validated;
 
-@Service
+@Component("loadDefaultIssueItemsPort")
 @Validated
 @RequiredArgsConstructor
 @StatisticsJpaTransactional(propagation = Propagation.SUPPORTS, readOnly = true)
-public class LoadIssueItemsPersistenceAdapter implements LoadIssueItemsPort {
+public class LoadDefaultIssueItemsPersistenceAdapter implements LoadIssueItemsPort {
 
   private static final IssueDomainEntityConverter ISSUE_DOMAIN_ENTITY_CONVERTER =
       new IssueDomainEntityConverter();

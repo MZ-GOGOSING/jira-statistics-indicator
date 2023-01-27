@@ -1,22 +1,47 @@
 package kr.co.mz.jira.adapter.out.document;
 
+import java.io.IOException;
 import java.util.List;
+import kr.co.mz.jira.adapter.out.document.properties.JiraProjectProperties;
 import kr.co.mz.jira.application.port.out.CreateSubjectDocumentPort;
-import kr.co.mz.jira.document.spreadsheet.statistics.CreateStatisticsSpreadsheetService;
 import kr.co.mz.jira.domain.IssueDomainEntity;
+import kr.co.mz.support.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
-@Service
+@Component
 @Validated
 @RequiredArgsConstructor
-public class CreateSubjectSpreadsheetAdapter implements CreateSubjectDocumentPort {
+public class CreateSubjectSpreadsheetAdapter implements
+    CreateSubjectDocumentPort,
+    SpreadsheetByteArraySupport {
 
-  private final CreateStatisticsSpreadsheetService createStatisticsSpreadsheetService;
+  private final JiraProjectProperties jiraProjectProperties;
 
   @Override
   public byte[] create(final List<IssueDomainEntity> issueDomainEntities) {
-    return new byte[0];
+    try (final var workbook = this.buildWorkbook(issueDomainEntities)) {
+      return this.convertWorkbookToByteArray(workbook);
+    } catch (IOException ioException) {
+      throw new BusinessException("spreadsheet 문서 생성 중 오류 발생", ioException);
+    }
+  }
+
+  private Workbook buildWorkbook(final List<IssueDomainEntity> issueDomainEntities) {
+    /*
+    final var workbook = new SXSSFWorkbook();
+    final var excelTemplate = EmptyExcelTemplate.builder()
+        .sheet(
+            EmptyExcelSheet.builder()
+                .items(List.of(new EmptyExcelRow(defaultMessage)))
+                .build()
+        )
+        .build();
+
+    return ExcelMapper.toExcel(excelTemplate, workbook);
+    */
+    return null;
   }
 }

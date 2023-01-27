@@ -24,13 +24,13 @@ import kr.co.mz.jira.rest.client.command.IssueAttachmentInputCommand;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
-@Service
+@Component
 @Validated
 @RequiredArgsConstructor
-public class IssueRestClientService {
+public class IssueRestClientComponent {
 
   /**
    * @see IssueRestClient#getIssue(String, Iterable)

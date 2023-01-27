@@ -13,11 +13,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.validation.annotation.Validated;
 
-@Component("loadStatusFieldMatchedIssueItemsPort")
+@Component("loadFieldValueMatchedIssueItemsPort")
 @Validated
 @RequiredArgsConstructor
 @StatisticsJpaTransactional(propagation = Propagation.SUPPORTS, readOnly = true)
-public class LoadStatusFieldMatchedIssueItemsPersistenceAdapter implements LoadIssueItemsPort {
+public class LoadFieldValueMatchedIssueItemsPersistenceAdapter implements LoadIssueItemsPort {
 
   private static final String CHANGE_LOG_ITEM_FIELD_VALUE = "status";
 

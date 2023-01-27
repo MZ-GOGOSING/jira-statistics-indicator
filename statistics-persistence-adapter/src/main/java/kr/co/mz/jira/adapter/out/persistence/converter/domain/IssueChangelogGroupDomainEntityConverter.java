@@ -1,5 +1,6 @@
 package kr.co.mz.jira.adapter.out.persistence.converter.domain;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -44,6 +45,7 @@ public class IssueChangelogGroupDomainEntityConverter
         .stream()
         .map(ISSUE_CHANGELOG_ITEM_DOMAIN_ENTITY_CONVERTER::convert)
         .filter(Objects::nonNull)
+        .sorted(Comparator.comparingLong(IssueChangelogItemDomainEntity::getId))
         .collect(Collectors.toList());
   }
 }

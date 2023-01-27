@@ -1,5 +1,6 @@
 package kr.co.mz.jira.adapter.out.persistence.converter.domain;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -65,6 +66,7 @@ public class IssueDomainEntityConverter implements Converter<IssueJpaEntity, Iss
         .stream()
         .map(ISSUE_WORKLOG_DOMAIN_ENTITY_CONVERTER::convert)
         .filter(Objects::nonNull)
+        .sorted(Comparator.comparingLong(IssueWorklogDomainEntity::getId))
         .collect(Collectors.toList());
   }
 
@@ -75,6 +77,7 @@ public class IssueDomainEntityConverter implements Converter<IssueJpaEntity, Iss
         .stream()
         .map(ISSUE_CHANGELOG_GROUP_DOMAIN_ENTITY_CONVERTER::convert)
         .filter(Objects::nonNull)
+        .sorted(Comparator.comparingLong(IssueChangelogGroupDomainEntity::getId))
         .collect(Collectors.toList());
   }
 }

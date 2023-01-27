@@ -72,7 +72,7 @@ Local MariaDB 접속 정보
 ### Run the Application
 
 ```
-webapp-config/src/main/java/kr/co/mz/jira/ApplicationInitializr.java
+webapp-config/src/main/java/kr/co/mz/ApplicationInitializr.java
 ```
 
 ### Environment Variables

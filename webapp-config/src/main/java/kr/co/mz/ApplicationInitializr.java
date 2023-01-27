@@ -4,7 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackageClasses = {
-	WebappConfig.class,
 	WebAdapterConfig.class,
 	ApplicationConfig.class,
 	StatisticsPersistenceAdapterConfig.class,

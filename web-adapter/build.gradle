@@ -4,6 +4,7 @@ jar.dependsOn test
 
 dependencies {
     implementation project(':api-in')
+    implementation project(':code')
     implementation project(':support')
 
     testImplementation project(':domain')

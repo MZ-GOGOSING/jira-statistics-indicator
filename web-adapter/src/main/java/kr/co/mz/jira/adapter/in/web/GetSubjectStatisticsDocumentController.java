@@ -7,15 +7,19 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.time.LocalDate;
+import java.util.List;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import kr.co.mz.jira.adapter.in.web.response.support.AttachmentResponseHeaderSupport;
 import kr.co.mz.jira.application.port.in.GetSubjectDocumentQuery;
+import kr.co.mz.jira.code.IssueStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,9 +39,11 @@ public class GetSubjectStatisticsDocumentController implements AttachmentRespons
   @GetMapping(value = "/subject/{uuid}/download", produces = {APPLICATION_XLSX_SPREADSHEET_VALUE})
   public ResponseEntity<byte[]> getSubjectDocument(
       @Parameter(description = "SUBJECT UUID")
-      final @PathVariable @NotBlank String uuid
+      final @PathVariable @NotBlank String uuid,
+      @Parameter(description = "PROJECT WORKFLOW")
+      final @RequestParam("workflow") @NotEmpty List<IssueStatus> workflow
   ) {
-    final var inResponse = getSubjectDocumentQuery.loadByUuid(uuid);
+    final var inResponse = getSubjectDocumentQuery.loadByUuid(uuid, workflow);
     final var filename = String.format(RESPONSE_FILENAME_FORMAT, uuid, convertDate(LocalDate.now()));
 
     return ResponseEntity

@@ -5,6 +5,7 @@ jar.enabled = true
 jar.dependsOn test
 
 dependencies {
+    implementation project(':code')
     implementation project(':support')
 }
 

@@ -9,6 +9,7 @@ jar.enabled = true
 jar.dependsOn test
 
 dependencies {
+    implementation project(':code')
     implementation project(':support')
 
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.5'

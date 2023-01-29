@@ -4,6 +4,7 @@ jar.dependsOn test
 
 dependencies {
     implementation project(':domain')
+    implementation project(':code')
     implementation project(':support')
 
     implementation 'org.springframework.data:spring-data-commons'

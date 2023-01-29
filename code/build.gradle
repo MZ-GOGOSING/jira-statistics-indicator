@@ -1,11 +1,8 @@
-apply from: '../gradle-script/jira.gradle'
-
 bootJar.enabled = false
 jar.enabled = true
 jar.dependsOn test
 
 dependencies {
-    implementation project(':code')
     implementation project(':support')
 }
 

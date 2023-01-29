@@ -2,8 +2,8 @@ package kr.co.mz.jira.adapter.out.document;
 
 import java.io.IOException;
 import java.util.List;
-import kr.co.mz.jira.adapter.out.document.properties.JiraProjectProperties;
 import kr.co.mz.jira.application.port.out.CreateSubjectDocumentPort;
+import kr.co.mz.jira.code.IssueStatus;
 import kr.co.mz.jira.domain.IssueDomainEntity;
 import kr.co.mz.support.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +18,11 @@ public class CreateSubjectSpreadsheetAdapter implements
     CreateSubjectDocumentPort,
     SpreadsheetByteArraySupport {
 
-  private final JiraProjectProperties jiraProjectProperties;
-
   @Override
-  public byte[] create(final List<IssueDomainEntity> issueDomainEntities) {
+  public byte[] create(
+      final List<IssueDomainEntity> issueDomainEntities,
+      final List<IssueStatus> workflow
+  ) {
     try (final var workbook = this.buildWorkbook(issueDomainEntities)) {
       return this.convertWorkbookToByteArray(workbook);
     } catch (IOException ioException) {

@@ -3,7 +3,7 @@ package kr.co.mz.jira.adapter.in.web.request.query;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import javax.validation.Valid;
-import kr.co.mz.jira.application.port.in.request.GetPaginatedSubjectItemInQuery;
+import kr.co.mz.jira.application.port.in.request.query.GetPaginatedSubjectItemInQuery;
 import kr.co.mz.support.dto.LocalDateRangeQuery;
 import kr.co.mz.support.validation.BetweenDate;
 import lombok.AccessLevel;

@@ -12,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import kr.co.mz.jira.adapter.in.web.response.support.AttachmentResponseHeaderSupport;
 import kr.co.mz.jira.application.port.in.GetSubjectDocumentQuery;
+import kr.co.mz.jira.application.port.in.request.query.GetSubjectDocumentInQuery;
 import kr.co.mz.jira.code.IssueStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -36,19 +37,31 @@ public class GetSubjectStatisticsDocumentController implements AttachmentRespons
 
   @Operation(summary = "특정 SUBJECT 통계 문서 다운로드", description = "특정 SUBJECT 의 통계 문서를 다운로드 할 수 있습니다.")
   @ResponseBody
-  @GetMapping(value = "/subject/{uuid}/download", produces = {APPLICATION_XLSX_SPREADSHEET_VALUE})
+  @GetMapping(value = "/subject/{uuid}/download", produces = APPLICATION_XLSX_SPREADSHEET_VALUE)
   public ResponseEntity<byte[]> getSubjectDocument(
       @Parameter(description = "SUBJECT UUID")
       final @PathVariable @NotBlank String uuid,
       @Parameter(description = "PROJECT WORKFLOW")
       final @RequestParam("workflow") @NotEmpty List<IssueStatus> workflow
   ) {
-    final var inResponse = getSubjectDocumentQuery.loadByUuid(uuid, workflow);
+    final var inQuery = this.convertToInQuery(uuid, workflow);
+    final var inResponse = getSubjectDocumentQuery.publish(inQuery);
+
     final var filename = String.format(RESPONSE_FILENAME_FORMAT, uuid, convertDate(LocalDate.now()));
 
     return ResponseEntity
         .ok()
         .headers(this.proceedResponseHeaders(filename))
         .body(inResponse);
+  }
+
+  private GetSubjectDocumentInQuery convertToInQuery(
+      final String uuid,
+      final List<IssueStatus> issueStatusList
+  ) {
+    return GetSubjectDocumentInQuery.builder()
+        .uuid(uuid)
+        .workflow(issueStatusList)
+        .build();
   }
 }

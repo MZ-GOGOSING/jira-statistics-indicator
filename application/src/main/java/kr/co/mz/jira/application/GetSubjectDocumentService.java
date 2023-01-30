@@ -2,11 +2,14 @@ package kr.co.mz.jira.application;
 
 import java.util.List;
 import kr.co.mz.jira.application.port.in.GetSubjectDocumentQuery;
-import kr.co.mz.jira.application.port.out.CreateEmptyDocumentPort;
-import kr.co.mz.jira.application.port.out.CreateSubjectDocumentPort;
+import kr.co.mz.jira.application.port.in.request.query.GetSubjectDocumentInQuery;
+import kr.co.mz.jira.application.port.out.PublishEmptyDocumentPort;
+import kr.co.mz.jira.application.port.out.PublishSubjectDocumentPort;
 import kr.co.mz.jira.application.port.out.LoadIssueItemsPort;
 import kr.co.mz.jira.application.port.out.LoadSubjectItemPort;
+import kr.co.mz.jira.application.port.out.request.command.PublishSubjectDocumentOutCommand;
 import kr.co.mz.jira.code.IssueStatus;
+import kr.co.mz.jira.domain.IssueDomainEntity;
 import kr.co.mz.support.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,20 +26,32 @@ public class GetSubjectDocumentService implements GetSubjectDocumentQuery {
 
   private final LoadIssueItemsPort loadFieldValueMatchedIssueItemsPort;
 
-  private final CreateEmptyDocumentPort createEmptyDocumentPort;
+  private final PublishEmptyDocumentPort publishEmptyDocumentPort;
 
-  private final CreateSubjectDocumentPort createSubjectDocumentPort;
+  private final PublishSubjectDocumentPort publishSubjectDocumentPort;
 
   @Override
-  public byte[] loadByUuid(final String uuid, final List<IssueStatus> workflow) {
+  public byte[] publish(final GetSubjectDocumentInQuery inQuery) {
     try {
-      final var subjectDomainEntity = loadSubjectItemPort.findByUuid(uuid);
+      final var subjectDomainEntity = loadSubjectItemPort.findByUuid(inQuery.getUuid());
       final var issueDomainEntities = loadFieldValueMatchedIssueItemsPort
           .findAllBySubjectId(subjectDomainEntity.getId());
 
-      return createSubjectDocumentPort.create(issueDomainEntities, workflow);
+      final var outCommand = this.convertToOutCommand(issueDomainEntities, inQuery.getWorkflow());
+
+      return publishSubjectDocumentPort.publish(outCommand);
     } catch (EntityNotFoundException entityNotFoundException) {
-      return createEmptyDocumentPort.create(EMPTY_DOCUMENT_DEFAULT_MESSAGE);
+      return publishEmptyDocumentPort.publish(EMPTY_DOCUMENT_DEFAULT_MESSAGE);
     }
+  }
+
+  private PublishSubjectDocumentOutCommand convertToOutCommand(
+      final List<IssueDomainEntity> issueDomainEntities,
+      final List<IssueStatus> workflow
+  ) {
+    return PublishSubjectDocumentOutCommand.builder()
+        .issueDomainEntities(issueDomainEntities)
+        .workflow(workflow)
+        .build();
   }
 }

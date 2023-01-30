@@ -1,36 +1,34 @@
 package kr.co.mz.jira.adapter.out.document;
 
-import com.mz.poi.mapper.ExcelMapper;
 import java.io.IOException;
 import java.util.List;
-import kr.co.mz.jira.application.port.out.CreateEmptyDocumentPort;
-import kr.co.mz.jira.document.spreadsheet.empty.EmptyExcelRow;
-import kr.co.mz.jira.document.spreadsheet.empty.EmptyExcelSheet;
-import kr.co.mz.jira.document.spreadsheet.empty.EmptyExcelTemplate;
+import kr.co.mz.jira.application.port.out.PublishSubjectDocumentPort;
+import kr.co.mz.jira.application.port.out.request.command.PublishSubjectDocumentOutCommand;
+import kr.co.mz.jira.domain.IssueDomainEntity;
 import kr.co.mz.support.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 @Component
 @Validated
 @RequiredArgsConstructor
-public class CreateEmptySpreadsheetAdapter implements
-    CreateEmptyDocumentPort,
+public class PublishSubjectSpreadsheetAdapter implements
+    PublishSubjectDocumentPort,
     SpreadsheetByteArraySupport {
 
   @Override
-  public byte[] create(final String defaultMessage) {
-    try (final var workbook = this.buildWorkbook(defaultMessage)) {
+  public byte[] publish(final PublishSubjectDocumentOutCommand outCommand) {
+    try (final var workbook = this.buildWorkbook(outCommand.getIssueDomainEntities())) {
       return this.convertWorkbookToByteArray(workbook);
     } catch (IOException ioException) {
       throw new BusinessException("spreadsheet 문서 생성 중 오류 발생", ioException);
     }
   }
 
-  private Workbook buildWorkbook(final String defaultMessage) {
+  private Workbook buildWorkbook(final List<IssueDomainEntity> issueDomainEntities) {
+    /*
     final var workbook = new SXSSFWorkbook();
     final var excelTemplate = EmptyExcelTemplate.builder()
         .sheet(
@@ -41,5 +39,7 @@ public class CreateEmptySpreadsheetAdapter implements
         .build();
 
     return ExcelMapper.toExcel(excelTemplate, workbook);
+    */
+    return null;
   }
 }

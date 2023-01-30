@@ -1,7 +1,7 @@
 package kr.co.mz.jira.application;
 
 import kr.co.mz.jira.application.port.in.GetPaginatedSubjectItemQuery;
-import kr.co.mz.jira.application.port.in.request.GetPaginatedSubjectItemInQuery;
+import kr.co.mz.jira.application.port.in.request.query.GetPaginatedSubjectItemInQuery;
 import kr.co.mz.jira.application.port.in.response.GetSubjectItemInResponse;
 import kr.co.mz.jira.application.port.out.LoadPaginatedSubjectItemPort;
 import kr.co.mz.jira.application.port.out.request.query.GetPaginatedSubjectItemOutQuery;

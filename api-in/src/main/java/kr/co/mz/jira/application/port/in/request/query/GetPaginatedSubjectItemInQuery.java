@@ -1,4 +1,4 @@
-package kr.co.mz.jira.application.port.in.request;
+package kr.co.mz.jira.application.port.in.request.query;
 
 import javax.validation.Valid;
 import kr.co.mz.support.dto.LocalDateRangeQuery;

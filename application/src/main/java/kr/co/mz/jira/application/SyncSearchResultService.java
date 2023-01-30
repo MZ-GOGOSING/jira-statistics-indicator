@@ -41,6 +41,7 @@ public class SyncSearchResultService implements SyncSearchResultUseCase {
 
             response = SyncSearchResultInResponse.of(subjectDomainEntity, issueDomainEntities);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new BusinessException(e.getMessage());
         }
 

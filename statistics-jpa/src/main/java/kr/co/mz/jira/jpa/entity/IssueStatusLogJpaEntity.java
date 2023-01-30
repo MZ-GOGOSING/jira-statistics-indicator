@@ -1,13 +1,17 @@
 package kr.co.mz.jira.jpa.entity;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Set;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import kr.co.mz.jira.jpa.converter.IssueLabelConverter;
 import kr.co.mz.jira.jpa.domain.IssueStatus;
 import kr.co.mz.jira.jpa.domain.IssueStatusLogDomainEntity;
 import lombok.AllArgsConstructor;
@@ -32,6 +36,9 @@ public class IssueStatusLogJpaEntity extends BaseJpaEntity {
 
     @Column(name = "query_date", nullable = false)
     private LocalDateTime queryDate;
+
+    @Column(name = "epic_key")
+    private String epicKey;
 
     @Column(name = "issue_id", nullable = false)
     private Long issueId;
@@ -58,6 +65,9 @@ public class IssueStatusLogJpaEntity extends BaseJpaEntity {
     @Column(name = "in_review_date")
     private LocalDateTime inReviewDate;
 
+    @Column(name = "in_test_date")
+    private LocalDateTime inTestDate;
+
     @Column(name = "confirmed_date")
     private LocalDateTime confirmedDate;
 
@@ -66,6 +76,11 @@ public class IssueStatusLogJpaEntity extends BaseJpaEntity {
 
     @Column(name = "due_date")
     private LocalDateTime dueDate;
+
+    @Builder.Default
+    @Column(name = "labels", columnDefinition = "TEXT")
+    @Convert(converter = IssueLabelConverter.class)
+    private Set<String> labels = Collections.emptySet();
 
     public void fromDomain(IssueStatusLogDomainEntity domainEntity) {
         BeanUtils.copyProperties(domainEntity, this);

@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS subject (
 CREATE TABLE IF NOT EXISTS issue (
     id BIGINT(5) AUTO_INCREMENT PRIMARY KEY COMMENT '식별자',
     subject_id BIGINT(5) NOT NULL COMMENT '통계 주제 식별자',
+    epic_key VARCHAR(50) COMMENT 'Jira Epic Key',
     issue_key VARCHAR(50) NOT NULL COMMENT 'Jira Issue Key',
     issue_uri VARCHAR(250) COMMENT 'Issue REST URI',
     watchers_uri VARCHAR(250) COMMENT 'Watchers REST URI',
@@ -61,17 +62,20 @@ CREATE TABLE IF NOT EXISTS issue_change_log_item (
 CREATE TABLE IF NOT EXISTS issue_status_log (
     id BIGINT(5) AUTO_INCREMENT PRIMARY KEY COMMENT '식별자',
     query_date DATETIME NOT NULL COMMENT 'Jira 조회 시간',
+    epic_key VARCHAR(50) COMMENT 'Jira Epic Key',
     issue_id BIGINT(5) NOT NULL COMMENT 'Issue Id',
     issue_key VARCHAR(50) NOT NULL COMMENT 'Jira Issue Key',
     issue_status VARCHAR(10) NOT NULL COMMENT 'Jira 최종 상태',
-    to_do_date DATETIME NOT NULL COMMENT '생성 시간',
+    to_do_date DATETIME COMMENT '생성 시간',
     analysis_date DATETIME COMMENT '분석 시작 시간',
     in_design_date DATETIME COMMENT '설계 시작 시간',
     in_progress_date DATETIME COMMENT '개발 시작 시간',
     in_review_date DATETIME COMMENT '검토 시작 시간',
+    in_test_date DATETIME COMMENT '테스트 시작 시간',
     confirmed_date DATETIME COMMENT '검토 완료 시간',
     done_date DATETIME COMMENT '티켓 처리 완료 시간',
-    due_date DATETIME COMMENT ' 기한(처리목표시간)'
+    due_date DATETIME COMMENT ' 기한(처리목표시간)',
+    labels TEXT COMMENT 'Issue Labels. (Comma Delimiter)'
 ) COMMENT 'Issue Status Log';
 
 CREATE TABLE IF NOT EXISTS issue_worker_log (

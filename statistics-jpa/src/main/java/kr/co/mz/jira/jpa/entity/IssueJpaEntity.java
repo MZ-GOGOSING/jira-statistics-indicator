@@ -47,6 +47,12 @@ public class IssueJpaEntity extends BaseJpaEntity {
   private Long subjectId;
 
   /**
+   * Jira Epic Key (e.g. ITO-1)
+   */
+  @Column(name = "epic_key")
+  private String epicKey;
+
+  /**
    * Jira Issue Key (e.g. ITO-80)
    */
   @Column(name = "issue_key", nullable = false)

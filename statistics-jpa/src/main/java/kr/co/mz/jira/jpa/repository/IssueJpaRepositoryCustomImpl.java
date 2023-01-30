@@ -33,6 +33,7 @@ public class IssueJpaRepositoryCustomImpl extends StatisticsJpaRepositorySupport
                 .select(new QIssueStatusLogDto(
                         issue.id,
                         issue.issueKey,
+                        issueChangeLogGroup.id,
                         issueChangeLogItem.toString,
                         issueChangeLogGroup.created
                 ))
@@ -42,8 +43,10 @@ public class IssueJpaRepositoryCustomImpl extends StatisticsJpaRepositorySupport
                 .join(issueChangeLogItem)
                 .on(issueChangeLogGroup.id.eq(issueChangeLogItem.issueChangelogGroup.id))
                 .where(
-                        issue.subjectId.eq(subjectId)
-                );
+                        issue.subjectId.eq(subjectId),
+                        issueChangeLogItem.field.eq("status")
+                )
+                .orderBy(issueChangeLogGroup.created.asc());
         return jpqlQuery.fetchJoin().fetch();
     }
 }

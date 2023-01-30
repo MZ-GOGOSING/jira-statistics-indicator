@@ -34,6 +34,7 @@ public class IssueDomainEntityConverter implements Converter<IssueJpaEntity, Iss
 
     return IssueDomainEntity.withId(
         issueJpaEntity.getId(),
+        issueJpaEntity.getEpicKey(),
         issueJpaEntity.getIssueKey(),
         issueJpaEntity.getIssueURI(),
         issueJpaEntity.getWatchersURI(),

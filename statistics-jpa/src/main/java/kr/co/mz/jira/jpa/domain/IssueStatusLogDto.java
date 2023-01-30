@@ -13,14 +13,18 @@ public class IssueStatusLogDto {
     //
     private Long issueId;
     private String issueKey;
+    private Long changeLogGroupId;
     private String issueStatus;
     private LocalDateTime logDate;
 
     @QueryProjection
-    public IssueStatusLogDto(Long issueId, String issueKey, String issueStatus,
+    public IssueStatusLogDto(Long issueId, String issueKey,
+            Long changeLogGroupId,
+            String issueStatus,
             LocalDateTime logDate) {
         this.issueId = issueId;
         this.issueKey = issueKey;
+        this.changeLogGroupId = changeLogGroupId;
         this.issueStatus = issueStatus;
         this.logDate = logDate;
     }

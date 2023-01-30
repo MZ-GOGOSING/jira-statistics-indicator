@@ -34,6 +34,7 @@ public class IssueJpaEntityConverter implements BiConverter<Long, IssueDomainEnt
   ) {
     final var issueJpaEntity = IssueJpaEntity.builder()
         .subjectId(subjectId)
+        .epicKey(issueDomainEntity.getEpicKey())
         .issueKey(issueDomainEntity.getKey())
         .issueURI(issueDomainEntity.getIssueURI())
         .watchersURI(issueDomainEntity.getWatchersURI())

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import kr.co.mz.jira.jpa.domain.IssueStatus;
 import kr.co.mz.jira.jpa.domain.IssueStatusLogDomainEntity;
 import kr.co.mz.jira.jpa.domain.IssueStatusLogDto;
@@ -53,56 +54,71 @@ public class IssueLogService {
             return;
         }
 
-        Map<String, IssueStatusLogDomainEntity> statusLogDomainEntityMap = new HashMap<>();
-        issueJpaEntities.stream().forEach(
-                entity ->
-                        statusLogDomainEntityMap.put(
-                            entity.getIssueKey(),
-                            IssueStatusLogDomainEntity.builder()
-                                    .queryDate(subjectJpaEntity.getCreatedDate())
-                                    .issueId(entity.getId())
-                                    .issueKey(entity.getIssueKey())
-                                    .issueStatus(IssueStatus.getStatus(entity.getStatusName()))
-                                    .toDoDate(entity.getCreationDate())
-                                    .dueDate(entity.getDueDate())
-                                    .build()
-                    )
+        Map<String, List<IssueStatusLogDomainEntity>> originStatusLogListMap = new HashMap<>();
+        issueJpaEntities.forEach(
+                entity -> {
+                    List<IssueStatusLogDomainEntity> statusLogEntities = new ArrayList<>();
+                    statusLogEntities.add(0,
+                        IssueStatusLogDomainEntity.builder()
+                                .queryDate(subjectJpaEntity.getCreatedDate())
+                                .epicKey(entity.getEpicKey())
+                                .issueId(entity.getId())
+                                .issueKey(entity.getIssueKey())
+                                .issueStatus(IssueStatus.getStatus(entity.getStatusName()))
+                                .toDoDate(entity.getCreationDate())
+                                .dueDate(entity.getDueDate())
+                                .labels(entity.getLabels())
+                                .build()
+                    );
+                    originStatusLogListMap.put(entity.getIssueKey(), statusLogEntities);
+                }
         );
 
+        //Map<String, IssueStatusLogDomainEntity> branchStatusLogMap = new HashMap<>();
+        Map<String, IssueStatus> cursorStatusMap = new HashMap<>();
         // 상태로그를 가져와서 entity를 업데이트 한다.
         List<IssueStatusLogDto> issueStatusLogDtos
             = issueJpaRepository.selectIssueStatusLog(subjectJpaEntity.getId());
 
-        issueStatusLogDtos.stream().forEach(
+        issueStatusLogDtos.forEach(
                 dto -> {
-                    IssueStatusLogDomainEntity entity = statusLogDomainEntityMap.get(dto.getIssueKey());
-                    entity.setStatusDate(dto.getIssueStatus(), dto.getLogDate());
-                    statusLogDomainEntityMap.put(dto.getIssueKey(), entity);
+                    IssueStatus cursorStatus = cursorStatusMap.get(dto.getIssueKey());
+                    IssueStatus issueStatus = IssueStatus.getStatus(dto.getIssueStatus());
+
+                    List<IssueStatusLogDomainEntity> statusLogEntities
+                            = originStatusLogListMap.get(dto.getIssueKey());
+                    Integer maxIndex = statusLogEntities.size()-1;
+                    IssueStatusLogDomainEntity entity = statusLogEntities.get(maxIndex);
+                    if( cursorStatus != null && issueStatus.isBefore(cursorStatus) ) {
+                        IssueStatusLogDomainEntity newEntity
+                                = IssueStatusLogDomainEntity.builder().build();
+                        BeanUtils.copyProperties(entity, newEntity);
+                        newEntity.resetStatusDate();
+                        newEntity.setStatusDate(issueStatus, dto.getLogDate());
+                        statusLogEntities.add(newEntity);
+
+                    } else {
+                        entity.setStatusDate(issueStatus, dto.getLogDate());
+                        statusLogEntities.set(maxIndex, entity);
+                    }
+                    originStatusLogListMap.put(dto.getIssueKey(), statusLogEntities);
+                    cursorStatusMap.put(dto.getIssueKey(), issueStatus);
                 }
         );
 
-        syncIssueStatusLog(statusLogDomainEntityMap);
+        List<IssueStatusLogDomainEntity> statusLogDomainEntities = new ArrayList<>();
+        originStatusLogListMap.values().forEach(statusLogDomainEntities::addAll);
+
+        syncIssueStatusLog(statusLogDomainEntities);
         synIssueWorkerLog(subjectJpaEntity.getId(), subjectJpaEntity.getCreatedDate());
     }
 
-    private void syncIssueStatusLog(
-            Map<String, IssueStatusLogDomainEntity> statusLogDomainEntityMap) {
+    private void syncIssueStatusLog(List<IssueStatusLogDomainEntity> statusLogDomainEntities) {
         //
-//        List<String> issueKeys = new ArrayList<>(statusLogDomainEntityMap.keySet());
-//        List<IssueStatusLogJpaEntity> savedIssueStatusLogJpaEntities
-//                = issueStatusLogJpaRepository.findAllByIssueKeyIn(issueKeys);
-
         List<IssueStatusLogJpaEntity> savingIssueStatusLogJpaEntities = new ArrayList<>();
 
-//        savedIssueStatusLogJpaEntities.stream().forEach(
-//                entity -> {
-//                         entity.fromDomain(statusLogDomainEntityMap.remove(entity.getIssueKey()));
-//                         savingIssueStatusLogJpaEntities.add(entity);
-//                }
-//        );
-
         IssueStatusLogJpaEntity savingIssueStatusLogJpaEntity;
-        for(IssueStatusLogDomainEntity domainEntity : statusLogDomainEntityMap.values()) {
+        for(IssueStatusLogDomainEntity domainEntity : statusLogDomainEntities) {
             savingIssueStatusLogJpaEntity = new IssueStatusLogJpaEntity();
             BeanUtils.copyProperties(domainEntity, savingIssueStatusLogJpaEntity);
             savingIssueStatusLogJpaEntities.add(savingIssueStatusLogJpaEntity);

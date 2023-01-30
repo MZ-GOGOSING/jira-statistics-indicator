@@ -3,15 +3,16 @@ package kr.co.mz.jira.application;
 import java.util.List;
 import kr.co.mz.jira.application.port.in.GetSubjectDocumentQuery;
 import kr.co.mz.jira.application.port.in.request.query.GetSubjectDocumentInQuery;
-import kr.co.mz.jira.application.port.out.PublishEmptyDocumentPort;
-import kr.co.mz.jira.application.port.out.PublishSubjectDocumentPort;
 import kr.co.mz.jira.application.port.out.LoadIssueItemsPort;
 import kr.co.mz.jira.application.port.out.LoadSubjectItemPort;
+import kr.co.mz.jira.application.port.out.PublishEmptyDocumentPort;
+import kr.co.mz.jira.application.port.out.PublishSubjectDocumentPort;
 import kr.co.mz.jira.application.port.out.request.command.PublishSubjectDocumentOutCommand;
 import kr.co.mz.jira.code.IssueStatus;
 import kr.co.mz.jira.domain.IssueDomainEntity;
 import kr.co.mz.support.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -49,6 +50,9 @@ public class GetSubjectDocumentService implements GetSubjectDocumentQuery {
       final List<IssueDomainEntity> issueDomainEntities,
       final List<IssueStatus> workflow
   ) {
+    if (CollectionUtils.isEmpty(issueDomainEntities)) {
+      throw new EntityNotFoundException();
+    }
     return PublishSubjectDocumentOutCommand.builder()
         .issueDomainEntities(issueDomainEntities)
         .workflow(workflow)

@@ -24,17 +24,17 @@ public class StatisticsExcelSummarySheet {
   @DataRows(
       match = Match.STOP_ON_BLANK,
       headers = {
-          @Header(name = "", mappings = {"key"}),
-          @Header(name = "", mappings = {"summary"}),
-          @Header(name = "", mappings = {"type"}),
-          @Header(name = "", mappings = {"labels"}),
-          @Header(name = "", mappings = {"status"}),
-          @Header(name = "", mappings = {"assignee"}),
-          @Header(name = "", mappings = {"reporter"}),
-          @Header(name = "", mappings = {"createdDate"}),
-          @Header(name = "", mappings = {"lastModifiedDate"}),
-          @Header(name = "", mappings = {"dueDate"}),
-          @Header(name = "", mappings = {"timeSpentDurationWords"})
+          @Header(name = "식별자", mappings = {"key"}),
+          @Header(name = "요약", mappings = {"summary"}),
+          @Header(name = "유형", mappings = {"type"}),
+          @Header(name = "라벨", mappings = {"labels"}),
+          @Header(name = "상태", mappings = {"status"}),
+          @Header(name = "담당자", mappings = {"assignee"}),
+          @Header(name = "보고자", mappings = {"reporter"}),
+          @Header(name = "생성일", mappings = {"createdDate"}),
+          @Header(name = "최종수정일", mappings = {"lastModifiedDate"}),
+          @Header(name = "목표일", mappings = {"dueDate"}),
+          @Header(name = "총 작업 소요시간", mappings = {"timeSpentDurationWords"})
       },
       headerStyle = @CellStyle(
           borderTop = BorderStyle.THIN,

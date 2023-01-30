@@ -33,17 +33,17 @@ public class StatisticsExcelTemplate {
       name = SUMMARY_SHEET_NAME,
       index = 0,
       columnWidths = {
-          @ColumnWidth(column = 0, width = 20),   //
-          @ColumnWidth(column = 1, width = 20),   //
-          @ColumnWidth(column = 2, width = 20),   //
-          @ColumnWidth(column = 3, width = 20),   //
-          @ColumnWidth(column = 4, width = 20),   //
-          @ColumnWidth(column = 5, width = 20),   //
-          @ColumnWidth(column = 6, width = 20),   //
-          @ColumnWidth(column = 7, width = 20),   //
-          @ColumnWidth(column = 8, width = 20),   //
-          @ColumnWidth(column = 9, width = 20),   //
-          @ColumnWidth(column = 10, width = 20)   //
+          @ColumnWidth(column = 0, width = 20),   // 식별자
+          @ColumnWidth(column = 1, width = 150),  // 요약
+          @ColumnWidth(column = 2, width = 20),   // 유형
+          @ColumnWidth(column = 3, width = 20),   // 라벨
+          @ColumnWidth(column = 4, width = 20),   // 상태
+          @ColumnWidth(column = 5, width = 20),   // 담당자
+          @ColumnWidth(column = 6, width = 20),   // 보고자
+          @ColumnWidth(column = 7, width = 25),   // 생성일
+          @ColumnWidth(column = 8, width = 25),   // 최종수정일
+          @ColumnWidth(column = 9, width = 25),   // 목표일
+          @ColumnWidth(column = 10, width = 40)   // 총 작업 소요시간
       },
       fitToPage = true,
       printSetup = @PrintSetup(paperSize = A4_PAPERSIZE)

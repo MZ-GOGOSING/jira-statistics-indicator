@@ -25,16 +25,39 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class StatisticsExcelTemplate {
 
-  private static final String STATISTICS_SHEET_NAME = "sheet1";
+  private static final String SUMMARY_SHEET_NAME = "summary";
+
+  private static final String DETAIL_SHEET_NAME = "detail";
 
   @Sheet(
-      name = STATISTICS_SHEET_NAME,
+      name = SUMMARY_SHEET_NAME,
       index = 0,
       columnWidths = {
-          @ColumnWidth(column = 0, width = 20)
+          @ColumnWidth(column = 0, width = 20),   //
+          @ColumnWidth(column = 1, width = 20),   //
+          @ColumnWidth(column = 2, width = 20),   //
+          @ColumnWidth(column = 3, width = 20),   //
+          @ColumnWidth(column = 4, width = 20),   //
+          @ColumnWidth(column = 5, width = 20),   //
+          @ColumnWidth(column = 6, width = 20),   //
+          @ColumnWidth(column = 7, width = 20),   //
+          @ColumnWidth(column = 8, width = 20),   //
+          @ColumnWidth(column = 9, width = 20),   //
+          @ColumnWidth(column = 10, width = 20)   //
       },
       fitToPage = true,
       printSetup = @PrintSetup(paperSize = A4_PAPERSIZE)
   )
-  private StatisticsExcelSheet sheet;
+  private StatisticsExcelSummarySheet summarySheet;
+
+  @Sheet(
+      name = DETAIL_SHEET_NAME,
+      index = 1,
+      columnWidths = {
+          @ColumnWidth(column = 0, width = 25)
+      },
+      fitToPage = true,
+      printSetup = @PrintSetup(paperSize = A4_PAPERSIZE)
+  )
+  private StatisticsExcelDetailSheet detailSheet;
 }

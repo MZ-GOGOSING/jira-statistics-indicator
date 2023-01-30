@@ -31,7 +31,6 @@ public class PublishEmptySpreadsheetAdapter implements
   }
 
   private Workbook buildWorkbook(final String defaultMessage) {
-    final var workbook = new SXSSFWorkbook();
     final var excelTemplate = EmptyExcelTemplate.builder()
         .sheet(
             EmptyExcelSheet.builder()
@@ -40,6 +39,6 @@ public class PublishEmptySpreadsheetAdapter implements
         )
         .build();
 
-    return ExcelMapper.toExcel(excelTemplate, workbook);
+    return ExcelMapper.toExcel(excelTemplate, new SXSSFWorkbook());
   }
 }

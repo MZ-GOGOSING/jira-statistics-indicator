@@ -16,7 +16,7 @@ import org.apache.poi.ss.usermodel.BorderStyle;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StatisticsExcelSheet {
+public class StatisticsExcelDetailSheet {
 
   @DataRows(
       match = Match.STOP_ON_BLANK,
@@ -27,5 +27,5 @@ public class StatisticsExcelSheet {
           borderRight = BorderStyle.THIN
       )
   )
-  private List<StatisticsExcelRow> items;
+  private List<StatisticsExcelDetailRow> items;
 }

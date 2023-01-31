@@ -41,15 +41,27 @@ public class StatusJpaEntity extends BaseJpaEntity {
   private LocalDate syncDate;
 
   /**
+   * Status 명칭.
+   */
+  @Column(name = "status_name", nullable = false)
+  private String statusName;
+
+  /**
    * JIRA 시스템 상의 status 식별자.
    */
   @Column(name = "status_id", nullable = false)
   private Long statusId;
 
   /**
+   * Status REST URI.
+   */
+  @Column(name = "status_uri")
+  private String statusURI;
+
+  /**
    * 설명.
    */
-  @Column(name = "description", nullable = false)
+  @Column(name = "description")
   private String description;
 
   /**

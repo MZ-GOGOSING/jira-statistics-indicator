@@ -73,7 +73,10 @@ public class ApiExceptionHandler {
 	 * hibernate validator
 	 */
 	@ResponseStatus(HttpStatus.OK)
-	@ExceptionHandler({MethodArgumentNotValidException.class})
+	@ExceptionHandler({
+			MethodArgumentNotValidException.class,
+			IllegalArgumentException.class
+	})
 	public ApiResponse<List<InvalidArguments>> handleValidation(final MethodArgumentNotValidException e) {
 		log.error("ApiExceptionHandler > Invalidation Exception > errorMessage:{}", e.getMessage(), e);
 		return handleValidation(e.getBindingResult().getFieldErrors());

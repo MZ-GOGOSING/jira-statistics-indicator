@@ -18,7 +18,9 @@ public class StatusDomainEntityConverter implements Converter<StatusJpaEntity, S
     return StatusDomainEntity.withId(
         statusJpaEntity.getId(),
         statusJpaEntity.getSyncDate(),
+        statusJpaEntity.getStatusName(),
         statusJpaEntity.getStatusId(),
+        statusJpaEntity.getStatusURI(),
         statusJpaEntity.getDescription(),
         statusJpaEntity.getIconUrl(),
         statusCategoryDomainEntity

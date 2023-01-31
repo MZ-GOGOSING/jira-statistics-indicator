@@ -19,7 +19,7 @@ public class SyncAllStatusInResponse {
 
   private final LocalDate syncDate;
 
-  private final List<String> syncedStatusDescriptionList;
+  private final List<String> syncedStatusNameList;
 
   public static SyncAllStatusInResponse of(
       final LocalDate syncDate,
@@ -27,10 +27,10 @@ public class SyncAllStatusInResponse {
   ) {
     return SyncAllStatusInResponse.builder()
         .syncDate(syncDate)
-        .syncedStatusDescriptionList(
+        .syncedStatusNameList(
             CollectionUtils.emptyIfNull(statusDomainEntities)
                 .stream()
-                .map(StatusDomainEntity::getDescription)
+                .map(StatusDomainEntity::getStatusName)
                 .sorted()
                 .collect(Collectors.toList())
         )

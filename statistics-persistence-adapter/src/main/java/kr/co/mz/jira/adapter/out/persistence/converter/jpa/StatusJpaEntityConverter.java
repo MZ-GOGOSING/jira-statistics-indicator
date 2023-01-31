@@ -15,7 +15,9 @@ public class StatusJpaEntityConverter implements Converter<StatusDomainEntity, S
   public StatusJpaEntity convert(final StatusDomainEntity statusDomainEntity) {
     final var statusJpaEntity = StatusJpaEntity.builder()
         .syncDate(statusDomainEntity.getSyncDate())
+        .statusName(statusDomainEntity.getStatusName())
         .statusId(statusDomainEntity.getStatusId())
+        .statusURI(statusDomainEntity.getStatusURI())
         .description(statusDomainEntity.getDescription())
         .iconUrl(statusDomainEntity.getIconUrl())
         .build();

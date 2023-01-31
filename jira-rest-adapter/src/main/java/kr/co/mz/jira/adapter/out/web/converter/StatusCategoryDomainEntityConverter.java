@@ -10,7 +10,9 @@ public class StatusCategoryDomainEntityConverter implements Converter<StatusCate
   public StatusCategoryDomainEntity convert(final StatusCategory statusCategory) {
     return StatusCategoryDomainEntity.fromOrigin(
         statusCategory.getId(),
+        statusCategory.getSelf().toString(),
         statusCategory.getKey(),
+        statusCategory.getName(),
         statusCategory.getColorName()
     );
   }

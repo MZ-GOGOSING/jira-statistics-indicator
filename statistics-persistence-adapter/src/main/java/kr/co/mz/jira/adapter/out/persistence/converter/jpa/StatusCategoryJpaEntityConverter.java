@@ -19,8 +19,10 @@ public class StatusCategoryJpaEntityConverter
     }
 
     return StatusCategoryJpaEntity.builder()
+        .categoryURI(statusCategoryDomainEntity.getCategoryURI())
         .categoryId(statusCategoryDomainEntity.getCategoryId())
         .categoryKey(statusCategoryDomainEntity.getCategoryKey())
+        .categoryName(statusCategoryDomainEntity.getCategoryName())
         .categoryColorName(statusCategoryDomainEntity.getCategoryColorName())
         .status(statusJpaEntity)
         .build();

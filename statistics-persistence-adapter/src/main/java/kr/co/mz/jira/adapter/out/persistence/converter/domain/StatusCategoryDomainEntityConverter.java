@@ -16,8 +16,10 @@ public class StatusCategoryDomainEntityConverter implements Converter<StatusCate
 
     return StatusCategoryDomainEntity.withId(
         statusCategoryJpaEntity.getId(),
+        statusCategoryJpaEntity.getCategoryURI(),
         statusCategoryJpaEntity.getCategoryId(),
         statusCategoryJpaEntity.getCategoryKey(),
+        statusCategoryJpaEntity.getCategoryName(),
         statusCategoryJpaEntity.getCategoryColorName()
     );
   }

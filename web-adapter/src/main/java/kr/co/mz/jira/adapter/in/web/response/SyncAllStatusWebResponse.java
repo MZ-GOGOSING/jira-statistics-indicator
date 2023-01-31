@@ -21,12 +21,12 @@ public class SyncAllStatusWebResponse {
   private final LocalDate syncDate;
 
   @Schema(description = "동기화에 성공한 Status 목록", example = "[\"TO DO\", \"IN PROGRESS\"]")
-  private final List<String> syncedStatusDescriptionList;
+  private final List<String> syncedStatusNameList;
 
   public static SyncAllStatusWebResponse of(final SyncAllStatusInResponse inResponse) {
     return SyncAllStatusWebResponse.builder()
         .syncDate(inResponse.getSyncDate())
-        .syncedStatusDescriptionList(inResponse.getSyncedStatusDescriptionList())
+        .syncedStatusNameList(inResponse.getSyncedStatusNameList())
         .build();
   }
 }

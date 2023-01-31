@@ -38,10 +38,22 @@ public class StatusCategoryJpaEntity extends BaseJpaEntity {
   private Long categoryId;
 
   /**
+   * Status Category REST URI.
+   */
+  @Column(name = "category_uri")
+  private String categoryURI;
+
+  /**
    * JIRA 시스템 상의 status category 대체 식별자.
    */
   @Column(name = "category_key", nullable = false)
   private String categoryKey;
+
+  /**
+   * Category 명칭.
+   */
+  @Column(name = "category_name", nullable = false)
+  private String categoryName;
 
   /**
    * 카테고리 색상.

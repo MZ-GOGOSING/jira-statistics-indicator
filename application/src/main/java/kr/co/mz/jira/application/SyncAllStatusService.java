@@ -36,12 +36,12 @@ public class SyncAllStatusService implements SyncAllStatusUseCase {
   private List<StatusDomainEntity> saveAllStatuses(final LocalDate syncDate) {
     final var fetchedStatusDomainEntities = fetchAllStatusPort.fetchAll(syncDate);
 
-    deleteAllStatusPort.deleteAllBySyncDate(syncDate);
-
-    if (CollectionUtils.isEmpty(fetchedStatusDomainEntities)) {
-      return Collections.emptyList();
+    if (CollectionUtils.isNotEmpty(fetchedStatusDomainEntities)) {
+      deleteAllStatusPort.deleteAllBySyncDate(syncDate);
     }
 
-    return createAllStatusPort.saveAll(fetchedStatusDomainEntities);
+    return CollectionUtils.isEmpty(fetchedStatusDomainEntities)
+        ? Collections.emptyList()
+        : createAllStatusPort.saveAll(fetchedStatusDomainEntities);
   }
 }

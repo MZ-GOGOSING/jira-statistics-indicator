@@ -16,7 +16,11 @@ public class StatusDomainEntity {
 
   private final LocalDate syncDate;
 
+  private final String statusName;
+
   private final Long statusId;
+
+  private final String statusURI;
 
   private final String description;
 
@@ -27,18 +31,22 @@ public class StatusDomainEntity {
   private StatusDomainEntity(
       final Long id,
       final LocalDate syncDate,
+      final String statusName,
       final Long statusId,
+      final String statusURI,
       final String description,
       final String iconUrl,
       final StatusCategoryDomainEntity statusCategory
   ) {
-    AssertHelper.isPositive(statusId, "Status id 는 0 이상의 수 이어야 합니다.");
     AssertHelper.notNull(syncDate, "Status syncDate 는 null 일 수 없습니다.");
-    AssertHelper.hasText(description, "Status description 은 빈 문자열일 수 없습니다.");
+    AssertHelper.hasText(statusName, "Status Name 은 null 일 수 없습니다.");
+    AssertHelper.isPositive(statusId, "Status id 는 0 이상의 수 이어야 합니다.");
 
     this.id = id;
     this.syncDate = syncDate;
+    this.statusName = statusName;
     this.statusId = statusId;
+    this.statusURI = statusURI;
     this.description = description;
     this.iconUrl = iconUrl;
     this.statusCategory = statusCategory;
@@ -46,14 +54,18 @@ public class StatusDomainEntity {
 
   public static StatusDomainEntity fromOrigin(
       final LocalDate syncDate,
+      final String statusName,
       final Long statusId,
+      final String statusURI,
       final String description,
       final String iconUrl,
       final StatusCategoryDomainEntity statusCategory
   ) {
     return StatusDomainEntity.builder()
         .syncDate(syncDate)
+        .statusName(statusName)
         .statusId(statusId)
+        .statusURI(statusURI)
         .description(description)
         .iconUrl(iconUrl)
         .statusCategory(statusCategory)
@@ -63,7 +75,9 @@ public class StatusDomainEntity {
   public static StatusDomainEntity withId(
       final Long id,
       final LocalDate syncDate,
+      final String statusName,
       final Long statusId,
+      final String statusURI,
       final String description,
       final String iconUrl,
       final StatusCategoryDomainEntity statusCategory
@@ -73,7 +87,9 @@ public class StatusDomainEntity {
     return StatusDomainEntity.builder()
         .id(id)
         .syncDate(syncDate)
+        .statusName(statusName)
         .statusId(statusId)
+        .statusURI(statusURI)
         .description(description)
         .iconUrl(iconUrl)
         .statusCategory(statusCategory)

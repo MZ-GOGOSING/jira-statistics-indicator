@@ -16,7 +16,9 @@ public class StatusDomainEntityConverter implements
   public StatusDomainEntity convert(final LocalDate syncDate, final Status status) {
     return StatusDomainEntity.fromOrigin(
         syncDate,
+        status.getName(),
         status.getId(),
+        status.getSelf().toString(),
         status.getDescription(),
         status.getIconUrl().toString(),
         Optional.ofNullable(status.getStatusCategory())

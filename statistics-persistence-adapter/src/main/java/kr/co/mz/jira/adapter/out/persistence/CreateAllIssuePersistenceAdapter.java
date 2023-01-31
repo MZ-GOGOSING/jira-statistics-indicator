@@ -18,7 +18,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 @RequiredArgsConstructor
 @StatisticsJpaTransactional
-public class CreateIssuePersistenceAdapter implements CreateAllIssuePort {
+public class CreateAllIssuePersistenceAdapter implements CreateAllIssuePort {
 
   private static final IssueJpaEntityConverter ISSUE_JPA_ENTITY_CONVERTER =
       new IssueJpaEntityConverter();

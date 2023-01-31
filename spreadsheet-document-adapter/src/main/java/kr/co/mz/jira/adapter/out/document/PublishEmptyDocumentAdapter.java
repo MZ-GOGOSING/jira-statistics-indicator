@@ -17,7 +17,7 @@ import org.springframework.validation.annotation.Validated;
 @Component
 @Validated
 @RequiredArgsConstructor
-public class PublishEmptySpreadsheetAdapter implements
+public class PublishEmptyDocumentAdapter implements
     PublishEmptyDocumentPort,
     SpreadsheetByteArraySupport {
 

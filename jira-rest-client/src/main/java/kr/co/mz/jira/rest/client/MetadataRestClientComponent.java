@@ -3,7 +3,7 @@ package kr.co.mz.jira.rest.client;
 import com.atlassian.jira.rest.client.api.MetadataRestClient;
 import com.atlassian.jira.rest.client.api.domain.Field;
 import com.atlassian.jira.rest.client.api.domain.Status;
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
@@ -17,19 +17,19 @@ public class MetadataRestClientComponent {
 
   private final MetadataRestClient metadataRestClient;
 
-  public Set<Field> loadAllFields() {
+  public List<Field> loadAllFields() {
     final var fields = metadataRestClient.getFields().claim();
 
     return StreamSupport
         .stream(fields.spliterator(), false)
-        .collect(Collectors.toSet());
+        .collect(Collectors.toList());
   }
 
-  public Set<Status> loadAllStatuses() {
+  public List<Status> loadAllStatuses() {
     final var statuses = metadataRestClient.getStatuses().claim();
 
     return StreamSupport
         .stream(statuses.spliterator(), false)
-        .collect(Collectors.toSet());
+        .collect(Collectors.toList());
   }
 }

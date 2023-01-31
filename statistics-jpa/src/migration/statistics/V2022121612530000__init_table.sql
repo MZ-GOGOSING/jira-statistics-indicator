@@ -57,3 +57,19 @@ CREATE TABLE IF NOT EXISTS issue_change_log_item (
     from_string TEXT COMMENT '~ 으로 부터',
     to_string TEXT COMMENT '~ 으로'
 ) COMMENT 'Issue Change Log Item';
+
+CREATE TABLE IF NOT EXISTS status (
+    id BIGINT(5) AUTO_INCREMENT PRIMARY KEY COMMENT '식별자',
+    sync_date DATE NOT NULL COMMENT '동기화 수행일',
+    status_id BIGINT(5) NOT NULL COMMENT 'JIRA 시스템 상의 status 식별자',
+    description VARCHAR(100) NOT NULL COMMENT '설명',
+    icon_url VARCHAR(250) COMMENT 'icon 이미지 url',
+    CONSTRAINT subject_unique_index UNIQUE (sync_date, status_id)
+) COMMENT 'Status';
+
+CREATE TABLE IF NOT EXISTS status_category (
+    id BIGINT(5) PRIMARY KEY COMMENT '부모 Status 식별자',
+    category_id BIGINT(5) COMMENT 'JIRA 시스템 상의 status category 식별자',
+    category_key VARCHAR(50) COMMENT 'JIRA 시스템 상의 status category 대체 식별자',
+    category_color_name VARCHAR(50) COMMENT '카테고리 색상'
+) COMMENT 'Status Category';

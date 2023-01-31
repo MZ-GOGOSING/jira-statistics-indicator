@@ -23,7 +23,7 @@ import org.springframework.validation.annotation.Validated;
 @Component
 @Validated
 @RequiredArgsConstructor
-public class PublishSubjectSpreadsheetAdapter implements
+public class PublishSubjectDocumentAdapter implements
     PublishSubjectDocumentPort,
     SpreadsheetByteArraySupport {
 

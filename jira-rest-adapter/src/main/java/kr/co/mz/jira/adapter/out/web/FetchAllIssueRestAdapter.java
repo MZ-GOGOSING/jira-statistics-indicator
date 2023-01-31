@@ -14,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
 @Component
 @Validated
 @RequiredArgsConstructor
-public class FetchIssueAdapter implements FetchAllIssuePort {
+public class FetchAllIssueRestAdapter implements FetchAllIssuePort {
 
   private static final IssueDomainEntityConverter ISSUE_DOMAIN_ENTITY_CONVERTER =
       new IssueDomainEntityConverter();

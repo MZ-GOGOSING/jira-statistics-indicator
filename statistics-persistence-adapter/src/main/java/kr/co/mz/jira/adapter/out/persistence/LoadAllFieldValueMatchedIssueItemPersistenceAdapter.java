@@ -3,7 +3,7 @@ package kr.co.mz.jira.adapter.out.persistence;
 import java.util.List;
 import java.util.stream.Collectors;
 import kr.co.mz.jira.adapter.out.persistence.converter.domain.IssueDomainEntityConverter;
-import kr.co.mz.jira.application.port.out.LoadIssueItemsPort;
+import kr.co.mz.jira.application.port.out.LoadAllIssueItemPort;
 import kr.co.mz.jira.domain.IssueDomainEntity;
 import kr.co.mz.jira.jpa.config.StatisticsJpaTransactional;
 import kr.co.mz.jira.jpa.repository.IssueJpaRepository;
@@ -13,11 +13,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.validation.annotation.Validated;
 
-@Component("loadFieldValueMatchedIssueItemsPort")
+@Component("loadAllFieldValueMatchedIssueItemPort")
 @Validated
 @RequiredArgsConstructor
 @StatisticsJpaTransactional(propagation = Propagation.SUPPORTS, readOnly = true)
-public class LoadFieldValueMatchedIssueItemsPersistenceAdapter implements LoadIssueItemsPort {
+public class LoadAllFieldValueMatchedIssueItemPersistenceAdapter implements LoadAllIssueItemPort {
 
   private static final String CHANGE_LOG_ITEM_FIELD_VALUE = "status";
 

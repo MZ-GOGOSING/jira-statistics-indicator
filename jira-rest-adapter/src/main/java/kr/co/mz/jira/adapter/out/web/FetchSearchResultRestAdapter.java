@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
 @Component
 @Validated
 @RequiredArgsConstructor
-public class FetchSearchResultAdapter implements FetchSearchResultPort {
+public class FetchSearchResultRestAdapter implements FetchSearchResultPort {
 
   private static final SubjectDomainEntityConverter SUBJECT_DOMAIN_ENTITY_CONVERTER =
       new SubjectDomainEntityConverter();

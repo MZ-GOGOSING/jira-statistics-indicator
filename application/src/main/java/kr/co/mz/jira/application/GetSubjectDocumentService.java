@@ -3,7 +3,7 @@ package kr.co.mz.jira.application;
 import java.util.List;
 import kr.co.mz.jira.application.port.in.GetSubjectDocumentQuery;
 import kr.co.mz.jira.application.port.in.request.query.GetSubjectDocumentInQuery;
-import kr.co.mz.jira.application.port.out.LoadIssueItemsPort;
+import kr.co.mz.jira.application.port.out.LoadAllIssueItemPort;
 import kr.co.mz.jira.application.port.out.LoadSubjectItemPort;
 import kr.co.mz.jira.application.port.out.PublishEmptyDocumentPort;
 import kr.co.mz.jira.application.port.out.PublishSubjectDocumentPort;
@@ -25,7 +25,7 @@ public class GetSubjectDocumentService implements GetSubjectDocumentQuery {
 
   private final LoadSubjectItemPort loadSubjectItemPort;
 
-  private final LoadIssueItemsPort loadFieldValueMatchedIssueItemsPort;
+  private final LoadAllIssueItemPort loadAllFieldValueMatchedIssueItemPort;
 
   private final PublishEmptyDocumentPort publishEmptyDocumentPort;
 
@@ -35,7 +35,7 @@ public class GetSubjectDocumentService implements GetSubjectDocumentQuery {
   public byte[] publish(final GetSubjectDocumentInQuery inQuery) {
     try {
       final var subjectDomainEntity = loadSubjectItemPort.findByUuid(inQuery.getUuid());
-      final var issueDomainEntities = loadFieldValueMatchedIssueItemsPort
+      final var issueDomainEntities = loadAllFieldValueMatchedIssueItemPort
           .findAllBySubjectId(subjectDomainEntity.getId());
 
       final var outCommand = this.convertToOutCommand(issueDomainEntities, inQuery.getWorkflow());

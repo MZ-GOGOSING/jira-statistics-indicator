@@ -1,8 +1,5 @@
 package kr.co.mz.jira.application;
 
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
 import kr.co.mz.jira.application.port.in.SyncAllStatusUseCase;
 import kr.co.mz.jira.application.port.in.response.SyncAllStatusInResponse;
 import kr.co.mz.jira.application.port.out.CreateAllStatusPort;
@@ -13,6 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @Validated
@@ -26,8 +27,7 @@ public class SyncAllStatusService implements SyncAllStatusUseCase {
   private final DeleteAllStatusPort deleteAllStatusPort;
 
   @Override
-  public SyncAllStatusInResponse sync() {
-    final var syncDate = LocalDate.now();
+  public SyncAllStatusInResponse sync(final LocalDate syncDate) {
     final var statusDomainEntities = this.saveAllStatuses(syncDate);
 
     return SyncAllStatusInResponse.of(syncDate, statusDomainEntities);

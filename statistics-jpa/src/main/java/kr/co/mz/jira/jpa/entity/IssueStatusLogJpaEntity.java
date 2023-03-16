@@ -77,6 +77,9 @@ public class IssueStatusLogJpaEntity extends BaseJpaEntity {
     @Column(name = "due_date")
     private LocalDateTime dueDate;
 
+    @Column(name = "sprint")
+    private String sprint;
+
     @Builder.Default
     @Column(name = "labels", columnDefinition = "TEXT")
     @Convert(converter = IssueLabelConverter.class)

@@ -1,4 +1,5 @@
 dependencies {
     implementation 'com.atlassian.jira:jira-rest-java-client-core:4.0.0'
     implementation 'com.atlassian.fugue:fugue:2.6.1'
+    implementation 'com.atlassian.jira.plugins:jira-greenhopper-api:8.2.0-DAILY20190424112239'
 }

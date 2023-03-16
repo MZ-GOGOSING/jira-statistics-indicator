@@ -1,9 +1,11 @@
 package kr.co.mz.jira.adapter.out.api.converter;
 
+import com.atlassian.greenhopper.service.sprint.Sprint;
 import com.atlassian.jira.rest.client.api.domain.AddressableNamedEntity;
 import com.atlassian.jira.rest.client.api.domain.BasicWatchers;
 import com.atlassian.jira.rest.client.api.domain.Issue;
 import com.atlassian.jira.rest.client.api.domain.IssueField;
+
 import java.net.URI;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,6 +13,9 @@ import kr.co.mz.jira.domain.IssueDomainEntity;
 import kr.co.mz.jira.support.converter.StreamConverter;
 import kr.co.mz.jira.support.converter.LocalDateTimeConverter;
 import org.apache.commons.lang3.ObjectUtils;
+
+
+import org.codehaus.jettison.json.JSONArray;
 import org.springframework.core.convert.converter.Converter;
 
 public class IssueDomainEntityConverter implements Converter<Issue, IssueDomainEntity> {
@@ -29,6 +34,19 @@ public class IssueDomainEntityConverter implements Converter<Issue, IssueDomainE
         // IssueField{id=customfield_10006, name=Epic Link, type=null, value=ITO-1}
         IssueField issueField = issue.getField("customfield_10006"); // Epic Link
         String epicKey = ObjectUtils.defaultIfNull(issueField.getValue(), "").toString();
+
+        // Sprint
+        IssueField sprintField = issue.getField("customfield_10004"); // Sprint
+//        final var sprint = (Sprint) sprintField.getValue();
+        //String sprintName = ObjectUtils.defaultIfNull(sprint.getName(), "");
+
+        String sprintName = "";
+        try {
+            final var test = (JSONArray) ObjectUtils.defaultIfNull(sprintField.getValue(), "[]");
+            sprintName = ObjectUtils.defaultIfNull(test.toString().substring(test.toString().indexOf(",name=")+6, test.toString().indexOf(",startDate=")), "");
+        } catch (Exception e) { }
+        // End of Sprint
+
         return IssueDomainEntity.fromOrigin(
                 epicKey,
                 issue.getKey(),
@@ -50,6 +68,7 @@ public class IssueDomainEntityConverter implements Converter<Issue, IssueDomainE
                 issue.getSummary(),
                 issue.getIssueType().getName(),
                 issue.getStatus().getName(),
+                sprintName,
                 Optional.ofNullable(issue.getTimeTracking())
                         .map(ISSUE_TIME_TRACKING_DOMAIN_ENTITY_CONVERTER::convert)
                         .orElse(null),

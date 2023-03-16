@@ -68,6 +68,7 @@ public class IssueLogService {
                                 .toDoDate(entity.getCreationDate())
                                 .dueDate(entity.getDueDate())
                                 .labels(entity.getLabels())
+                                .sprint(entity.getSprint())
                                 .build()
                     );
                     originStatusLogListMap.put(entity.getIssueKey(), statusLogEntities);

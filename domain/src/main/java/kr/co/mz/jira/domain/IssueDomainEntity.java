@@ -42,6 +42,8 @@ public class IssueDomainEntity {
 
     private final String statusName;
 
+    private final String sprint;
+
     private final IssueTimeTrackingDomainEntity timeTracking;
 
     private final List<IssueWorklogDomainEntity> worklogs;
@@ -63,6 +65,7 @@ public class IssueDomainEntity {
             final String summary,
             final String issueTypeName,
             final String statusName,
+            final String sprint,
             final IssueTimeTrackingDomainEntity timeTracking,
             final List<IssueWorklogDomainEntity> worklogs,
             final List<IssueChangelogGroupDomainEntity> changelog
@@ -83,6 +86,7 @@ public class IssueDomainEntity {
         this.summary = summary;
         this.issueTypeName = issueTypeName;
         this.statusName = statusName;
+        this.sprint = sprint;
         this.timeTracking = timeTracking;
         this.worklogs = worklogs;
         this.changelog = changelog;
@@ -102,6 +106,7 @@ public class IssueDomainEntity {
             final String summary,
             final String issueTypeName,
             final String statusName,
+            final String sprint,
             final IssueTimeTrackingDomainEntity timeTracking,
             final List<IssueWorklogDomainEntity> worklogs,
             final List<IssueChangelogGroupDomainEntity> changelog
@@ -120,6 +125,7 @@ public class IssueDomainEntity {
                 .summary(summary)
                 .issueTypeName(issueTypeName)
                 .statusName(statusName)
+                .sprint(sprint)
                 .timeTracking(timeTracking)
                 .worklogs(worklogs)
                 .changelog(changelog)
@@ -141,6 +147,7 @@ public class IssueDomainEntity {
             final String summary,
             final String issueTypeName,
             final String statusName,
+            final String sprint,
             final IssueTimeTrackingDomainEntity timeTracking,
             final List<IssueWorklogDomainEntity> worklogs,
             final List<IssueChangelogGroupDomainEntity> changelog
@@ -162,6 +169,7 @@ public class IssueDomainEntity {
                 .summary(summary)
                 .issueTypeName(issueTypeName)
                 .statusName(statusName)
+                .sprint(sprint)
                 .timeTracking(timeTracking)
                 .worklogs(worklogs)
                 .changelog(changelog)

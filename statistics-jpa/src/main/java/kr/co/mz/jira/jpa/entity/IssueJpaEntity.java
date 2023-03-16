@@ -127,6 +127,12 @@ public class IssueJpaEntity extends BaseJpaEntity {
   private String statusName;
 
   /**
+   * Issue Sprint
+   */
+  @Column(name = "sprint")
+  private String sprint;
+
+  /**
    * Issue Time Tracking.
    */
   @OneToOne(

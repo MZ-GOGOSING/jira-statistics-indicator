@@ -30,16 +30,18 @@ public class IssueStatusLogDomainEntity {
     private LocalDateTime doneDate;
     private LocalDateTime dueDate;
     private Set<String> labels;
+    private String sprint;
 
     @Builder
     public IssueStatusLogDomainEntity(LocalDateTime queryDate, Long issueId, String issueKey,
-            IssueStatus issueStatus, LocalDateTime toDoDate, LocalDateTime dueDate) {
+            IssueStatus issueStatus, LocalDateTime toDoDate, LocalDateTime dueDate, String sprint) {
         this.queryDate = queryDate;
         this.issueId = issueId;
         this.issueKey = issueKey;
         this.issueStatus = issueStatus;
         this.toDoDate = toDoDate;
         this.dueDate = dueDate;
+        this.sprint = sprint;
     }
 
     // 시작 시간을 기준으로 하는 경우 여러 번의 동일한 상태변화에도 최초 한번만 업데이트 한다.

@@ -10,4 +10,5 @@ public interface IssueJpaRepository extends JpaRepository<IssueJpaEntity, Long>,
         IssueJpaRepositoryCustom {
     //
     List<IssueJpaEntity> findAllBySubjectId(Long subjectId);
+    IssueJpaEntity findBySubjectIdAndIssueKey(Long subjectId, String issueKey);
 }

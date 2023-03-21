@@ -48,6 +48,8 @@ public class IssueJpaEntityConverter implements BiConverter<Long, IssueDomainEnt
         .issueTypeName(issueDomainEntity.getIssueTypeName())
         .statusName(issueDomainEntity.getStatusName())
         .sprint(issueDomainEntity.getSprint())
+        .parentTask(issueDomainEntity.getParentTask())
+        .isSubTask(issueDomainEntity.isSubtask())
         .build();
 
     final var issueTimeTrackingJpaEntity = this.buildIssueTimeTrackingJpaEntity(issueJpaEntity, issueDomainEntity.getTimeTracking());

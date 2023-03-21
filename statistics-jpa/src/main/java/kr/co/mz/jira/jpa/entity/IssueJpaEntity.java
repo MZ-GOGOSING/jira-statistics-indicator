@@ -3,6 +3,8 @@ package kr.co.mz.jira.jpa.entity;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,6 +22,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 /**
  * Issue Entity.
@@ -165,4 +168,11 @@ public class IssueJpaEntity extends BaseJpaEntity {
       orphanRemoval = true
   )
   private Set<IssueChangelogGroupJpaEntity> changelog = new LinkedHashSet<>();
+
+  @Column(name = "parent_task")
+  private String parentTask;
+
+  @Column(name = "is_subtask", columnDefinition = "TINYINT(1)")
+  private boolean isSubTask;
+
 }

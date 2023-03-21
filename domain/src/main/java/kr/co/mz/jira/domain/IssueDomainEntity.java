@@ -44,6 +44,10 @@ public class IssueDomainEntity {
 
     private final String sprint;
 
+    private final String parentTask;
+
+    private final boolean isSubtask;
+
     private final IssueTimeTrackingDomainEntity timeTracking;
 
     private final List<IssueWorklogDomainEntity> worklogs;
@@ -66,10 +70,14 @@ public class IssueDomainEntity {
             final String issueTypeName,
             final String statusName,
             final String sprint,
+            final String parentTask,
+            final boolean isSubtask,
             final IssueTimeTrackingDomainEntity timeTracking,
             final List<IssueWorklogDomainEntity> worklogs,
             final List<IssueChangelogGroupDomainEntity> changelog
     ) {
+        this.parentTask = parentTask;
+        this.isSubtask = isSubtask;
         AssertHelper.hasText(key, "Issue Key 는 빈 문자열일 수 없습니다.");
 
         this.id = id;
@@ -107,6 +115,8 @@ public class IssueDomainEntity {
             final String issueTypeName,
             final String statusName,
             final String sprint,
+            final String parentTask,
+            final boolean isSubtask,
             final IssueTimeTrackingDomainEntity timeTracking,
             final List<IssueWorklogDomainEntity> worklogs,
             final List<IssueChangelogGroupDomainEntity> changelog
@@ -126,6 +136,8 @@ public class IssueDomainEntity {
                 .issueTypeName(issueTypeName)
                 .statusName(statusName)
                 .sprint(sprint)
+                .parentTask(parentTask)
+                .isSubtask(isSubtask)
                 .timeTracking(timeTracking)
                 .worklogs(worklogs)
                 .changelog(changelog)
@@ -148,6 +160,8 @@ public class IssueDomainEntity {
             final String issueTypeName,
             final String statusName,
             final String sprint,
+            final String parentTask,
+            final boolean isSubtask,
             final IssueTimeTrackingDomainEntity timeTracking,
             final List<IssueWorklogDomainEntity> worklogs,
             final List<IssueChangelogGroupDomainEntity> changelog
@@ -170,6 +184,8 @@ public class IssueDomainEntity {
                 .issueTypeName(issueTypeName)
                 .statusName(statusName)
                 .sprint(sprint)
+                .parentTask(parentTask)
+                .isSubtask(isSubtask)
                 .timeTracking(timeTracking)
                 .worklogs(worklogs)
                 .changelog(changelog)

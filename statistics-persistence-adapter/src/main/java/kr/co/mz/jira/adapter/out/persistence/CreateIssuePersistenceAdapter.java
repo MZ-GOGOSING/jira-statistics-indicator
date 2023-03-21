@@ -12,6 +12,7 @@ import kr.co.mz.jira.jpa.entity.IssueJpaEntity;
 import kr.co.mz.jira.jpa.repository.IssueJpaRepository;
 import kr.co.mz.jira.service.IssueLogService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -57,6 +58,13 @@ public class CreateIssuePersistenceAdapter implements CreateAllIssuePort {
                 subjectId,
                 issueDomainEntity
         );
+
+        if(issueJpaEntity.isSubTask()) {
+            //Parent Task가 없는 경우가 존재하여 처리
+            IssueJpaEntity parentEntity = ObjectUtils.defaultIfNull(issueJpaRepository.findBySubjectIdAndIssueKey(issueJpaEntity.getSubjectId(), issueDomainEntity.getParentTask()), new IssueJpaEntity());
+            issueJpaEntity.setEpicKey(ObjectUtils.defaultIfNull(parentEntity.getEpicKey(), ""));
+        }
+
         return issueJpaRepository.save(issueJpaEntity);
     }
 }

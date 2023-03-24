@@ -53,6 +53,16 @@ public class SyncSearchResultService implements SyncSearchResultUseCase {
         createAllIssuePort.syncIssueLog(uuid);
     }
 
+    @Override
+    public void deleteIssueWorkerLog(String worker, String workDate) {
+        createAllIssuePort.deleteIssueWorkerLog(worker, workDate);
+    }
+
+    @Override
+    public String selectWorkerLog(String worker, String workDate) {
+        return createAllIssuePort.selectWorkerLog(worker, workDate);
+    }
+
     private SubjectDomainEntity saveSubject(final String jql) {
         final var fetchedSubjectDomainEntity = fetchSearchResultPort.fetchByJql(jql);
 

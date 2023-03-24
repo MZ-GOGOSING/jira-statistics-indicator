@@ -9,4 +9,6 @@ public interface CreateAllIssuePort {
 
     List<IssueDomainEntity> saveAll(final @Valid CreateAllIssueOutCommand outCommand);
     void syncIssueLog(String uuid);
+    void deleteIssueWorkerLog(String worker, String workDate);
+    String selectWorkerLog(String worker, String workDate);
 }

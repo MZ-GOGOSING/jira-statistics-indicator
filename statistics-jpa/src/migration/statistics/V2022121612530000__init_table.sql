@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS issue_status_log (
     done_date DATETIME COMMENT '티켓 처리 완료 시간',
     due_date DATETIME COMMENT ' 기한(처리목표시간)',
     labels TEXT COMMENT 'Issue Labels. (Comma Delimiter)',
-    sprint VARCHAR(200) COMMENT 'Jira Issue Sprint',
+    sprint VARCHAR(200) COMMENT 'Jira Issue Sprint'
 ) COMMENT 'Issue Status Log';
 
 CREATE TABLE IF NOT EXISTS issue_worker_log (

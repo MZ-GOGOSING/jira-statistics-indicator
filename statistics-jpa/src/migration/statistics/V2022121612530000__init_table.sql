@@ -22,7 +22,10 @@ CREATE TABLE IF NOT EXISTS issue (
     reporter_username VARCHAR(100) COMMENT 'Reporter 계정',
     summary VARCHAR(1000) COMMENT '제목',
     issue_type_name VARCHAR(50) COMMENT 'Issue 유형',
-    status_name VARCHAR(50) COMMENT 'Issue 상태'
+    status_name VARCHAR(50) COMMENT 'Issue 상태',
+    sprint VARCHAR(200) COMMENT 'Jira Issue Sprint',
+    is_subtask TINYINT(4) COMMENT '서브테스크 여부',
+    parent_task VARCHAR(50) COMMENT 'Jira Parent Issue key'
 ) COMMENT 'Issue';
 
 CREATE TABLE IF NOT EXISTS issue_time_tracking (
@@ -75,7 +78,8 @@ CREATE TABLE IF NOT EXISTS issue_status_log (
     confirmed_date DATETIME COMMENT '검토 완료 시간',
     done_date DATETIME COMMENT '티켓 처리 완료 시간',
     due_date DATETIME COMMENT ' 기한(처리목표시간)',
-    labels TEXT COMMENT 'Issue Labels. (Comma Delimiter)'
+    labels TEXT COMMENT 'Issue Labels. (Comma Delimiter)',
+    sprint VARCHAR(200) COMMENT 'Jira Issue Sprint',
 ) COMMENT 'Issue Status Log';
 
 CREATE TABLE IF NOT EXISTS issue_worker_log (

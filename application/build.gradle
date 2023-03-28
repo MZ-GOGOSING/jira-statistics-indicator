@@ -1,3 +1,4 @@
+apply from: '../jira.gradle'
 bootJar.enabled = false
 jar.enabled = true
 jar.dependsOn test
@@ -9,9 +10,10 @@ dependencies {
     implementation project(':domain')
 
     implementation project(':support')
-
+    implementation project(':jira-api')
     implementation 'org.springframework:spring-tx'
     implementation 'org.springframework.data:spring-data-commons'
+    implementation project(path: ':web-adapter')
 }
 
 test {

@@ -1,7 +1,10 @@
 package kr.co.mz.jira.application;
 
+import com.atlassian.jira.rest.client.api.IssueRestClient;
+import com.atlassian.jira.rest.client.api.domain.IssueField;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import kr.co.mz.jira.application.port.in.SyncSearchResultUseCase;
 import kr.co.mz.jira.application.port.in.response.SyncSearchResultInResponse;
 import kr.co.mz.jira.application.port.out.CreateAllIssuePort;
@@ -14,6 +17,7 @@ import kr.co.mz.jira.domain.SubjectDomainEntity;
 import kr.co.mz.jira.support.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -29,7 +33,7 @@ public class SyncSearchResultService implements SyncSearchResultUseCase {
     private final CreateSubjectPort createSubjectPort;
 
     private final CreateAllIssuePort createAllIssuePort;
-
+    private final IssueRestClient issueRestClient;
     @Override
     public SyncSearchResultInResponse sync(final String jql) {
         SyncSearchResultInResponse response;
@@ -74,7 +78,29 @@ public class SyncSearchResultService implements SyncSearchResultUseCase {
                 .subjectId(subjectId)
                 .issueDomainEntities(fetchedIssueDomainEntities)
                 .build();
+        importParentEpicKey(outCommand.getIssueDomainEntities());
+
 
         return createAllIssuePort.saveAll(outCommand);
+    }
+
+    private void importParentEpicKey(List<IssueDomainEntity> issueDomainEntities){
+
+        issueDomainEntities.stream().forEach(issueDomainEntity -> {
+            String command;
+            if(issueDomainEntity.isSubtask()) {
+                //Parent Task가 없는 경우가 존재하여 처리
+                try {
+                    final var issue = issueRestClient.getIssue(issueDomainEntity.getParentTask()).get();
+                    IssueField issueField = issue.getField("customfield_10006");
+                    String epicKey = ObjectUtils.defaultIfNull(issueField.getValue(), "").toString();
+                    issueDomainEntity.setEpicKey(epicKey);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                } catch (ExecutionException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
     }
 }

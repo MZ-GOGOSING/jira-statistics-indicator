@@ -8,15 +8,12 @@ import com.atlassian.jira.rest.client.api.domain.IssueField;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import kr.co.mz.jira.domain.IssueDomainEntity;
 import kr.co.mz.jira.support.converter.StreamConverter;
 import kr.co.mz.jira.support.converter.LocalDateTimeConverter;
 import org.apache.commons.lang3.ObjectUtils;
-
 
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonNode;
@@ -75,11 +72,6 @@ public class IssueDomainEntityConverter implements Converter<Issue, IssueDomainE
             sprintName = ObjectUtils.defaultIfNull(test.toString().substring(test.toString().indexOf(",name=")+6, test.toString().indexOf(",startDate=")), "");
         } catch (Exception e) { }
         // End of Sprint
-
-        // SubTasks
-        List<String> subTasks = new LinkedList<>();
-        issue.getSubtasks().forEach(subtask -> subTasks.add(subtask.getIssueKey()));
-        // End of subTasks
 
         return IssueDomainEntity.fromOrigin(
                 epicKey,

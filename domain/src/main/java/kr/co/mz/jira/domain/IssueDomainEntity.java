@@ -8,77 +8,78 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @Builder(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class IssueDomainEntity {
 
-    private final Long id;
+    private  Long id;
 
-    private final String epicKey;
+    private String epicKey;
 
-    private final String key;
+    private  String key;
 
-    private final String issueURI;
+    private  String issueURI;
 
-    private final String watchersURI;
+    private  String watchersURI;
 
-    private final Set<String> labels;
+    private  Set<String> labels;
 
-    private final LocalDateTime dueDate;
+    private  LocalDateTime dueDate;
 
-    private final LocalDateTime updateDate;
+    private  LocalDateTime updateDate;
 
-    private final LocalDateTime creationDate;
+    private  LocalDateTime creationDate;
 
-    private final String assigneeUsername;
+    private  String assigneeUsername;
 
-    private final String reporterUsername;
+    private  String reporterUsername;
 
-    private final String summary;
+    private  String summary;
 
-    private final String issueTypeName;
+    private  String issueTypeName;
 
-    private final String statusName;
+    private  String statusName;
 
-    private final String sprint;
+    private  String sprint;
 
-    private final String parentTask;
+    private  String parentTask;
 
-    private final boolean isSubtask;
+    private  boolean isSubtask;
 
-    private final IssueTimeTrackingDomainEntity timeTracking;
+    private  IssueTimeTrackingDomainEntity timeTracking;
 
-    private final List<IssueWorklogDomainEntity> worklogs;
+    private  List<IssueWorklogDomainEntity> worklogs;
 
-    private final List<IssueChangelogGroupDomainEntity> changelog;
+    private  List<IssueChangelogGroupDomainEntity> changelog;
 
     private IssueDomainEntity(
-            final Long id,
-            final String epicKey,
-            final String key,
-            final String issueURI,
-            final String watchersURI,
-            final Set<String> labels,
-            final LocalDateTime dueDate,
-            final LocalDateTime updateDate,
-            final LocalDateTime creationDate,
-            final String assigneeUsername,
-            final String reporterUsername,
-            final String summary,
-            final String issueTypeName,
-            final String statusName,
-            final String sprint,
-            final String parentTask,
-            final boolean isSubtask,
-            final IssueTimeTrackingDomainEntity timeTracking,
-            final List<IssueWorklogDomainEntity> worklogs,
-            final List<IssueChangelogGroupDomainEntity> changelog
+             Long id,
+             String epicKey,
+             String key,
+             String issueURI,
+             String watchersURI,
+             Set<String> labels,
+             LocalDateTime dueDate,
+             LocalDateTime updateDate,
+             LocalDateTime creationDate,
+             String assigneeUsername,
+             String reporterUsername,
+             String summary,
+             String issueTypeName,
+             String statusName,
+             String sprint,
+             String parentTask,
+             boolean isSubtask,
+             IssueTimeTrackingDomainEntity timeTracking,
+             List<IssueWorklogDomainEntity> worklogs,
+             List<IssueChangelogGroupDomainEntity> changelog
     ) {
         this.parentTask = parentTask;
         this.isSubtask = isSubtask;
-        AssertHelper.hasText(key, "Issue Key 는 빈 문자열일 수 없습니다.");
 
         this.id = id;
         this.epicKey = epicKey;
@@ -101,25 +102,25 @@ public class IssueDomainEntity {
     }
 
     public static IssueDomainEntity fromOrigin(
-            final String epicKey,
-            final String key,
-            final String issueURI,
-            final String watchersURI,
-            final Set<String> labels,
-            final LocalDateTime dueDate,
-            final LocalDateTime updateDate,
-            final LocalDateTime creationDate,
-            final String assigneeUsername,
-            final String reporterUsername,
-            final String summary,
-            final String issueTypeName,
-            final String statusName,
-            final String sprint,
-            final String parentTask,
-            final boolean isSubtask,
-            final IssueTimeTrackingDomainEntity timeTracking,
-            final List<IssueWorklogDomainEntity> worklogs,
-            final List<IssueChangelogGroupDomainEntity> changelog
+             String epicKey,
+             String key,
+             String issueURI,
+             String watchersURI,
+             Set<String> labels,
+             LocalDateTime dueDate,
+             LocalDateTime updateDate,
+             LocalDateTime creationDate,
+             String assigneeUsername,
+             String reporterUsername,
+             String summary,
+             String issueTypeName,
+             String statusName,
+             String sprint,
+             String parentTask,
+             boolean isSubtask,
+             IssueTimeTrackingDomainEntity timeTracking,
+             List<IssueWorklogDomainEntity> worklogs,
+             List<IssueChangelogGroupDomainEntity> changelog
     ) {
         return IssueDomainEntity.builder()
                 .epicKey(epicKey)
@@ -145,28 +146,27 @@ public class IssueDomainEntity {
     }
 
     public static IssueDomainEntity withId(
-            final Long id,
-            final String epicKey,
-            final String key,
-            final String issueURI,
-            final String watchersURI,
-            final Set<String> labels,
-            final LocalDateTime dueDate,
-            final LocalDateTime updateDate,
-            final LocalDateTime creationDate,
-            final String assigneeUsername,
-            final String reporterUsername,
-            final String summary,
-            final String issueTypeName,
-            final String statusName,
-            final String sprint,
-            final String parentTask,
-            final boolean isSubtask,
-            final IssueTimeTrackingDomainEntity timeTracking,
-            final List<IssueWorklogDomainEntity> worklogs,
-            final List<IssueChangelogGroupDomainEntity> changelog
+             Long id,
+             String epicKey,
+             String key,
+             String issueURI,
+             String watchersURI,
+             Set<String> labels,
+             LocalDateTime dueDate,
+             LocalDateTime updateDate,
+             LocalDateTime creationDate,
+             String assigneeUsername,
+             String reporterUsername,
+             String summary,
+             String issueTypeName,
+             String statusName,
+             String sprint,
+             String parentTask,
+             boolean isSubtask,
+             IssueTimeTrackingDomainEntity timeTracking,
+             List<IssueWorklogDomainEntity> worklogs,
+             List<IssueChangelogGroupDomainEntity> changelog
     ) {
-        AssertHelper.isPositive(id, "ID 는 0 이하 일 수 없습니다.");
 
         return IssueDomainEntity.builder()
                 .id(id)
@@ -191,4 +191,5 @@ public class IssueDomainEntity {
                 .changelog(changelog)
                 .build();
     }
+
 }

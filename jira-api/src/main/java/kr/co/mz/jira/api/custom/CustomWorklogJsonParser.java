@@ -7,6 +7,8 @@ import com.atlassian.jira.rest.client.internal.json.JsonParseUtil;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import org.apache.commons.collections4.CollectionUtils;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.joda.time.DateTime;
@@ -18,7 +20,7 @@ public class CustomWorklogJsonParser implements JsonObjectParser<Iterable<Worklo
     final var jsonArray = JsonParseUtil.getNestedOptionalArray(json, "worklogs");
 
     if (jsonArray == null) {
-      return null;
+      return Collections.emptyList();
     }
 
     final Collection<Worklog> res = new ArrayList<>(jsonArray.length());

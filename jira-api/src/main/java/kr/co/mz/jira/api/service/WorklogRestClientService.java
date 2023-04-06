@@ -2,8 +2,10 @@ package kr.co.mz.jira.api.service;
 
 import com.atlassian.jira.rest.client.api.domain.Worklog;
 import com.atlassian.util.concurrent.Promise;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import kr.co.mz.jira.api.custom.WorklogRestClient;
@@ -30,11 +32,21 @@ public class WorklogRestClientService {
 
     return CollectionUtils.emptyIfNull(issueKeyList)
         .stream()
-        .map(issueKey -> Map.entry(issueKey, this.proceed(fetchedIssueKeyAndWorklogListMap.get(issueKey))))
+        .map(issueKey -> {
+          final var iterablePromise = fetchedIssueKeyAndWorklogListMap.get(issueKey);
+          final var fetchedWorklogs = this.proceed(iterablePromise);
+
+          return Map.entry(issueKey, fetchedWorklogs);
+        })
         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
+  @SuppressWarnings("UnstableApiUsage")
   private List<Worklog> proceed(final Promise<Iterable<Worklog>> iterablePromise) {
+    if (Objects.isNull(iterablePromise)) {
+      return Collections.emptyList();
+    }
+
     final var worklogIterable = iterablePromise.claim();
 
     return StreamSupport

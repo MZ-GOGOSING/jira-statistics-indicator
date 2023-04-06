@@ -1,5 +1,6 @@
 package kr.co.mz.jira.adapter.out.api;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import kr.co.mz.jira.adapter.out.api.converter.IssueDomainEntityConverter;
@@ -29,9 +30,14 @@ public class FetchIssueAdapter implements FetchAllIssuePort {
     final var issueKeyAndWorklogListMap = worklogRestClientService.loadAllByIssueKeyList(issueKeyList);
     final var issueList = issueRestClientService.loadAllByIssueKeyList(issueKeyList);
 
-    return CollectionUtils.emptyIfNull(issueList)
+        return CollectionUtils.emptyIfNull(issueList)
         .stream()
-        .map(ISSUE_DOMAIN_ENTITY_CONVERTER::convert)
+        .map(issue -> {
+          final var issueKey = issue.getKey();
+          final var worklogs = issueKeyAndWorklogListMap.getOrDefault(issueKey, Collections.emptyList());
+          return ISSUE_DOMAIN_ENTITY_CONVERTER.convert(issue, worklogs);
+        })
         .collect(Collectors.toList());
   }
+
 }

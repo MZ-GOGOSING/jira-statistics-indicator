@@ -8,7 +8,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import org.apache.commons.collections4.CollectionUtils;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.joda.time.DateTime;
@@ -45,7 +44,6 @@ public class CustomWorklogJsonParser implements JsonObjectParser<Iterable<Worklo
     final DateTime startDate = JsonParseUtil.parseDateTime(json, "started");
     final int timeSpentSeconds = json.getInt("timeSpentSeconds");
     final int minutesSpent = (int) timeSpentSeconds / 60;
-
     //final Visibility visibility = new VisibilityJsonParser().parseVisibility(json);
     return new Worklog(self, null, author, updateAuthor, comment, creationDate, updateDate, startDate, minutesSpent, null);
   }

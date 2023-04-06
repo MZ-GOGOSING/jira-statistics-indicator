@@ -15,6 +15,7 @@ import kr.co.mz.jira.domain.IssueDomainEntity;
 import kr.co.mz.jira.support.converter.BiConverter;
 import kr.co.mz.jira.support.converter.LocalDateTimeConverter;
 import kr.co.mz.jira.support.converter.StreamConverter;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonNode;
@@ -105,7 +106,7 @@ public class IssueDomainEntityConverter
                         .map(ISSUE_TIME_TRACKING_DOMAIN_ENTITY_CONVERTER::convert)
                         .orElse(null),
                 StreamConverter
-                        .fromIterable(worklogs)
+                        .fromIterable(this.getWorklogs(issue, worklogs))
                         .map(ISSUE_WORKLOG_DOMAIN_ENTITY_CONVERTER::convert)
                         .collect(Collectors.toList()),
                 StreamConverter
@@ -113,5 +114,14 @@ public class IssueDomainEntityConverter
                         .map(ISSUE_CHANGELOG_GROUP_DOMAIN_ENTITY_CONVERTER::convert)
                         .collect(Collectors.toList())
         );
+    }
+
+    private List<Worklog> getWorklogs(final Issue issue, final List<Worklog> worklogs) {
+        if (CollectionUtils.isNotEmpty(worklogs)) {
+            return worklogs;
+        }
+        return StreamConverter
+            .fromIterable(issue.getWorklogs())
+            .collect(Collectors.toList());
     }
 }

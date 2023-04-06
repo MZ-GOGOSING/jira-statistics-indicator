@@ -25,6 +25,7 @@ public class AsynchronousWorklogRestClient extends AbstractAsynchronousRestClien
    * e.g. https://jira.woowa.in/rest/api/2/issue/ITO-208/worklog/
    * */
   @Override
+  @SuppressWarnings("UnstableApiUsage")
   public Promise<Iterable<Worklog>> getWorklog(final String issueKey) {
     final UriBuilder uriBuilder = UriBuilder.fromUri(baseUri)
         .path("issue")

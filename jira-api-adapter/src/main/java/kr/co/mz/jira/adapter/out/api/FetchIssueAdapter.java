@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import kr.co.mz.jira.adapter.out.api.converter.IssueDomainEntityConverter;
 import kr.co.mz.jira.api.service.IssueRestClientService;
+import kr.co.mz.jira.api.service.WorklogRestClientService;
 import kr.co.mz.jira.application.port.out.FetchAllIssuePort;
 import kr.co.mz.jira.domain.IssueDomainEntity;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,11 @@ public class FetchIssueAdapter implements FetchAllIssuePort {
 
   private final IssueRestClientService issueRestClientService;
 
+  private final WorklogRestClientService worklogRestClientService;
+
   @Override
   public List<IssueDomainEntity> fetchAllByIssueKeyList(final List<String> issueKeyList) {
+    final var issueKeyAndWorklogListMap = worklogRestClientService.loadAllByIssueKeyList(issueKeyList);
     final var issueList = issueRestClientService.loadAllByIssueKeyList(issueKeyList);
 
     return CollectionUtils.emptyIfNull(issueList)

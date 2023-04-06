@@ -12,11 +12,15 @@ import com.atlassian.jira.rest.client.api.SearchRestClient;
 import com.atlassian.jira.rest.client.api.SessionRestClient;
 import com.atlassian.jira.rest.client.api.UserRestClient;
 import com.atlassian.jira.rest.client.api.VersionRestClient;
+import com.atlassian.jira.rest.client.auth.BasicHttpAuthenticationHandler;
+import com.atlassian.jira.rest.client.internal.async.AsynchronousHttpClientFactory;
 import com.atlassian.jira.rest.client.internal.async.AsynchronousJiraRestClientFactory;
 import java.net.URI;
 import javax.validation.Valid;
 import kr.co.mz.jira.api.credential.DefaultJiraCredential;
 import kr.co.mz.jira.api.credential.JiraCredential;
+import kr.co.mz.jira.api.custom.AsynchronousWorklogRestClient;
+import kr.co.mz.jira.api.custom.WorklogRestClient;
 import kr.co.mz.jira.api.properties.JiraCredentialProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -40,7 +44,7 @@ public class JiraRestClientConfig {
   @Bean
   public JiraRestClient jiraRestClient(final JiraCredential jiraCredential) {
     final var jiraRestClientFactory = new AsynchronousJiraRestClientFactory();
-    final var jiraURI = URI.create(jiraCredential.getJiraUrl());
+    final var jiraURI = this.createJiraURI(jiraCredential);
 
     return jiraRestClientFactory.createWithBasicHttpAuthentication(
         jiraURI,
@@ -102,5 +106,23 @@ public class JiraRestClientConfig {
   @Bean
   public VersionRestClient versionRestClient(final JiraRestClient jiraRestClient) {
     return jiraRestClient.getVersionRestClient();
+  }
+
+  @Bean
+  public WorklogRestClient worklogRestClient(final JiraCredential jiraCredential) {
+    final var jiraURI = this.createJiraURI(jiraCredential);
+    final var authenticationHandler = new BasicHttpAuthenticationHandler(
+        jiraCredential.getUsername(),
+        jiraCredential.getPassword()
+    );
+
+    final var httpClient = new AsynchronousHttpClientFactory()
+        .createClient(jiraURI, authenticationHandler);
+
+    return new AsynchronousWorklogRestClient(jiraURI, httpClient);
+  }
+
+  private URI createJiraURI(final JiraCredential jiraCredential) {
+    return URI.create(jiraCredential.getJiraUrl());
   }
 }

@@ -86,21 +86,20 @@ public class SyncSearchResultService implements SyncSearchResultUseCase {
 
     private void importParentEpicKey(List<IssueDomainEntity> issueDomainEntities){
 
-        issueDomainEntities.stream().forEach(issueDomainEntity -> {
-            String command;
-            if(issueDomainEntity.isSubtask()) {
-                //Parent Task가 없는 경우가 존재하여 처리
-                try {
-                    final var issue = issueRestClient.getIssue(issueDomainEntity.getParentTask()).get();
-                    IssueField issueField = issue.getField("customfield_10006");
-                    String epicKey = ObjectUtils.defaultIfNull(issueField.getValue(), "").toString();
-                    issueDomainEntity.setEpicKey(epicKey);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                } catch (ExecutionException e) {
-                    throw new RuntimeException(e);
-                }
+        issueDomainEntities.forEach(this::setParentsEpicKey);
+    }
+
+    private void setParentsEpicKey(IssueDomainEntity issueDomainEntity) {
+        if (issueDomainEntity.isSubtask()) {
+            //Parent Task가 없는 경우가 존재하여 처리
+            try {
+                final var issue = issueRestClient.getIssue(issueDomainEntity.getParentTask()).get();
+                final var issueField = issue.getField("customfield_10006");
+                final var epicKey = ObjectUtils.defaultIfNull(issueField.getValue(), "").toString();
+                issueDomainEntity.setEpicKey(epicKey);
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
             }
-        });
+        }
     }
 }

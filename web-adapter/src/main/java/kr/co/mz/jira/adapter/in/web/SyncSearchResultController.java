@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import javax.validation.Valid;
 import kr.co.mz.jira.adapter.in.web.request.SyncSearchResultWebCommand;
+import kr.co.mz.jira.adapter.in.web.request.SyncSearchWeekWorkLogWebCommand;
 import kr.co.mz.jira.adapter.in.web.request.SyncSearchWorkLogWebCommand;
 import kr.co.mz.jira.adapter.in.web.response.SyncSearchResultWebResponse;
 import kr.co.mz.jira.application.port.in.SyncSearchResultUseCase;
@@ -57,6 +58,25 @@ public class SyncSearchResultController {
 
     return ApiResponseGenerator.success(
             syncSearchResultUseCase.selectWorkerLog(webCommand.getWorker(), webCommand.getWorkDate())
+    );
+  }
+
+  @Operation(summary = "지정일자 로그 확인", description = "JQL 검색결과로 얻어진 Issue 목록을 DB 에 동기화 합니다.")
+  @PostMapping("/sync-work-log-week")
+  public ApiResponse<String> syncSearchWorkLogForSearchDay(
+      final @RequestBody @Valid SyncSearchWeekWorkLogWebCommand webCommand
+  ) {
+    var inCommand = "project = ITO and worklogAuthor = " + webCommand.getWorker()
+        + " and worklogDate >= " + webCommand.getStrDate() + " AND worklogDate <= " + webCommand.getEndDate();
+//    worklogDate >= 2023-04-13 AND worklogDate <= 2023-04-19
+    final var inResponse = syncSearchResultUseCase.sync(inCommand);
+
+    syncSearchResultUseCase.deleteIssueWorkerLogForBoundary(webCommand.getWorker(), webCommand.getStrDate(), webCommand.getEndDate());
+    // sync
+    syncSearchResultUseCase.syncIssueLog(inResponse.getUuid());
+
+    return ApiResponseGenerator.success(
+        syncSearchResultUseCase.selectWorkerLogForBoundary(webCommand.getWorker(), webCommand.getStrDate(), webCommand.getEndDate())
     );
   }
 }

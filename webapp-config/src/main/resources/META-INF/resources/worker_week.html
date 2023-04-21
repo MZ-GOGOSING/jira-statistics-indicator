@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<style type="text/css">
+    table td {
+        border: 1px solid gray;
+        padding: 5px
+    }
+</style>
+<body>
+<div style="padding: 10px;">
+    <h1>주간 체크</h1>
+    Who : <input type="text" size="15" id="worker" value="" style="padding: 2px; font-size:22px;">
+    Start day : <input type="date" size="15" id="strDate" value="" style="padding: 2px; font-size:22px;">
+    End day : <input type="date" size="15" id="endDate" value="" style="padding: 2px; font-size:22px;">
+    <input id="sync" type="button" value="이번주 몇시간 일했지?" style="font-size: 22px;">
+</div>
+<div id="message" style="padding: 15px; font-size: 19px">
+    <div id="msg"></div><p></p>
+    <div id="result"></div>
+</div>
+</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    function leftPad(value) {
+        if (value >= 10) {
+            return value;
+        }
+
+        return `0${value}`;
+    }
+
+    function formatDate(source, delimiter = '-') {
+        const year = source.getFullYear();
+        const month = leftPad(source.getMonth() + 1);
+        const day = leftPad(source.getDate());
+
+        return [year, month, day].join(delimiter);
+    }
+
+    function formatStartDate(source, delimiter = '-') {
+        const year = source.getFullYear();
+        const month = leftPad(source.getMonth() + 1);
+        const day = "01";
+
+        return [year, month, day].join(delimiter);
+    }
+
+    $(document).ready(function(){
+        var strDate = formatDate(new Date());
+        var endDate = formatDate(new Date());
+        $("#strDate").val(strDate);
+        $("#endDate").val(endDate);
+        $("#worker").val("mz_");
+    });
+
+    $("#sync").click(function(){
+        var worker= $("#worker").val();
+        var strDate= $("#strDate").val();
+        var endDate= $("#endDate").val();
+        $("#msg").html("지표 취합중입니다. 잠시만 기다려주세요.....");
+        $.ajax({
+            url: "/v1/statistics/sync-work-log-week",
+            dataType: "json",
+            contentType: "application/json",
+            type: "post",
+            data: JSON.stringify({worker : worker, strDate : strDate, endDate : endDate}),
+            success: function (res) {
+                if( res.code === "2000") {
+                    $("#msg").html("");
+                    $("#result").html(res.data);
+                } else {
+                    $("#msg").html(res.message);
+                    $("#result").html("");
+                }
+            },
+            error: function (request, status, error) {
+                $("#msg").html(error);
+            }
+        });
+    });
+</script>
+</html>

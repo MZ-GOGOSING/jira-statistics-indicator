@@ -59,8 +59,18 @@ public class SyncSearchResultService implements SyncSearchResultUseCase {
     }
 
     @Override
+    public void deleteIssueWorkerLogForBoundary(String worker, String strDate, String endDate) {
+        createAllIssuePort.deleteIssueWorkerLogForBoundary(worker, strDate, endDate);
+    }
+
+    @Override
     public String selectWorkerLog(String worker, String workDate) {
         return createAllIssuePort.selectWorkerLog(worker, workDate);
+    }
+
+    @Override
+    public String selectWorkerLogForBoundary(String worker, String strDate, String endDate) {
+        return createAllIssuePort.selectWorkerLogForBoundary(worker, strDate, endDate);
     }
 
     private SubjectDomainEntity saveSubject(final String jql) {

@@ -14,4 +14,7 @@ public interface IssueWorkerLogJpaRepository extends JpaRepository<IssueWorkerLo
 
     void deleteByWorkerAndWorkLogDateGreaterThanEqualAndWorkLogDateLessThanEqual(
             String worker, LocalDateTime startDate, LocalDateTime endDate);
+
+    List<IssueWorkerLogJpaEntity> findByWorkerAndWorkLogDateGreaterThanEqualAndWorkLogDateLessThanEqualOrderByWorkLogDate(
+        String worker, LocalDateTime startDate, LocalDateTime endDate);
 }

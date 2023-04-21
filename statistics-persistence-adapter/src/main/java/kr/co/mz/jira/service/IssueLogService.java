@@ -1,13 +1,15 @@
 package kr.co.mz.jira.service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import kr.co.mz.jira.jpa.domain.IssueStatus;
 import kr.co.mz.jira.jpa.domain.IssueStatusLogDomainEntity;
 import kr.co.mz.jira.jpa.domain.IssueStatusLogDto;
@@ -24,6 +26,7 @@ import kr.co.mz.jira.jpa.repository.SubjectJpaRepository;
 import kr.co.mz.jira.support.converter.DefaultDateTimeConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.asm.Advice.Local;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -164,6 +167,16 @@ public class IssueLogService {
                         worker, startDate, endDate);
     }
 
+    public void deleteIssueWorkerLogForBoundary(String worker, String strDate, String endDate) {
+
+        LocalDateTime startDate = DefaultDateTimeConverter.convertDateTime(strDate + " 00:00:00");
+        LocalDateTime endDates = DefaultDateTimeConverter.convertDateTime(endDate + " 23:59:59");
+
+        issueWorkerLogJpaRepository
+            .deleteByWorkerAndWorkLogDateGreaterThanEqualAndWorkLogDateLessThanEqual(
+                worker, startDate, endDates);
+    }
+
     public String selectIssueWorkerLog(String worker, String workDate) {
         try {
             DefaultDateTimeConverter.convertDate(workDate);
@@ -211,5 +224,67 @@ public class IssueLogService {
         return sb.toString();
     }
 
-//    private StringBuffer
+    public String selectIssueWorkerLogForBoundary(String worker, String strDate, String endDate) {
+
+        LocalDateTime startDate = DefaultDateTimeConverter.convertDateTime(strDate + " 00:00:00");
+        LocalDateTime endDates = DefaultDateTimeConverter.convertDateTime(endDate + " 23:59:59");
+
+        List<IssueWorkerLogJpaEntity> jpaEntities
+            = issueWorkerLogJpaRepository
+            .findByWorkerAndWorkLogDateGreaterThanEqualAndWorkLogDateLessThanEqualOrderByWorkLogDate(
+                worker, startDate, endDates);
+        Integer totalWorkingTime = getTotalWorkingTime(startDate, endDates);
+        StringBuffer sb = new StringBuffer();
+        sb.append("Max Working Time : " + totalWorkingTime + " 분");
+        sb.append("<table border=1 style=\"padding: 5px; font-size: 19px\">");
+        sb.append("<tr>")
+            .append("<td align=\"center\">티켓</td>")
+            .append("<td align=\"center\">몇시</td>")
+            .append("<td align=\"center\">누구</td>")
+            .append("<td align=\"center\">얼마나</td>")
+            .append("<td align=\"center\">어떤일</td>")
+            .append("</tr>");
+        Long totalWorkMintue = 0L;
+        for(IssueWorkerLogJpaEntity entity : jpaEntities) {
+            //
+            sb.append("<tr>")
+                .append("<td>").append(entity.getIssueKey()).append("</td>")
+                .append("<td align=\"center\">").append(entity.getWorkLogDate()).append("</td>")
+                .append("<td>").append(entity.getWorker()).append("</td>")
+                .append("<td align=\"right\">").append(entity.getWorkMinute()).append("m</td>")
+                .append("<td>").append(entity.getWorkComment()).append("</td>")
+                .append("</tr>");
+            totalWorkMintue += entity.getWorkMinute();
+        }
+        Double percentWorkMintue = totalWorkMintue.doubleValue();
+        sb.append("<tr>")
+            .append("<td colspan=\"3\" align=\"center\"> 작업시간 합계</td>")
+            .append("<td>").append(totalWorkMintue).append(" 분").append("</td>")
+            .append("<td>").append(String.format("%.2f", (percentWorkMintue / totalWorkingTime) * 100)).append("%").append("</td>")
+            .append("</tr>");
+        sb.append("</table>");
+
+        return sb.toString();
+    }
+
+    private Integer getTotalWorkingTime(LocalDateTime strDate, LocalDateTime endDate) {
+        int totalWorkingTime = 0;
+        DayOfWeek day;
+        LocalDate startDay = strDate.toLocalDate();
+        LocalDate endDay = endDate.toLocalDate().plusDays(1);
+
+        while(startDay.isBefore(endDay)) {
+            day = startDay.getDayOfWeek();
+            if(!DayOfWeek.SATURDAY.equals(day) && !DayOfWeek.SUNDAY.equals(day)) {
+                if (DayOfWeek.MONDAY.equals(day)) {
+                    totalWorkingTime += 240;
+                } else {
+                    totalWorkingTime += 420;
+                }
+            }
+            startDay = startDay.plusDays(1);
+        }
+
+        return totalWorkingTime;
+    }
 }

@@ -3,24 +3,25 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
+<style type="text/css">
+    table td {
+        border: 1px solid gray;
+        padding: 5px
+    }
+</style>
+<body>
 <div style="padding: 10px;">
-    <h1>Execute jira query and Create ticket statistic</h1>
-    <input type="text" size="120" id="jql" value="" style="padding: 2px; font-size:22px;">
-    <input id="sync" type="button" value="쿼리 실행" style="font-size: 22px;">
+    <h1>열심히 일한 당신~ 오늘도 칼퇴근~</h1>
+    Who : <input type="text" size="15" id="worker" value="" style="padding: 2px; font-size:22px;">
+    Today : <input type="text" size="15" id="workDate" value="" style="padding: 2px; font-size:22px;">
+    <input id="sync" type="button" value="나 오늘 몇시간 일했지?" style="font-size: 22px;">
 </div>
 <div id="message" style="padding: 15px; font-size: 19px">
     <div id="msg"></div><p></p>
-    <table style="border: 1px; width: 860px;">
-        <tr>
-            <td>UUID : </td><td><div id="uuid"></div></td>
-            <td>Query Date :</td><td><div id="queryDate"></div></td>
-        </tr>
-    </table>
-    <br>
-    Update Ticket : Table [issue_status_log, issue_worker_log]<p></p>
-    <div id="ticket"></div>
+    <div id="result"></div>
 </div>
 </div>
+</body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
     function leftPad(value) {
@@ -48,33 +49,33 @@
     }
 
     $(document).ready(function(){
-        var jql = "project = ITO AND worklogDate >= ";
-        jql = jql + formatStartDate(new Date());
-        jql = jql + " AND worklogDate <= ";
-        jql = jql + formatDate(new Date());
-        $("#jql").val(jql);
+        var workDate = formatDate(new Date());
+        $("#workDate").val(workDate);
+        var param = location.search;
+        if( param === "" || param === undefined ) {
+            $("#worker").val("mz_");
+        } else {
+            $("#worker").val(param.substr(1));
+        }
     });
 
     $("#sync").click(function(){
-        var jql= $("#jql").val();
+        var worker= $("#worker").val();
+        var workDate= $("#workDate").val();
         $("#msg").html("지표 취합중입니다. 잠시만 기다려주세요.....");
         $.ajax({
-            url: "/v1/statistics/sync",
+            url: "/v1/statistics/sync-work-log",
             dataType: "json",
             contentType: "application/json",
             type: "post",
-            data: JSON.stringify({jql : jql}),
+            data: JSON.stringify({worker : worker, workDate : workDate}),
             success: function (res) {
                 if( res.code === "2000") {
                     $("#msg").html("");
-                    $("#uuid").html(res.data.uuid);
-                    $("#queryDate").html(res.data.queryDate);
-                    $("#ticket").html(res.data.syncedIssueKeyList.join());
+                    $("#result").html(res.data);
                 } else {
                     $("#msg").html(res.message);
-                    $("#uuid").html("");
-                    $("#queryDate").html("");
-                    $("#ticket").html("");
+                    $("#result").html("");
                 }
             },
             error: function (request, status, error) {

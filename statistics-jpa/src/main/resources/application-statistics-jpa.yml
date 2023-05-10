@@ -16,7 +16,7 @@ statistics:
       poolName: statistics-persistence-cp
       type: com.zaxxer.hikari.HikariDataSource
       driverClassName: org.mariadb.jdbc.Driver
-      jdbcUrl: "jdbc:mariadb://localhost:4306/statistics"
+      jdbcUrl: "jdbc:mariadb://localhost:3306/statistics"
       username: root
       password: root
       auto-commit: false

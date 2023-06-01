@@ -11,10 +11,11 @@
 </style>
 <body>
 <div style="padding: 10px;">
-    <h1>열심히 일한 당신~ 오늘도 칼퇴근~</h1>
+    <h1>집중해서 열심히 일했으니~ 오늘도 칼퇴근~</h1>
     Who : <input type="text" size="15" id="worker" value="" style="padding: 2px; font-size:22px;">
     Today : <input type="text" size="15" id="workDate" value="" style="padding: 2px; font-size:22px;">
-    <input id="sync" type="button" value="나 오늘 몇시간 일했지?" style="font-size: 22px;">
+    <input id="sync" type="button" value="오늘 몇시간 일했지?" style="font-size: 22px;">
+    <input id="syncWeek" type="button" value="아~ 워크로그" style="font-size: 22px;">
 </div>
 <div id="message" style="padding: 15px; font-size: 19px">
     <div id="msg"></div><p></p>
@@ -65,6 +66,31 @@
         $("#msg").html("지표 취합중입니다. 잠시만 기다려주세요.....");
         $.ajax({
             url: "/v1/statistics/sync-work-log",
+            dataType: "json",
+            contentType: "application/json",
+            type: "post",
+            data: JSON.stringify({worker : worker, workDate : workDate}),
+            success: function (res) {
+                if( res.code === "2000") {
+                    $("#msg").html("");
+                    $("#result").html(res.data);
+                } else {
+                    $("#msg").html(res.message);
+                    $("#result").html("");
+                }
+            },
+            error: function (request, status, error) {
+                $("#msg").html(error);
+            }
+        });
+    });
+
+    $("#syncWeek").click(function(){
+        var worker= $("#worker").val();
+        var workDate= $("#workDate").val();
+        $("#msg").html("지표 취합중입니다. 잠시만 기다려주세요.....");
+        $.ajax({
+            url: "/v1/statistics/week-work-log",
             dataType: "json",
             contentType: "application/json",
             type: "post",

@@ -56,8 +56,18 @@ public class CreateIssuePersistenceAdapter implements CreateAllIssuePort {
     }
 
     @Override
+    public void deleteIssueWorkerLog(String worker, String startDt, String endDt) {
+        issueLogService.deleteIssueWorkerLog(worker, startDt, endDt);
+    }
+
+    @Override
     public String selectWorkerLog(String worker, String workDate) {
         return issueLogService.selectIssueWorkerLog(worker, workDate);
+    }
+
+    @Override
+    public String selectWorkerLog(String worker, String startDt, String endDt) {
+        return issueLogService.selectIssueWorkerLog(worker, startDt, endDt);
     }
 
     private IssueJpaEntity saveIssueJpaEntity(

@@ -156,13 +156,19 @@ public class IssueLogService {
         } catch (Exception e) {
             workDate = DefaultDateTimeConverter.convertDate(LocalDate.now());
         }
-        LocalDateTime startDate = DefaultDateTimeConverter.convertDateTime(workDate + " 00:00:00");
-        LocalDateTime endDate = DefaultDateTimeConverter.convertDateTime(workDate + " 23:59:59");
+        deleteIssueWorkerLog(worker, workDate, workDate);
+    }
+
+    public void deleteIssueWorkerLog(String worker, String startDt, String endDt) {
+
+        LocalDateTime startDate = DefaultDateTimeConverter.convertDateTime(startDt + " 00:00:00");
+        LocalDateTime endDate = DefaultDateTimeConverter.convertDateTime(endDt + " 23:59:59");
 
         issueWorkerLogJpaRepository
                 .deleteByWorkerAndWorkLogDateGreaterThanEqualAndWorkLogDateLessThanEqual(
                         worker, startDate, endDate);
     }
+
 
     public String selectIssueWorkerLog(String worker, String workDate) {
         try {
@@ -192,7 +198,8 @@ public class IssueLogService {
             //
             sb.append("<tr>")
               .append("<td>").append(entity.getIssueKey()).append("</td>")
-              .append("<td align=\"center\">").append(entity.getWorkLogDate()).append("</td>")
+              .append("<td align=\"center\">").append(
+                            DefaultDateTimeConverter.convertDateTime(entity.getWorkLogDate())).append("</td>")
               .append("<td>").append(entity.getWorker()).append("</td>")
               .append("<td align=\"right\">").append(entity.getWorkMinute()).append("m</td>")
               .append("<td>").append(entity.getWorkComment()).append("</td>")
@@ -206,6 +213,72 @@ public class IssueLogService {
                 .append(totalWorkMintue%60).append("분").append("</td>")
         .append("<td></td>")
         .append("</tr>");
+        sb.append("</table>");
+
+        return sb.toString();
+    }
+
+    public String selectIssueWorkerLog(String worker, String startDt, String endDt) {
+        LocalDateTime startDate = DefaultDateTimeConverter.convertDateTime(startDt + " 00:00:00");
+        LocalDateTime endDate = DefaultDateTimeConverter.convertDateTime(endDt + " 23:59:59");
+
+        List<IssueWorkerLogJpaEntity> jpaEntities
+                = issueWorkerLogJpaRepository
+                .findByWorkerAndWorkLogDateGreaterThanEqualAndWorkLogDateLessThanEqualOrderByWorkLogDate(
+                        worker, startDate, endDate);
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("<table border=1 style=\"padding: 5px; font-size: 19px\">");
+        sb.append("<tr>")
+                .append("<td align=\"center\">티켓</td>")
+                .append("<td align=\"center\">몇시</td>")
+                .append("<td align=\"center\">누구</td>")
+                .append("<td align=\"center\">얼마나</td>")
+                .append("<td align=\"center\">어떤일</td>")
+                .append("</tr>");
+        Long subTotalWorkMintue = 0L, totalWorkMintue = 0L;
+        String checkDate = startDt;
+        String logDate;
+        for(IssueWorkerLogJpaEntity entity : jpaEntities) {
+            //
+            logDate = DefaultDateTimeConverter.convertDate(entity.getWorkLogDate().toLocalDate());
+            if(!checkDate.equals(logDate)) {
+                sb.append("<tr>")
+                        .append("<td colspan=\"3\" align=\"center\"> ")
+                        .append(checkDate).append(" 합계</td>")
+                        .append("<td>").append(subTotalWorkMintue/60).append("시간 ")
+                        .append(subTotalWorkMintue%60).append("분").append("</td>")
+                        .append("<td></td>")
+                        .append("</tr>");
+
+                checkDate = logDate;
+                subTotalWorkMintue = 0L;
+            }
+            sb.append("<tr>")
+                    .append("<td>").append(entity.getIssueKey()).append("</td>")
+                    .append("<td align=\"center\">").append(
+                            DefaultDateTimeConverter.convertDateTime(entity.getWorkLogDate())).append("</td>")
+                    .append("<td>").append(entity.getWorker()).append("</td>")
+                    .append("<td align=\"right\">").append(entity.getWorkMinute()).append("m</td>")
+                    .append("<td>").append(entity.getWorkComment()).append("</td>")
+                    .append("</tr>");
+            totalWorkMintue += entity.getWorkMinute();
+            subTotalWorkMintue += entity.getWorkMinute();
+        }
+        sb.append("<tr>")
+                .append("<td colspan=\"3\" align=\"center\"> ")
+                .append(checkDate).append(" 합계</td>")
+                .append("<td>").append(subTotalWorkMintue/60).append("시간 ")
+                .append(subTotalWorkMintue%60).append("분").append("</td>")
+                .append("<td></td>")
+                .append("</tr>");
+
+        sb.append("<tr>")
+                .append("<td colspan=\"3\" align=\"center\"> 작업시간 합계</td>")
+                .append("<td>").append(totalWorkMintue/60).append("시간 ")
+                .append(totalWorkMintue%60).append("분").append("</td>")
+                .append("<td></td>")
+                .append("</tr>");
         sb.append("</table>");
 
         return sb.toString();

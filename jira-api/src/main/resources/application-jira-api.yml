@@ -1,6 +1,7 @@
 jira:
   client:
     credential:
-      jira-url:
-      username:
-      password:
+      jira-url: https://jira.woowa.in
+      username: mz_gogosing
+      password: asqw12qw!@
+

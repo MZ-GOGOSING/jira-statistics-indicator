@@ -5,19 +5,18 @@ import com.atlassian.jira.rest.client.api.domain.AddressableNamedEntity;
 import com.atlassian.jira.rest.client.api.domain.BasicWatchers;
 import com.atlassian.jira.rest.client.api.domain.Issue;
 import com.atlassian.jira.rest.client.api.domain.IssueField;
-
+import com.atlassian.jira.rest.client.api.domain.Worklog;
 import java.io.IOException;
 import java.net.URI;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import kr.co.mz.jira.domain.IssueDomainEntity;
-import kr.co.mz.jira.support.converter.StreamConverter;
+import kr.co.mz.jira.support.converter.BiConverter;
 import kr.co.mz.jira.support.converter.LocalDateTimeConverter;
+import kr.co.mz.jira.support.converter.StreamConverter;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
-
-
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
@@ -25,9 +24,9 @@ import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.ObjectCodec;
 import org.codehaus.jackson.map.MappingJsonFactory;
 import org.codehaus.jettison.json.JSONArray;
-import org.springframework.core.convert.converter.Converter;
 
-public class IssueDomainEntityConverter implements Converter<Issue, IssueDomainEntity> {
+public class IssueDomainEntityConverter
+    implements BiConverter<Issue, List<Worklog>, IssueDomainEntity> {
 
     private static final IssueTimeTrackingDomainEntityConverter ISSUE_TIME_TRACKING_DOMAIN_ENTITY_CONVERTER =
             new IssueTimeTrackingDomainEntityConverter();
@@ -39,7 +38,10 @@ public class IssueDomainEntityConverter implements Converter<Issue, IssueDomainE
             new IssueChangelogGroupDomainEntityConverter();
 
     @Override
-    public IssueDomainEntity convert(final Issue issue) {
+    public IssueDomainEntity convert(
+        final Issue issue,
+        final List<Worklog> worklogs
+    ) {
         boolean isSubTask = false;
         String parentTask = "";
         JsonFactory jsonFactory = new MappingJsonFactory();
@@ -76,11 +78,6 @@ public class IssueDomainEntityConverter implements Converter<Issue, IssueDomainE
         } catch (Exception e) { }
         // End of Sprint
 
-        // SubTasks
-        List<String> subTasks = new LinkedList<>();
-        issue.getSubtasks().forEach(subtask -> subTasks.add(subtask.getIssueKey()));
-        // End of subTasks
-
         return IssueDomainEntity.fromOrigin(
                 epicKey,
                 issue.getKey(),
@@ -109,7 +106,7 @@ public class IssueDomainEntityConverter implements Converter<Issue, IssueDomainE
                         .map(ISSUE_TIME_TRACKING_DOMAIN_ENTITY_CONVERTER::convert)
                         .orElse(null),
                 StreamConverter
-                        .fromIterable(issue.getWorklogs())
+                        .fromIterable(this.getWorklogs(issue, worklogs))
                         .map(ISSUE_WORKLOG_DOMAIN_ENTITY_CONVERTER::convert)
                         .collect(Collectors.toList()),
                 StreamConverter
@@ -117,5 +114,14 @@ public class IssueDomainEntityConverter implements Converter<Issue, IssueDomainE
                         .map(ISSUE_CHANGELOG_GROUP_DOMAIN_ENTITY_CONVERTER::convert)
                         .collect(Collectors.toList())
         );
+    }
+
+    private List<Worklog> getWorklogs(final Issue issue, final List<Worklog> worklogs) {
+        if (CollectionUtils.isNotEmpty(worklogs)) {
+            return worklogs;
+        }
+        return StreamConverter
+            .fromIterable(issue.getWorklogs())
+            .collect(Collectors.toList());
     }
 }

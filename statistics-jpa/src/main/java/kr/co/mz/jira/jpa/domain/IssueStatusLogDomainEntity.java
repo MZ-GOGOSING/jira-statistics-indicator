@@ -29,18 +29,20 @@ public class IssueStatusLogDomainEntity {
     private LocalDateTime confirmedDate;
     private LocalDateTime doneDate;
     private LocalDateTime dueDate;
+    private Long totalDelayedTime;
     private Set<String> labels;
     private String sprint;
 
     @Builder
     public IssueStatusLogDomainEntity(LocalDateTime queryDate, Long issueId, String issueKey,
-            IssueStatus issueStatus, LocalDateTime toDoDate, LocalDateTime dueDate, String sprint) {
+            IssueStatus issueStatus, LocalDateTime toDoDate, LocalDateTime dueDate, Long totalDelayedTime, String sprint) {
         this.queryDate = queryDate;
         this.issueId = issueId;
         this.issueKey = issueKey;
         this.issueStatus = issueStatus;
         this.toDoDate = toDoDate;
         this.dueDate = dueDate;
+        this.totalDelayedTime = totalDelayedTime;
         this.sprint = sprint;
     }
 
@@ -84,5 +86,6 @@ public class IssueStatusLogDomainEntity {
         inTestDate = null;
         confirmedDate = null;
         doneDate = null;
+        totalDelayedTime = 0L;
     }
 }

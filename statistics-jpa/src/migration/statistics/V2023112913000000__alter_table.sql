@@ -1,0 +1,1 @@
+ALTER TABLE issue_status_log ADD total_delayed_time BIGINT NOT NULL DEFAULT 0 COMMENT '지연시간 총합' AFTER due_date;

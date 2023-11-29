@@ -26,6 +26,7 @@ public enum IssueStatus implements DescriptionCode {
     InTest("In Test", "IN TEST, INTEST", 6),
     Confirmed("Confirmed", "CONFIRMED", 8),
     Done("Done", "DONE", 9),
+    Delayed("Delayed", "DELAYED", 98),
     NA("N/A", "N/A", 99);
 
     private final String description;
@@ -60,6 +61,8 @@ public enum IssueStatus implements DescriptionCode {
             return Confirmed;
         } else if (Done.getValue().contains(upperStatus)) {
             return Done;
+        } else if (Delayed.getValue().contains(upperStatus)) {
+            return Delayed;
         } else {
             return NA;
         }

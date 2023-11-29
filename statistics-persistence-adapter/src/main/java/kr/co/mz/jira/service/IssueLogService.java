@@ -7,10 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import kr.co.mz.jira.jpa.domain.IssueStatus;
-import kr.co.mz.jira.jpa.domain.IssueStatusLogDomainEntity;
-import kr.co.mz.jira.jpa.domain.IssueStatusLogDto;
-import kr.co.mz.jira.jpa.domain.IssueWorkerLogDto;
+
+import kr.co.mz.jira.jpa.domain.*;
 import kr.co.mz.jira.jpa.entity.IssueJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueStatusLogJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueWorkerLogJpaEntity;
@@ -86,10 +84,14 @@ public class IssueLogService {
                     IssueStatus cursorStatus = cursorStatusMap.get(dto.getIssueKey());
                     IssueStatus issueStatus = IssueStatus.getStatus(dto.getIssueStatus());
 
+                    // Delayed status인 경우에는 skip
+                    if ( IssueStatus.Delayed.equals(issueStatus)) return;
+
                     List<IssueStatusLogDomainEntity> statusLogEntities
                             = originStatusLogListMap.get(dto.getIssueKey());
                     Integer maxIndex = statusLogEntities.size()-1;
                     IssueStatusLogDomainEntity entity = statusLogEntities.get(maxIndex);
+                    // 이전 스탭의 상태값이 나오면 ReOpen으로 판단하여 새로운 row 생성
                     if( cursorStatus != null && issueStatus.isBefore(cursorStatus) ) {
                         IssueStatusLogDomainEntity newEntity
                                 = IssueStatusLogDomainEntity.builder().build();
@@ -99,11 +101,24 @@ public class IssueLogService {
                         statusLogEntities.add(newEntity);
 
                     } else {
+                        // Status에 매칭되는 issue_status_log 테이블 컬럼에 Date 저장
                         entity.setStatusDate(issueStatus, dto.getLogDate());
                         statusLogEntities.set(maxIndex, entity);
                     }
                     originStatusLogListMap.put(dto.getIssueKey(), statusLogEntities);
                     cursorStatusMap.put(dto.getIssueKey(), issueStatus);
+                }
+        );
+
+        // delay time 로그를 가져와서 entity를 업데이트 한다
+        List<IssueDelayedTimeLogDto> issueDelayedTimeLogDtos = issueJpaRepository.selectIssueDelayedTimeLog(subjectJpaEntity.getId());
+        issueDelayedTimeLogDtos.forEach(
+                dto -> {
+                    List<IssueStatusLogDomainEntity> issueStatusLogDomainEntities = originStatusLogListMap.getOrDefault(dto.getIssueKey(), new ArrayList<>());
+                    IssueStatusLogDomainEntity issueStatusLogDomainEntity = issueStatusLogDomainEntities.get(issueStatusLogDomainEntities.size() - 1);
+                    if ( ObjectUtils.isNotEmpty(issueStatusLogDomainEntity) ) {
+                        issueStatusLogDomainEntity.setTotalDelayedTime(Long.parseLong(dto.getTotalDelayedTime()));
+                    }
                 }
         );
 

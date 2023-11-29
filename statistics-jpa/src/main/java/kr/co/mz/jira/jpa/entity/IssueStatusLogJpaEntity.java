@@ -77,6 +77,9 @@ public class IssueStatusLogJpaEntity extends BaseJpaEntity {
     @Column(name = "due_date")
     private LocalDateTime dueDate;
 
+    @Column(name = "total_delayed_time")
+    private Long totalDelayedTime;
+
     @Column(name = "sprint")
     private String sprint;
 

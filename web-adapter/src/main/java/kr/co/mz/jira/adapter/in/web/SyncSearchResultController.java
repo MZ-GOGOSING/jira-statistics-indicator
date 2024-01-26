@@ -52,7 +52,7 @@ public class SyncSearchResultController {
           final @RequestBody @Valid SyncSearchWorkLogWebCommand webCommand
   ) {
 
-    var inCommand = "project = ITO and worklogAuthor = " + webCommand.getWorker()
+    var inCommand = "project =" + webCommand.getProject() + " and worklogAuthor = " + webCommand.getWorker()
             + " and worklogDate = '" + webCommand.getWorkDate() + "'";
 
     final var inResponse = syncSearchResultUseCase.sync(inCommand);
@@ -80,7 +80,7 @@ public class SyncSearchResultController {
       endDate = DefaultDateTimeConverter.convertDate(nowDate.minusDays(1));
     }
 
-    var inCommand = "project = ITO and worklogAuthor = " + webCommand.getWorker()
+    var inCommand = "project =" + webCommand.getProject() + " and worklogAuthor = " + webCommand.getWorker()
             + " and worklogDate >= '" + startDate + "'" + " and worklogDate <= '" + endDate + "'";
 
     final var inResponse = syncSearchResultUseCase.sync(inCommand);

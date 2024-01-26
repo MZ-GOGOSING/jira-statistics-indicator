@@ -27,4 +27,5 @@ public class SyncSearchWorkLogWebCommand {
   )
   private String worker;
   private String workDate;
+  private String project;
 }

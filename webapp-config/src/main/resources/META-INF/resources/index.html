@@ -12,9 +12,9 @@
 <body>
 <div style="padding: 10px;">
     <h1>집중해서 열심히 일했으니~ 오늘도 칼퇴근~</h1>
-    프로젝트 : <select id="project">
-                <option value="ITO">ITO</option>
-                <option value="ITO">ITO디자인</option>
+    프로젝트 : <select id="project" style="width: 100px; height: 33px;">
+                <option value="ITO" selected>ITO</option>
+                <option value="ITODESIGN">ITO디자인</option>
             </select>
     Who : <input type="text" size="15" id="worker" value="" style="padding: 2px; font-size:22px;">
     Today : <input type="text" size="15" id="workDate" value="" style="padding: 2px; font-size:22px;">
@@ -74,7 +74,7 @@
             dataType: "json",
             contentType: "application/json",
             type: "post",
-            data: JSON.stringify({worker : worker, workDate : workDate, project}),
+            data: JSON.stringify({worker : worker, workDate : workDate, project: project}),
             success: function (res) {
                 if( res.code === "2000") {
                     $("#msg").html("");

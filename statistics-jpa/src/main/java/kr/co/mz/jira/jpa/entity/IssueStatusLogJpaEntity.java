@@ -34,23 +34,23 @@ public class IssueStatusLogJpaEntity extends BaseJpaEntity {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "query_date", nullable = false)
+    @Column(name = "query_date")
     private LocalDateTime queryDate;
 
     @Column(name = "epic_key")
     private String epicKey;
 
-    @Column(name = "issue_id", nullable = false)
+    @Column(name = "issue_id")
     private Long issueId;
 
-    @Column(name = "issue_key", nullable = false)
+    @Column(name = "issue_key")
     private String issueKey;
 
-    @Column(name = "issue_status", nullable = false)
+    @Column(name = "issue_status")
     @Enumerated(EnumType.STRING)
     private IssueStatus issueStatus;
 
-    @Column(name = "to_do_date", nullable = false)
+    @Column(name = "to_do_date")
     private LocalDateTime toDoDate;
 
     @Column(name = "analysis_date")

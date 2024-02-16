@@ -52,7 +52,7 @@ public class SyncSearchResultController {
           final @RequestBody @Valid SyncSearchWorkLogWebCommand webCommand
   ) {
 
-    var inCommand = "project =" + webCommand.getProject() + " and worklogAuthor = " + webCommand.getWorker()
+    var inCommand = "project = " + webCommand.getProject() + " and worklogAuthor = " + webCommand.getWorker()
             + " and worklogDate = '" + webCommand.getWorkDate() + "'";
 
     final var inResponse = syncSearchResultUseCase.sync(inCommand);

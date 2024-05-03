@@ -1,29 +1,26 @@
 package kr.co.mz.jira.adapter.out.api.converter;
 
 
-import com.atlassian.jira.rest.client.api.domain.AddressableNamedEntity;
-import com.atlassian.jira.rest.client.api.domain.BasicWatchers;
-import com.atlassian.jira.rest.client.api.domain.Issue;
-import com.atlassian.jira.rest.client.api.domain.IssueField;
-import com.atlassian.jira.rest.client.api.domain.Worklog;
-import java.io.IOException;
-import java.net.URI;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import com.atlassian.jira.rest.client.api.domain.*;
 import kr.co.mz.jira.domain.IssueDomainEntity;
 import kr.co.mz.jira.support.converter.BiConverter;
 import kr.co.mz.jira.support.converter.LocalDateTimeConverter;
 import kr.co.mz.jira.support.converter.StreamConverter;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.IteratorUtils;
 import org.apache.commons.lang3.ObjectUtils;
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.ObjectCodec;
+import org.codehaus.jackson.*;
 import org.codehaus.jackson.map.MappingJsonFactory;
 import org.codehaus.jettison.json.JSONArray;
+
+import java.io.IOException;
+import java.net.URI;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class IssueDomainEntityConverter
     implements BiConverter<Issue, List<Worklog>, IssueDomainEntity> {
@@ -102,6 +99,8 @@ public class IssueDomainEntityConverter
                 sprintName,
                 parentTask,
                 isSubTask,
+                this.getComponentsName(IteratorUtils.toList(issue.getComponents().iterator())),
+                this.convertObjectFromLocalDateTime(issue.getField("customfield_10025").getValue()),
                 Optional.ofNullable(issue.getTimeTracking())
                         .map(ISSUE_TIME_TRACKING_DOMAIN_ENTITY_CONVERTER::convert)
                         .orElse(null),
@@ -123,5 +122,20 @@ public class IssueDomainEntityConverter
         return StreamConverter
             .fromIterable(issue.getWorklogs())
             .collect(Collectors.toList());
+    }
+
+    /**
+     * 첫번째 고정
+     * TODO 최초 요구사항은 첫번째 고정, 미래에는 달라질수가 있다.
+     */
+    private String getComponentsName(final List<BasicComponent> components) {
+        if (CollectionUtils.isEmpty(components)) {
+            // 구성 요소 없을 시
+            return "";
+        }
+        return components.get(0).getName();
+    }
+    private LocalDateTime convertObjectFromLocalDateTime(Object obj) {
+        return Objects.isNull(obj) ? null : LocalDate.parse(obj.toString()).atStartOfDay();
     }
 }

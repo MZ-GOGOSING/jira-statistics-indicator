@@ -27,7 +27,9 @@ public enum IssueStatus implements DescriptionCode {
     Confirmed("Confirmed", "CONFIRMED", 8),
     Done("Done", "DONE", 9),
     Delayed("Delayed", "DELAYED", 98),
-    NA("N/A", "N/A", 99);
+    NA("N/A", "N/A", 99),
+    Preview("Preview","PREVIEW", 2),
+    Doing("Doing", "DOING", 4);
 
     private final String description;
     private final String value;
@@ -63,6 +65,10 @@ public enum IssueStatus implements DescriptionCode {
             return Done;
         } else if (Delayed.getValue().contains(upperStatus)) {
             return Delayed;
+        } else if (Preview.getValue().contains(upperStatus)) {
+            return Preview;
+        } else if (Doing.getValue().contains(upperStatus)) {
+            return Doing;
         } else {
             return NA;
         }

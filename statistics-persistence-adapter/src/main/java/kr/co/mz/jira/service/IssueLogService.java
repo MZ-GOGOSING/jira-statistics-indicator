@@ -1,28 +1,19 @@
 package kr.co.mz.jira.service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import kr.co.mz.jira.jpa.domain.*;
 import kr.co.mz.jira.jpa.entity.IssueJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueStatusLogJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueWorkerLogJpaEntity;
 import kr.co.mz.jira.jpa.entity.SubjectJpaEntity;
-import kr.co.mz.jira.jpa.repository.IssueJpaRepository;
-import kr.co.mz.jira.jpa.repository.IssueStatusLogJpaRepository;
-import kr.co.mz.jira.jpa.repository.IssueWorkerLogJpaRepository;
-import kr.co.mz.jira.jpa.repository.IssueWorklogJpaRepository;
-import kr.co.mz.jira.jpa.repository.SubjectJpaRepository;
+import kr.co.mz.jira.jpa.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -34,6 +25,11 @@ public class IssueLogService {
     private final IssueStatusLogJpaRepository issueStatusLogJpaRepository;
     private final IssueWorklogJpaRepository issueWorklogJpaRepository;
     private final IssueWorkerLogJpaRepository issueWorkerLogJpaRepository;
+
+    private static final String ITO = "ITO";
+    private static final String ITO_DESIGN = "ITODESIGN";
+    private static final String ITO_IFROPS = "ITOIFROPS";
+
 
     public void syncIssueLog(String uuid) {
         //
@@ -64,9 +60,10 @@ public class IssueLogService {
                                 .issueKey(entity.getIssueKey())
                                 .issueStatus(IssueStatus.getStatus(entity.getStatusName()))
                                 .toDoDate(entity.getCreationDate())
-                                .dueDate(entity.getDueDate())
+                                .dueDate(this.getDueDate(entity))
                                 .labels(entity.getLabels())
                                 .sprint(entity.getSprint())
+                                .component(entity.getComponent())
                                 .build()
                     );
                     originStatusLogListMap.put(entity.getIssueKey(), statusLogEntities);
@@ -93,11 +90,25 @@ public class IssueLogService {
                     IssueStatusLogDomainEntity entity = statusLogEntities.get(maxIndex);
                     // 이전 스탭의 상태값이 나오면 ReOpen으로 판단하여 새로운 row 생성
                     if( cursorStatus != null && issueStatus.isBefore(cursorStatus) ) {
-                        IssueStatusLogDomainEntity newEntity
-                                = IssueStatusLogDomainEntity.builder().build();
+                        IssueStatusLogDomainEntity newEntity = IssueStatusLogDomainEntity.builder().build();
                         BeanUtils.copyProperties(entity, newEntity);
                         newEntity.resetStatusDate();
-                        newEntity.setStatusDate(issueStatus, dto.getLogDate());
+
+                        String projectName = dto.getIssueKey().split("-")[0];
+
+                        switch (projectName) {
+                            case ITO:
+                                newEntity.setStatusDate(issueStatus, dto.getLogDate());
+                                break;
+                            case ITO_DESIGN:
+                                newEntity.setStatusDateForItoDesign(issueStatus, dto.getLogDate());
+                                break;
+                            case ITO_IFROPS:
+                                newEntity.setStatusDateForInfra(issueStatus, dto.getLogDate());
+                                break;
+                            default:
+                                break;
+                        }
                         statusLogEntities.add(newEntity);
 
                     } else {
@@ -116,11 +127,12 @@ public class IssueLogService {
                 dto -> {
                     List<IssueStatusLogDomainEntity> issueStatusLogDomainEntities = originStatusLogListMap.getOrDefault(dto.getIssueKey(), new ArrayList<>());
                     IssueStatusLogDomainEntity issueStatusLogDomainEntity = issueStatusLogDomainEntities.get(issueStatusLogDomainEntities.size() - 1);
-                    if ( ObjectUtils.isNotEmpty(issueStatusLogDomainEntity) ) {
+                    if (ObjectUtils.isNotEmpty(issueStatusLogDomainEntity)) {
                         issueStatusLogDomainEntity.setTotalDelayedTime(Long.parseLong(dto.getTotalDelayedTime()));
                     }
                 }
         );
+
 
         List<IssueStatusLogDomainEntity> statusLogDomainEntities = new ArrayList<>();
         originStatusLogListMap.values().forEach(statusLogDomainEntities::addAll);
@@ -135,6 +147,10 @@ public class IssueLogService {
 
         IssueStatusLogJpaEntity savingIssueStatusLogJpaEntity;
         for(IssueStatusLogDomainEntity domainEntity : statusLogDomainEntities) {
+            if (Objects.isNull(domainEntity.getTotalDelayedTime())) {
+                domainEntity.setTotalDelayedTime(0L);
+            }
+
             savingIssueStatusLogJpaEntity = new IssueStatusLogJpaEntity();
             BeanUtils.copyProperties(domainEntity, savingIssueStatusLogJpaEntity);
             savingIssueStatusLogJpaEntities.add(savingIssueStatusLogJpaEntity);
@@ -161,5 +177,9 @@ public class IssueLogService {
         }
 
         issueWorkerLogJpaRepository.saveAll(issueWorkerLogJpaEntities);
+    }
+
+    private LocalDateTime getDueDate(IssueJpaEntity entity) {
+        return entity.getIssueKey().contains("ITODESIGN") ? entity.getEndDate() : entity.getDueDate();
     }
 }

@@ -33,8 +33,8 @@ public class FetchIssueAdapter implements FetchAllIssuePort {
 
   @Override
   public List<IssueDomainEntity> fetchAllByIssueKeyList(final List<String> issueKeyList) {
-    final var issueList = issueRestClientService.loadAllByIssueKeyList(issueKeyList);
-    final var issueKeyAndWorklogListMap = this.fetchAllByIssueList(issueList);
+    final List<Issue> issueList = issueRestClientService.loadAllByIssueKeyList(issueKeyList);
+    final Map<String, List<Worklog>> issueKeyAndWorklogListMap = this.fetchAllByIssueList(issueList);
 
     return CollectionUtils.emptyIfNull(issueList)
         .stream()

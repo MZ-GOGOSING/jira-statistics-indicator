@@ -50,6 +50,8 @@ public class IssueDomainEntityConverter implements Converter<IssueJpaEntity, Iss
         issueJpaEntity.getSprint(),
         issueJpaEntity.getParentTask(),
         issueJpaEntity.isSubTask(),
+        issueJpaEntity.getComponent(),
+        issueJpaEntity.getEndDate(),
         issueTimeTrackingDomainEntity,
         issueWorklogDomainEntities,
         issueChangelogGroupDomainEntities

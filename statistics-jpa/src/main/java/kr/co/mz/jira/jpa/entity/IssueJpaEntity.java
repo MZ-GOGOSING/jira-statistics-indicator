@@ -135,6 +135,12 @@ public class IssueJpaEntity extends BaseJpaEntity {
   @Column(name = "sprint")
   private String sprint;
 
+  @Column(name = "component")
+  private String component;
+
+  @Column(name = "end_date")
+  private LocalDateTime endDate;
+
   /**
    * Issue Time Tracking.
    */

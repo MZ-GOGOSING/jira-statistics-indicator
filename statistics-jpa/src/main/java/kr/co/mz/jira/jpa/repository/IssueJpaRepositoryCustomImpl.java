@@ -4,10 +4,7 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import java.util.List;
 import kr.co.mz.jira.jpa.config.StatisticsJpaRepositorySupport;
-import kr.co.mz.jira.jpa.domain.IssueDelayedTimeLogDto;
-import kr.co.mz.jira.jpa.domain.IssueStatusLogDto;
-import kr.co.mz.jira.jpa.domain.QIssueDelayedTimeLogDto;
-import kr.co.mz.jira.jpa.domain.QIssueStatusLogDto;
+import kr.co.mz.jira.jpa.domain.*;
 import kr.co.mz.jira.jpa.entity.IssueStatusLogJpaEntity;
 import kr.co.mz.jira.jpa.entity.QIssueChangelogGroupJpaEntity;
 import kr.co.mz.jira.jpa.entity.QIssueChangelogItemJpaEntity;
@@ -75,11 +72,49 @@ public class IssueJpaRepositoryCustomImpl extends StatisticsJpaRepositorySupport
                                 .from(issue)
                                 .join(issueChangeLogGroup)
                                 .on(issue.id.eq(issueChangeLogGroup.issue.id))
+                                .join(issueChangeLogItem)
+                                .on(issueChangeLogGroup.id.eq(issueChangeLogItem.issueChangelogGroup.id).and(issueChangeLogItem.field.eq("totalDelayedTime")))
                                 .where(
                                         issue.subjectId.eq(subjectId)
                                 )
-                                .groupBy(issue.id))
+                                .groupBy(issue.id)
+                        )
                 )
+                .groupBy()
+                .orderBy(issueChangeLogGroup.created.asc());
+        return jpqlQuery.fetchJoin().fetch();
+    }
+
+    @Override
+    public List<IssueEndDateLogDto> selectIssueEndDateLog(Long subjectId) {
+        final JPQLQuery<IssueEndDateLogDto> jpqlQuery = getQuerydsl()
+                .createQuery()
+                .select(new QIssueEndDateLogDto(
+                        issue.id,
+                        issue.issueKey,
+                        issueChangeLogItem.toString
+                ))
+                .from(issue)
+                .join(issueChangeLogGroup)
+                .on(issue.id.eq(issueChangeLogGroup.issue.id))
+                .join(issueChangeLogItem)
+                .on(issueChangeLogGroup.id.eq(issueChangeLogItem.issueChangelogGroup.id))
+                .where(
+                        issue.subjectId.eq(subjectId),
+                        issueChangeLogItem.field.eq("End date"),
+                        issueChangeLogGroup.id.in(JPAExpressions.select(issueChangeLogGroup.id.max())
+                                .from(issue)
+                                .join(issueChangeLogGroup)
+                                .on(issue.id.eq(issueChangeLogGroup.issue.id))
+                                .join(issueChangeLogItem)
+                                .on(issueChangeLogGroup.id.eq(issueChangeLogItem.issueChangelogGroup.id).and(issueChangeLogItem.field.eq("End date")))
+                                .where(
+                                        issue.subjectId.eq(subjectId)
+                                )
+                                .groupBy(issue.id)
+                        )
+                )
+                .groupBy()
                 .orderBy(issueChangeLogGroup.created.asc());
         return jpqlQuery.fetchJoin().fetch();
     }

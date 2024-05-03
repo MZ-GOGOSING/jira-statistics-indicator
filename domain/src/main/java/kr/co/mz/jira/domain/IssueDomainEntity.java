@@ -50,6 +50,10 @@ public class IssueDomainEntity {
 
     private  boolean isSubtask;
 
+    private String component;
+
+    private  LocalDateTime endDate;
+
     private  IssueTimeTrackingDomainEntity timeTracking;
 
     private  List<IssueWorklogDomainEntity> worklogs;
@@ -74,6 +78,8 @@ public class IssueDomainEntity {
              String sprint,
              String parentTask,
              boolean isSubtask,
+             String component,
+             LocalDateTime endDate,
              IssueTimeTrackingDomainEntity timeTracking,
              List<IssueWorklogDomainEntity> worklogs,
              List<IssueChangelogGroupDomainEntity> changelog
@@ -96,6 +102,8 @@ public class IssueDomainEntity {
         this.issueTypeName = issueTypeName;
         this.statusName = statusName;
         this.sprint = sprint;
+        this.component = component;
+        this.endDate = endDate;
         this.timeTracking = timeTracking;
         this.worklogs = worklogs;
         this.changelog = changelog;
@@ -118,6 +126,8 @@ public class IssueDomainEntity {
              String sprint,
              String parentTask,
              boolean isSubtask,
+             String component,
+             LocalDateTime endDate,
              IssueTimeTrackingDomainEntity timeTracking,
              List<IssueWorklogDomainEntity> worklogs,
              List<IssueChangelogGroupDomainEntity> changelog
@@ -139,6 +149,8 @@ public class IssueDomainEntity {
                 .sprint(sprint)
                 .parentTask(parentTask)
                 .isSubtask(isSubtask)
+                .component(component)
+                .endDate(endDate)
                 .timeTracking(timeTracking)
                 .worklogs(worklogs)
                 .changelog(changelog)
@@ -163,6 +175,8 @@ public class IssueDomainEntity {
              String sprint,
              String parentTask,
              boolean isSubtask,
+             String component,
+             LocalDateTime endDate,
              IssueTimeTrackingDomainEntity timeTracking,
              List<IssueWorklogDomainEntity> worklogs,
              List<IssueChangelogGroupDomainEntity> changelog
@@ -186,6 +200,8 @@ public class IssueDomainEntity {
                 .sprint(sprint)
                 .parentTask(parentTask)
                 .isSubtask(isSubtask)
+                .component(component)
+                .endDate(endDate)
                 .timeTracking(timeTracking)
                 .worklogs(worklogs)
                 .changelog(changelog)

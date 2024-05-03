@@ -83,6 +83,9 @@ public class IssueStatusLogJpaEntity extends BaseJpaEntity {
     @Column(name = "sprint")
     private String sprint;
 
+    @Column(name = "component")
+    private String component;
+
     @Builder.Default
     @Column(name = "labels", columnDefinition = "TEXT")
     @Convert(converter = IssueLabelConverter.class)

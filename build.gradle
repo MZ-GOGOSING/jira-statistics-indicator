@@ -7,6 +7,7 @@ buildscript {
     repositories {
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'https://packages.atlassian.com/maven-public/' }
     }
 
     dependencies {
@@ -47,9 +48,8 @@ subprojects {
     compileJava.options.encoding = 'UTF-8'
 
     repositories {
-        jcenter()
         mavenCentral()
-        maven { url 'https://github.com/MegazoneDigital/maven-repo/raw/master/snapshots' }
+        maven { url 'https://packages.atlassian.com/maven-public/' }
     }
 
     dependencies {

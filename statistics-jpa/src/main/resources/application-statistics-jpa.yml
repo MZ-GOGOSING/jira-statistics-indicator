@@ -52,9 +52,9 @@ statistics:
       poolName: statistics-persistence-cp
       type: com.zaxxer.hikari.HikariDataSource
       driverClassName: org.mariadb.jdbc.Driver
-      jdbcUrl: "jdbc:mariadb://jira-statistics-dev.crj6fwy9fshj.ap-northeast-2.rds.amazonaws.com:3306/statistics"
-      username: root
-      password: 2022ito#$
+      jdbcUrl:
+      username:
+      password:
       auto-commit: false
       sqlScriptEncoding: UTF-8
       connectionTimeout: 600000

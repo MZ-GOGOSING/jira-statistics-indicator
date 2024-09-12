@@ -23,7 +23,7 @@ docker-compose up -d
 
 ```
 docker exec -it mariadb10.6 bash
-mysql --protocol=tcp -hlocalhost -P3306 -uroot -proot
+mysql --protocol=tcp -hlocalhost -P4306 -uroot -proot
 mysql> CREATE DATABASE statistics DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
@@ -98,5 +98,5 @@ java -jar -Dspring.profiles.active=dev webapp-config-1.0.0.jar \
 API 명세는 어플리케이션 실행 후, 아래의 경로를 통하여 확인할 수 있습니다.
 
 ```
-http://localhost/swagger-ui/index.html
+http://localhost:8080/swagger-ui/index.html
 ```

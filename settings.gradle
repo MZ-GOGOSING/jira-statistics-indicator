@@ -10,11 +10,9 @@ include 'application'
 include 'api-out'
 include 'statistics-persistence-adapter'
 include 'jira-rest-adapter'
-include 'spreadsheet-document-adapter'
 
 include 'statistics-jpa'
 include 'jira-rest-client'
-include 'microsoft-document'
 
 include 'domain'
 include 'code'

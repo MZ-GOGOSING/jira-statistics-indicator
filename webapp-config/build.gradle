@@ -44,7 +44,7 @@ task integrationTest(type: Test) {
 }
 
 tasks.named("bootJar") {
-    mainClass = 'kr.co.mz.jira.ApplicationInitializr'
+    mainClass = 'kr.co.mz.ApplicationInitializr'
 }
 
 tasks.named("bootRun") {

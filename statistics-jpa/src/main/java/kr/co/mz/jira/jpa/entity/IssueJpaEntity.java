@@ -109,6 +109,12 @@ public class IssueJpaEntity extends BaseJpaEntity {
   private String summary;
 
   /**
+   * 내용.
+   */
+  @Column(name = "description", columnDefinition = "TEXT")
+  private String description;
+
+  /**
    * Issue 유형.
    */
   @Column(name = "issue_type_name")
@@ -153,4 +159,16 @@ public class IssueJpaEntity extends BaseJpaEntity {
       orphanRemoval = true
   )
   private Set<IssueChangelogGroupJpaEntity> changelog = new LinkedHashSet<>();
+
+  /**
+   * Issue Comments.
+   */
+  @Builder.Default
+  @OneToMany(
+      mappedBy = "issue",
+      fetch = FetchType.LAZY,
+      cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE},
+      orphanRemoval = true
+  )
+  private Set<IssueCommentJpaEntity> comments = new LinkedHashSet<>();
 }

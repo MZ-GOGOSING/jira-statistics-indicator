@@ -54,6 +54,9 @@ public class GetIssueDetailWebResponse {
   @Schema(description = "제목", required = true)
   private final String summary;
 
+  @Schema(description = "내용")
+  private final String description;
+
   @Schema(description = "Issue 유형")
   private final String issueTypeName;
 
@@ -82,6 +85,7 @@ public class GetIssueDetailWebResponse {
         .assigneeUsername(inResponse.getAssigneeUsername())
         .reporterUsername(inResponse.getReporterUsername())
         .summary(inResponse.getSummary())
+        .description(inResponse.getDescription())
         .issueTypeName(inResponse.getIssueTypeName())
         .statusName(inResponse.getStatusName())
         .timeTracking(

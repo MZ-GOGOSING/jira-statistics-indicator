@@ -36,6 +36,8 @@ public class IssueDomainEntity {
 
   private final String summary;
 
+  private final String description;
+
   private final String issueTypeName;
 
   private final String statusName;
@@ -45,6 +47,8 @@ public class IssueDomainEntity {
   private final List<IssueWorklogDomainEntity> worklogs;
 
   private final List<IssueChangelogGroupDomainEntity> changelog;
+
+  private final List<IssueCommentDomainEntity> comments;
 
   private IssueDomainEntity(
       final Long id,
@@ -58,11 +62,13 @@ public class IssueDomainEntity {
       final String assigneeUsername,
       final String reporterUsername,
       final String summary,
+      final String description,
       final String issueTypeName,
       final String statusName,
       final IssueTimeTrackingDomainEntity timeTracking,
       final List<IssueWorklogDomainEntity> worklogs,
-      final List<IssueChangelogGroupDomainEntity> changelog
+      final List<IssueChangelogGroupDomainEntity> changelog,
+      final List<IssueCommentDomainEntity> comments
   ) {
     AssertHelper.hasText(key, "Issue Key 는 빈 문자열일 수 없습니다.");
 
@@ -77,11 +83,13 @@ public class IssueDomainEntity {
     this.assigneeUsername = assigneeUsername;
     this.reporterUsername = reporterUsername;
     this.summary = summary;
+    this.description = description;
     this.issueTypeName = issueTypeName;
     this.statusName = statusName;
     this.timeTracking = timeTracking;
     this.worklogs = worklogs;
     this.changelog = changelog;
+    this.comments = comments;
   }
 
   public static IssueDomainEntity fromOrigin(
@@ -95,11 +103,13 @@ public class IssueDomainEntity {
       final String assigneeUsername,
       final String reporterUsername,
       final String summary,
+      final String description,
       final String issueTypeName,
       final String statusName,
       final IssueTimeTrackingDomainEntity timeTracking,
       final List<IssueWorklogDomainEntity> worklogs,
-      final List<IssueChangelogGroupDomainEntity> changelog
+      final List<IssueChangelogGroupDomainEntity> changelog,
+      final List<IssueCommentDomainEntity> comments
   ) {
     return IssueDomainEntity.builder()
         .key(key)
@@ -112,11 +122,13 @@ public class IssueDomainEntity {
         .assigneeUsername(assigneeUsername)
         .reporterUsername(reporterUsername)
         .summary(summary)
+        .description(description)
         .issueTypeName(issueTypeName)
         .statusName(statusName)
         .timeTracking(timeTracking)
         .worklogs(worklogs)
         .changelog(changelog)
+        .comments(comments)
         .build();
   }
 
@@ -132,11 +144,13 @@ public class IssueDomainEntity {
       final String assigneeUsername,
       final String reporterUsername,
       final String summary,
+      final String description,
       final String issueTypeName,
       final String statusName,
       final IssueTimeTrackingDomainEntity timeTracking,
       final List<IssueWorklogDomainEntity> worklogs,
-      final List<IssueChangelogGroupDomainEntity> changelog
+      final List<IssueChangelogGroupDomainEntity> changelog,
+      final List<IssueCommentDomainEntity> comments
   ) {
     AssertHelper.isPositive(id, "ID 는 0 이하 일 수 없습니다.");
 
@@ -152,11 +166,13 @@ public class IssueDomainEntity {
         .assigneeUsername(assigneeUsername)
         .reporterUsername(reporterUsername)
         .summary(summary)
+        .description(description)
         .issueTypeName(issueTypeName)
         .statusName(statusName)
         .timeTracking(timeTracking)
         .worklogs(worklogs)
         .changelog(changelog)
+        .comments(comments)
         .build();
   }
 }

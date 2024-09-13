@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS issue (
     assignee_username VARCHAR(100) COMMENT 'Assignee 계정',
     reporter_username VARCHAR(100) COMMENT 'Reporter 계정',
     summary VARCHAR(1000) COMMENT '제목',
+    description TEXT COMMENT '내용',
     issue_type_name VARCHAR(50) COMMENT 'Issue 유형',
     status_name VARCHAR(50) COMMENT 'Issue 상태'
 ) COMMENT 'Issue';
@@ -42,6 +43,19 @@ CREATE TABLE IF NOT EXISTS issue_work_log (
     start_date DATETIME(6) COMMENT '시작일',
     minutes_spent INT COMMENT '작업 시간'
 ) COMMENT 'Issue Work Log';
+
+CREATE TABLE IF NOT EXISTS issue_comment (
+    id BIGINT(5) AUTO_INCREMENT PRIMARY KEY COMMENT '식별자',
+    issue_id BIGINT(5) NOT NULL COMMENT '부모 Issue 식별자',
+    comment_id BIGINT(5) NOT NULL COMMENT 'comment 식별자',
+    author_display_name VARCHAR(100) COMMENT '작성자 이름',
+    author_account_id VARCHAR(100) COMMENT '작성자 아이디',
+    update_author_display_name VARCHAR(100) COMMENT '수정자 이름',
+    update_author_account_id VARCHAR(100) COMMENT '수정자 아이디',
+    creation_date DATETIME(6) COMMENT '생성일',
+    update_date DATETIME(6) COMMENT '최종 수정일',
+    body TEXT COMMENT 'comment 내용'
+) COMMENT 'Issue Comment';
 
 CREATE TABLE IF NOT EXISTS issue_change_log_group (
     id BIGINT(5) AUTO_INCREMENT PRIMARY KEY COMMENT '식별자',

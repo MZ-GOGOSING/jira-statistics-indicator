@@ -6,10 +6,12 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import kr.co.mz.jira.domain.IssueChangelogGroupDomainEntity;
+import kr.co.mz.jira.domain.IssueCommentDomainEntity;
 import kr.co.mz.jira.domain.IssueDomainEntity;
 import kr.co.mz.jira.domain.IssueTimeTrackingDomainEntity;
 import kr.co.mz.jira.domain.IssueWorklogDomainEntity;
 import kr.co.mz.jira.jpa.entity.IssueChangelogGroupJpaEntity;
+import kr.co.mz.jira.jpa.entity.IssueCommentJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueTimeTrackingJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueWorklogJpaEntity;
@@ -26,6 +28,9 @@ public class IssueJpaEntityConverter implements BiConverter<Long, IssueDomainEnt
 
   private static final IssueChangelogGroupJpaEntityConverter ISSUE_CHANGELOG_GROUP_JPA_ENTITY_CONVERTER =
       new IssueChangelogGroupJpaEntityConverter();
+
+  private static final IssueCommentJpaEntityConverter ISSUE_COMMENT_JPA_ENTITY_CONVERTER =
+      new IssueCommentJpaEntityConverter();
 
   @Override
   public IssueJpaEntity convert(
@@ -44,6 +49,7 @@ public class IssueJpaEntityConverter implements BiConverter<Long, IssueDomainEnt
         .assigneeUsername(issueDomainEntity.getAssigneeUsername())
         .reporterUsername(issueDomainEntity.getReporterUsername())
         .summary(issueDomainEntity.getSummary())
+        .description(issueDomainEntity.getDescription())
         .issueTypeName(issueDomainEntity.getIssueTypeName())
         .statusName(issueDomainEntity.getStatusName())
         .build();
@@ -51,10 +57,12 @@ public class IssueJpaEntityConverter implements BiConverter<Long, IssueDomainEnt
     final var issueTimeTrackingJpaEntity = this.buildIssueTimeTrackingJpaEntity(issueJpaEntity, issueDomainEntity.getTimeTracking());
     final var issueWorklogJpaEntities = this.buildIssueWorklogJpaEntities(issueJpaEntity, issueDomainEntity.getWorklogs());
     final var issueChangelogGroupJpaEntities = this.buildIssueChangelogGroupJpaEntities(issueJpaEntity, issueDomainEntity.getChangelog());
+    final var issueCommentJpaEntities = this.buildIssueCommentJpaEntities(issueJpaEntity, issueDomainEntity.getComments());
 
     issueJpaEntity.setTimeTracking(issueTimeTrackingJpaEntity);
     issueJpaEntity.getWorklogs().addAll(issueWorklogJpaEntities);
     issueJpaEntity.getChangelog().addAll(issueChangelogGroupJpaEntities);
+    issueJpaEntity.getComments().addAll(issueCommentJpaEntities);
 
     return issueJpaEntity;
   }
@@ -90,6 +98,20 @@ public class IssueJpaEntityConverter implements BiConverter<Long, IssueDomainEnt
         .map(issueChangelogGroupDomainEntity -> ISSUE_CHANGELOG_GROUP_JPA_ENTITY_CONVERTER.convert(
             issueJpaEntity,
             issueChangelogGroupDomainEntity
+        ))
+        .filter(Objects::nonNull)
+        .collect(Collectors.toCollection(LinkedHashSet::new));
+  }
+
+  private Set<IssueCommentJpaEntity> buildIssueCommentJpaEntities(
+      final IssueJpaEntity issueJpaEntity,
+      final List<IssueCommentDomainEntity> issueCommentDomainEntities
+  ) {
+    return CollectionUtils.emptyIfNull(issueCommentDomainEntities)
+        .stream()
+        .map(issueCommentDomainEntity -> ISSUE_COMMENT_JPA_ENTITY_CONVERTER.convert(
+            issueJpaEntity,
+            issueCommentDomainEntity
         ))
         .filter(Objects::nonNull)
         .collect(Collectors.toCollection(LinkedHashSet::new));

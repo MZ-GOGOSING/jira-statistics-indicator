@@ -22,6 +22,9 @@ public class IssueDomainEntityConverter implements Converter<Issue, IssueDomainE
   private static final IssueChangelogGroupDomainEntityConverter ISSUE_CHANGELOG_GROUP_DOMAIN_ENTITY_CONVERTER =
       new IssueChangelogGroupDomainEntityConverter();
 
+  private static final IssueCommentDomainEntityConverter ISSUE_COMMENT_DOMAIN_ENTITY_CONVERTER =
+      new IssueCommentDomainEntityConverter();
+
   @Override
   public IssueDomainEntity convert(final Issue issue) {
     return IssueDomainEntity.fromOrigin(
@@ -42,6 +45,7 @@ public class IssueDomainEntityConverter implements Converter<Issue, IssueDomainE
             .map(AddressableNamedEntity::getName)
             .orElse(null),
         issue.getSummary(),
+        issue.getDescription(),
         issue.getIssueType().getName(),
         issue.getStatus().getName(),
         Optional.ofNullable(issue.getTimeTracking())
@@ -54,6 +58,10 @@ public class IssueDomainEntityConverter implements Converter<Issue, IssueDomainE
         StreamConverter
             .fromIterable(issue.getChangelog())
             .map(ISSUE_CHANGELOG_GROUP_DOMAIN_ENTITY_CONVERTER::convert)
+            .collect(Collectors.toList()),
+        StreamConverter
+            .fromIterable(issue.getComments())
+            .map(ISSUE_COMMENT_DOMAIN_ENTITY_CONVERTER::convert)
             .collect(Collectors.toList())
     );
   }

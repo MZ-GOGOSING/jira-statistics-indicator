@@ -8,6 +8,7 @@ import kr.co.mz.jira.jpa.config.StatisticsJpaRepositorySupport;
 import kr.co.mz.jira.jpa.entity.IssueJpaEntity;
 import kr.co.mz.jira.jpa.entity.QIssueChangelogGroupJpaEntity;
 import kr.co.mz.jira.jpa.entity.QIssueChangelogItemJpaEntity;
+import kr.co.mz.jira.jpa.entity.QIssueCommentJpaEntity;
 import kr.co.mz.jira.jpa.entity.QIssueJpaEntity;
 import kr.co.mz.jira.jpa.entity.QIssueTimeTrackingJpaEntity;
 import kr.co.mz.jira.jpa.entity.QIssueWorklogJpaEntity;
@@ -29,6 +30,9 @@ public class IssueJpaRepositoryCustomImpl extends StatisticsJpaRepositorySupport
 
   private static final QIssueChangelogItemJpaEntity Q_ISSUE_CHANGELOG_ITEM_JPA_ENTITY =
       QIssueChangelogItemJpaEntity.issueChangelogItemJpaEntity;
+
+  private static final QIssueCommentJpaEntity Q_ISSUE_COMMENT_JPA_ENTITY =
+      QIssueCommentJpaEntity.issueCommentJpaEntity;
 
   public IssueJpaRepositoryCustomImpl() {
     super(IssueJpaEntity.class);
@@ -53,7 +57,10 @@ public class IssueJpaRepositoryCustomImpl extends StatisticsJpaRepositorySupport
         .fetchJoin()
         .leftJoin(Q_ISSUE_JPA_ENTITY.changelog, Q_ISSUE_CHANGELOG_GROUP_JPA_ENTITY)
         .fetchJoin()
+        .leftJoin(Q_ISSUE_JPA_ENTITY.comments, Q_ISSUE_COMMENT_JPA_ENTITY)
+        .fetchJoin()
         .leftJoin(Q_ISSUE_CHANGELOG_GROUP_JPA_ENTITY.items, Q_ISSUE_CHANGELOG_ITEM_JPA_ENTITY)
         .fetchJoin();
+
   }
 }

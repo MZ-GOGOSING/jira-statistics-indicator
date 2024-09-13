@@ -1,7 +1,5 @@
 package kr.co.mz.jira.rest.client;
 
-import static com.atlassian.jira.rest.client.api.IssueRestClient.Expandos.CHANGELOG;
-
 import com.atlassian.jira.rest.client.api.IssueRestClient;
 import com.atlassian.jira.rest.client.api.IssueRestClient.Expandos;
 import com.atlassian.jira.rest.client.api.domain.BasicWatchers;
@@ -35,7 +33,7 @@ public class IssueRestClientComponent {
   /**
    * @see IssueRestClient#getIssue(String, Iterable)
    */
-  private static final Set<Expandos> ISSUE_ADDITIONAL_EXPANDS_SET = Set.of(CHANGELOG);
+  private static final Set<Expandos> ISSUE_ADDITIONAL_EXPANDS_SET = Set.of(Expandos.values());
 
   private final IssueRestClient issueRestClient;
 

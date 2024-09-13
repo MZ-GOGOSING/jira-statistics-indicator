@@ -41,6 +41,8 @@ public class GetIssueDetailInResponse {
 
   private final String summary;
 
+  private final String description;
+
   private final String issueTypeName;
 
   private final String statusName;
@@ -50,6 +52,8 @@ public class GetIssueDetailInResponse {
   private final List<IssueWorklogInResponse> worklogs;
 
   private final List<IssueChangelogGroupInResponse> changelog;
+
+  private final List<IssueCommentInResponse> comments;
 
   public static GetIssueDetailInResponse of(final IssueDomainEntity issueDomainEntity) {
     return GetIssueDetailInResponse.builder()
@@ -64,6 +68,7 @@ public class GetIssueDetailInResponse {
         .assigneeUsername(issueDomainEntity.getAssigneeUsername())
         .reporterUsername(issueDomainEntity.getReporterUsername())
         .summary(issueDomainEntity.getSummary())
+        .description(issueDomainEntity.getDescription())
         .issueTypeName(issueDomainEntity.getIssueTypeName())
         .statusName(issueDomainEntity.getStatusName())
         .timeTracking(
@@ -81,6 +86,12 @@ public class GetIssueDetailInResponse {
             CollectionUtils.emptyIfNull(issueDomainEntity.getChangelog())
                 .stream()
                 .map(IssueChangelogGroupInResponse::of)
+                .collect(Collectors.toList())
+        )
+        .comments(
+            CollectionUtils.emptyIfNull(issueDomainEntity.getComments())
+                .stream()
+                .map(IssueCommentInResponse::of)
                 .collect(Collectors.toList())
         )
         .build();

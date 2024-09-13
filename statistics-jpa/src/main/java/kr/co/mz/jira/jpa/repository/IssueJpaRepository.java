@@ -17,13 +17,13 @@ public interface IssueJpaRepository extends
   @Override
   @NonNull
   @EntityGraph(
-      attributePaths = {"timeTracking", "worklogs", "changelog", "changelog.items"},
+      attributePaths = {"timeTracking", "worklogs", "changelog", "comments", "changelog.items"},
       type = EntityGraphType.FETCH
   )
   Optional<IssueJpaEntity> findById(final @NonNull Long id);
 
   @EntityGraph(
-      attributePaths = {"timeTracking", "worklogs", "changelog", "changelog.items"},
+      attributePaths = {"timeTracking", "worklogs", "changelog", "comments", "changelog.items"},
       type = EntityGraphType.FETCH
   )
   List<IssueJpaEntity> findAllBySubjectId(final Long subjectId);

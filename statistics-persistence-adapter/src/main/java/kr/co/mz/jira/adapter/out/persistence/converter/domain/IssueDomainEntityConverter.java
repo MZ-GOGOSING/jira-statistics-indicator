@@ -6,10 +6,12 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import kr.co.mz.jira.domain.IssueChangelogGroupDomainEntity;
+import kr.co.mz.jira.domain.IssueCommentDomainEntity;
 import kr.co.mz.jira.domain.IssueDomainEntity;
 import kr.co.mz.jira.domain.IssueTimeTrackingDomainEntity;
 import kr.co.mz.jira.domain.IssueWorklogDomainEntity;
 import kr.co.mz.jira.jpa.entity.IssueChangelogGroupJpaEntity;
+import kr.co.mz.jira.jpa.entity.IssueCommentJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueTimeTrackingJpaEntity;
 import kr.co.mz.jira.jpa.entity.IssueWorklogJpaEntity;
@@ -27,11 +29,15 @@ public class IssueDomainEntityConverter implements Converter<IssueJpaEntity, Iss
   private static final IssueChangelogGroupDomainEntityConverter ISSUE_CHANGELOG_GROUP_DOMAIN_ENTITY_CONVERTER =
       new IssueChangelogGroupDomainEntityConverter();
 
+  private static final IssueCommentDomainEntityConverter ISSUE_COMMENT_DOMAIN_ENTITY_CONVERTER =
+      new IssueCommentDomainEntityConverter();
+
   @Override
   public IssueDomainEntity convert(final IssueJpaEntity issueJpaEntity) {
     final var issueTimeTrackingDomainEntity = this.buildIssueTimeTrackingDomainEntity(issueJpaEntity.getTimeTracking());
     final var issueWorklogDomainEntities = this.buildIssueWorklogDomainEntities(issueJpaEntity.getWorklogs());
     final var issueChangelogGroupDomainEntities = this.buildIssueChangelogGroupDomainEntities(issueJpaEntity.getChangelog());
+    final var issueCommentDomainEntities = this.buildIssueCommentDomainEntities(issueJpaEntity.getComments());
 
     return IssueDomainEntity.withId(
         issueJpaEntity.getId(),
@@ -45,11 +51,13 @@ public class IssueDomainEntityConverter implements Converter<IssueJpaEntity, Iss
         issueJpaEntity.getAssigneeUsername(),
         issueJpaEntity.getReporterUsername(),
         issueJpaEntity.getSummary(),
+        issueJpaEntity.getDescription(),
         issueJpaEntity.getIssueTypeName(),
         issueJpaEntity.getStatusName(),
         issueTimeTrackingDomainEntity,
         issueWorklogDomainEntities,
-        issueChangelogGroupDomainEntities
+        issueChangelogGroupDomainEntities,
+        issueCommentDomainEntities
     );
   }
 
@@ -78,6 +86,17 @@ public class IssueDomainEntityConverter implements Converter<IssueJpaEntity, Iss
         .map(ISSUE_CHANGELOG_GROUP_DOMAIN_ENTITY_CONVERTER::convert)
         .filter(Objects::nonNull)
         .sorted(Comparator.comparingLong(IssueChangelogGroupDomainEntity::getId))
+        .collect(Collectors.toList());
+  }
+
+  private List<IssueCommentDomainEntity> buildIssueCommentDomainEntities(
+      final Set<IssueCommentJpaEntity> issueCommentJpaEntities
+  ) {
+    return CollectionUtils.emptyIfNull(issueCommentJpaEntities)
+        .stream()
+        .map(ISSUE_COMMENT_DOMAIN_ENTITY_CONVERTER::convert)
+        .filter(Objects::nonNull)
+        .sorted(Comparator.comparingLong(IssueCommentDomainEntity::getId))
         .collect(Collectors.toList());
   }
 }

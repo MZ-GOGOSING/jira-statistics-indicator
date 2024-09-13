@@ -3,13 +3,16 @@ package kr.co.mz.jira.rest.client;
 import com.atlassian.jira.rest.client.api.SearchRestClient;
 import com.atlassian.jira.rest.client.api.domain.SearchResult;
 import java.util.Collections;
+import java.util.Set;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import kr.co.mz.support.dto.PageOptions;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
+@Slf4j
 @Component
 @Validated
 @RequiredArgsConstructor
@@ -25,8 +28,10 @@ public class SearchRestClientComponent {
         jql,
         pageOptions.getPageSize(),
         pageOptions.getPageSize() * pageOptions.getPageNumber(),
-        Collections.emptySet()
+        Set.of("*navigable")
     );
+
+    log.info("fetch SearchResult: {}", pageOptions);
 
     return promiseSearchResult.claim();
   }

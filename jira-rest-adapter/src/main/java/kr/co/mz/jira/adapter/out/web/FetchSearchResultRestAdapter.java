@@ -3,6 +3,7 @@ package kr.co.mz.jira.adapter.out.web;
 import com.atlassian.jira.rest.client.api.domain.BasicIssue;
 import com.atlassian.jira.rest.client.api.domain.SearchResult;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -24,7 +25,7 @@ import org.springframework.validation.annotation.Validated;
 @RequiredArgsConstructor
 public class FetchSearchResultRestAdapter implements FetchSearchResultPort {
 
-  private static final int PAGE_SIZE = ChunkSize.P_50.getPageSize();
+  private static final int PAGE_SIZE = ChunkSize.C_5.getPageSize();
 
   private static final SubjectDomainEntityConverter SUBJECT_DOMAIN_ENTITY_CONVERTER =
       new SubjectDomainEntityConverter();
@@ -45,6 +46,8 @@ public class FetchSearchResultRestAdapter implements FetchSearchResultPort {
     }
 
     final var subjectDomainEntity = SUBJECT_DOMAIN_ENTITY_CONVERTER.convert(jql, jiraCredential, searchResult);
+
+    Collections.sort(issueKeyList);
 
     subjectDomainEntity.getIssueKeyList().clear();
     subjectDomainEntity.getIssueKeyList().addAll(issueKeyList);

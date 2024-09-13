@@ -7,9 +7,12 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ChunkSize {
 
-  P_50(50),
-  P_100(100),
-  P_500(500);
+  C_5(5),
+  C_10(10),
+  C_25(25),
+  C_50(50),
+  C_100(100),
+  C_500(500);
 
   private final int pageSize;
 }

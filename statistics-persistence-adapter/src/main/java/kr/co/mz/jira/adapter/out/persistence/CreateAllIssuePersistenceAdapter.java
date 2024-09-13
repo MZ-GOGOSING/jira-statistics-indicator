@@ -12,12 +12,13 @@ import kr.co.mz.jira.jpa.entity.IssueJpaEntity;
 import kr.co.mz.jira.jpa.repository.IssueJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.validation.annotation.Validated;
 
 @Component
 @Validated
 @RequiredArgsConstructor
-@StatisticsJpaTransactional
+@StatisticsJpaTransactional(propagation = Propagation.REQUIRES_NEW)
 public class CreateAllIssuePersistenceAdapter implements CreateAllIssuePort {
 
   private static final IssueJpaEntityConverter ISSUE_JPA_ENTITY_CONVERTER =

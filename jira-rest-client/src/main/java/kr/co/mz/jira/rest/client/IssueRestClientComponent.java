@@ -7,7 +7,6 @@ import com.atlassian.jira.rest.client.api.domain.Issue;
 import com.atlassian.jira.rest.client.api.domain.input.AttachmentInput;
 import com.atlassian.jira.rest.client.api.domain.input.IssueInput;
 import com.atlassian.jira.rest.client.api.domain.input.IssueInputBuilder;
-import io.atlassian.util.concurrent.Promise;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -20,11 +19,13 @@ import kr.co.mz.jira.rest.client.command.CreateIssueCommand;
 import kr.co.mz.jira.rest.client.command.CreateIssueHeaderCommand;
 import kr.co.mz.jira.rest.client.command.IssueAttachmentInputCommand;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
+@Slf4j
 @Component
 @Validated
 @RequiredArgsConstructor
@@ -41,9 +42,16 @@ public class IssueRestClientComponent {
     return CollectionUtils.emptyIfNull(issueKeyList)
         .stream()
         .filter(StringUtils::isNotBlank)
-        .map(issueKey -> issueRestClient.getIssue(issueKey, ISSUE_ADDITIONAL_EXPANDS_SET))
-        .map(Promise::claim)
+        .map(this::loadByIssueKey)
         .collect(Collectors.toList());
+  }
+
+  private Issue loadByIssueKey(final String issueKey) {
+    final var promiseIssue = issueRestClient.getIssue(issueKey, ISSUE_ADDITIONAL_EXPANDS_SET);
+
+    log.info("fetch issue: {}", issueKey);
+
+    return promiseIssue.claim();
   }
 
   public String createIssue(final @NotNull CreateIssueCommand createIssueCommand) {
